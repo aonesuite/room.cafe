@@ -4,9 +4,86 @@
 *.dll
 *.so
 *.dylib
+*.o
+*.a
 
 # Test binary, build with `go test -c`
 *.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Folders
+_obj
+_test
+
+# Architecture specific extensions/prefixes
+*.[568vq]
+[568vq].out
+
+*.cgo1.go
+*.cgo2.c
+_cgo_defun.c
+_cgo_gotypes.go
+_cgo_export.*
+
+_testmain.go
+
+*.exe
+*.test
+*.prof
+
+.cache
+bin
+gin-bin
+
+# Mac OSX
+.DS_Store
+
+config.yml
+
+# Website
+.bowerrc
+.editorconfig
+.jshintrc
+node_modules/
+website/dist/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+fix.log
+
+test/unit/coverage
+test/e2e/reports
+selenium-debug.log
+
+# local env files
+.env.local
+.env.*.local
+
+.sass-cache/
+.tmp/
+.cover
+coverage.html
+coverage.xml
+coverage.log
+coverage.txt
+temp_coverage_test.go
+
+# Editor directories and files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# logs
+**/*.log
+
+# redis conf
+**/*.aof
+**/*.conf
