@@ -11,23 +11,14 @@ fix:
 
 # 构建
 build:
-	rm -rf pkg bin/niuclass
-	go clean -i ./src/room.cafe/app/niuclass/...
-	CGO_ENABLED=0 go install -v ./src/room.cafe/app/niuclass/...
+	rm -rf pkg bin/room.cafe
+	go clean -i ./src/room.cafe/...
+	CGO_ENABLED=0 go install -v ./src/room.cafe/...
 
 # 运行后端服务
 serve: install
 	cd src && reflex -s -R '^vendor/' -R '_test.go$$'\
-		-- go run room.cafe/app/niuclass/*.go
-
-serve1: install
-	cd src && reflex -s -R '^vendor/' -R '_test.go$$'\
-		-- go run room.cafe/app/niuclass/*.go
-
-
-# 启动redis cluster version
-redis:
-	sh ./travis_redis_cluster.sh
+		-- go run room.cafe/*.go
 
 # 测试
 test:

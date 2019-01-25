@@ -1,0 +1,16 @@
+database:
+  driver: mysql
+  host: localhost
+  user: root
+  name: roomcafe
+  port: 3306
+  default: true
+app:
+  mode: debug
+  host: room.cafe
+  port: 8080
+  secure: false
+  secret: secret
+white:
+  mini_token:
+  host: https://cloudcapiv3.herewhite.com
