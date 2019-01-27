@@ -1,19 +1,9 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="@/assets/logo.svg"/>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <router-view id="app" :class="`${$route.name && $route.name.split('.').join('-')}-page`" :data-router="$route.name"/>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
-
-@Component({
-  components: {
-    HelloWorld,
-  },
-})
+import { Vue } from 'vue-property-decorator';
 export default class App extends Vue {}
 </script>
 
