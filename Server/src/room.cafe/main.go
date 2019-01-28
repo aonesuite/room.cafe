@@ -12,6 +12,7 @@ import (
 	"components/log"
 	"components/middleware"
 
+	"room.cafe/account"
 	"room.cafe/models"
 )
 
@@ -64,6 +65,8 @@ func main() {
 			"message": "pong",
 		})
 	})
+
+	engine.GET("/user/state", account.State) // 用户信息预览
 
 	engine.Run(":" + config.GetString("app.port"))
 }
