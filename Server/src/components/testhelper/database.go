@@ -10,7 +10,7 @@ func InitTestDatabase() {
 		Password: "",
 		Host:     "127.0.0.1",
 		Port:     "3306",
-		Name:     "room_cafe_test",
+		Name:     "roomcafe_test",
 		Default:  true,
 	}
 
