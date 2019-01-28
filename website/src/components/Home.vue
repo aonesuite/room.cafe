@@ -3,7 +3,7 @@
     <div class="photograph"></div>
     <div class="hero">
       <div class="section">
-        <h1>Talk to your family, friends and colleagues</h1>
+        <h1>Interact with your family, friends and colleagues</h1>
         <h3>In the Room Cafe, you can make video meeting calls, share your ideas and send messages to people you love.</h3>
 
         <div class="feature-actions">
