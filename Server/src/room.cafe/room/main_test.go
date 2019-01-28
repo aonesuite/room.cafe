@@ -1,6 +1,8 @@
 package room_test
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"testing"
 
@@ -60,11 +62,11 @@ func TestCreate(t *testing.T) {
 	w := testhelper.PerformRequest(router, "POST", "/room", nil)
 	assert.Equal(w.Code, http.StatusCreated)
 
-	// data := map[string]interface{}{
-	// 	"name":    "test room",
-	// 	"private": true,
-	// }
-	// msg, _ := json.Marshal(data)
-	// w = testhelper.PerformRequest(router, "POST", "/room", nil, bytes.NewReader(msg))
-	// assert.Equal(w.Code, http.StatusCreated)
+	data := map[string]interface{}{
+		"name":    "test room",
+		"private": true,
+	}
+	msg, _ := json.Marshal(data)
+	w = testhelper.PerformRequest(router, "POST", "/room", nil, bytes.NewReader(msg))
+	assert.Equal(w.Code, http.StatusCreated)
 }

@@ -27,10 +27,12 @@ func Create(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(*models.User)
 	args := CreateArgs{}
 
-	if err := c.BindJSON(&args); err != nil {
-		log.Error("bind create room args failed", err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid args", "code": "INVALID_ARGS"})
-		return
+	if c.Request.Body != nil {
+		if err := c.BindJSON(&args); err != nil {
+			log.Error("bind create room args failed", err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid args", "code": "INVALID_ARGS"})
+			return
+		}
 	}
 
 	mac := &qbox.Mac{
