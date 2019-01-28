@@ -36,10 +36,12 @@
     text-align: center;
 
     h1{
+      line-height: 1.4;
       font-size: 3.2rem;
       font-weight: 300;
     }
     h3{
+      line-height: 1.4;
       font-weight: 300;
       opacity: .85;
     }
@@ -64,6 +66,7 @@
     height: 80px;
     margin-bottom: 24px;
     border: 2px solid #FFF;
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
     color: #FFF;
 
     &, svg{
@@ -72,6 +75,7 @@
 
     &:hover{
       background-color: rgba($color: #FFF, $alpha: 0.15);
+      box-shadow: 0 0 16px rgba(0,0,0,0.5);
       svg{
         width: 34px;
         height: 34px;
