@@ -2,6 +2,7 @@ package models
 
 import (
 	"components/timestamp"
+	"fmt"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -29,6 +30,11 @@ type User struct {
 
 	CreatedAt timestamp.Timestamp `json:"created_at"`
 	UpdatedAt timestamp.Timestamp `json:"updated_at"`
+}
+
+// RoomUserID return rtn user id
+func (user *User) RoomUserID() string {
+	return fmt.Sprintf("user_%d", user.ID)
 }
 
 // --------------------------------------------------------------------

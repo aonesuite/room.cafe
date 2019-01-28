@@ -14,6 +14,7 @@ import (
 
 	"room.cafe/account"
 	"room.cafe/models"
+	"room.cafe/room"
 )
 
 func loadConfig() {
@@ -66,7 +67,9 @@ func main() {
 		})
 	})
 
-	engine.GET("/user/state", account.State) // 用户信息预览
+	engine.GET("/user/state", account.State) // 用户当前状态
+
+	engine.POST("/room", room.Create) // 创建房间
 
 	engine.Run(":" + config.GetString("app.port"))
 }
