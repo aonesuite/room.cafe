@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router, { Route, RawLocation } from 'vue-router'
 
 import Home from '@/components/Home.vue';
+import Room from '@/components/room/Room.vue';
 
 let loginAuth = async (to: Route, from: Route, next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void) => {
   next()
@@ -36,6 +37,11 @@ let router = new Router({
       name: 'home',
       path: '/',
       component: Home
+    },
+    {
+      name: 'room',
+      path: '/room',
+      component: Room
     },
     { path: '*', name: 'redirect', redirect: '/' }
   ],
