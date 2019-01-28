@@ -18,6 +18,7 @@ func AutoMigrate() {
 
 	err := db.AutoMigrate(
 		&User{},
+		&UserToken{},
 		&Room{},
 		&Attendee{},
 		&Message{},

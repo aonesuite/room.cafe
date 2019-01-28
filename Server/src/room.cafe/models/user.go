@@ -2,6 +2,9 @@ package models
 
 import (
 	"components/timestamp"
+	"time"
+
+	jwt "github.com/dgrijalva/jwt-go"
 )
 
 // User 用户
@@ -26,4 +29,30 @@ type User struct {
 
 	CreatedAt timestamp.Timestamp `json:"created_at"`
 	UpdatedAt timestamp.Timestamp `json:"updated_at"`
+}
+
+// --------------------------------------------------------------------
+
+// UserToken with use auth
+type UserToken struct {
+	ID        uint   `json:"id" gorm:"primary_key"`
+	UserID    uint   `json:"-"  gorm:"index"`
+	IssureAt  int64  `json:"issure_at"`
+	Expire    int64  `json:"expire"`
+	IP        string `json:"-"`
+	UserAgent string `json:"-"`
+	Activity  int64  `json:"-"`
+}
+
+// TableName return table name
+func (UserToken) TableName() string {
+	return "user_tokens"
+}
+
+// Valid JWT Claims interface method
+func (token UserToken) Valid() (err error) {
+	if token.IssureAt+token.Expire <= time.Now().Unix() {
+		return jwt.NewValidationError("token is expired", jwt.ValidationErrorExpired)
+	}
+	return nil
 }
