@@ -11,6 +11,11 @@ app:
   port: 8080
   secure: false
   secret: secret
+qiniu:
+  access_key: access_key
+  secret_key: secret_key
+  rtn_appid:
+  rtn_addr: https://rtc.qiniuapi.com
 white:
   mini_token:
   host: https://cloudcapiv3.herewhite.com
