@@ -68,6 +68,7 @@ func main() {
 	})
 
 	engine.GET("/user/state", account.State) // 用户当前状态
+	engine.POST("/user", account.State)      // 创建用户
 
 	engine.POST("/room", room.Create)    // 创建房间
 	engine.GET("/room/:uuid", room.Info) // 房间信息
