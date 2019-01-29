@@ -51,6 +51,7 @@ func init() {
 
 	router = testhelper.DefaultRouter()
 	router.GET("/user/state", account.State)
+	router.POST("/user", account.Create)
 }
 
 var userAuthToken string
