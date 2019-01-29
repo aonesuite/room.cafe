@@ -5,14 +5,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import Video from "./IconVideo.vue" // 摄像头
-import IconChalkboard from "./IconChalkboard.vue" // 黑板
-import IconCommentAltLines from "./IconCommentAltLines.vue" // 黑板
+import Video from "./Video.vue"                     // 摄像头
+import Chalkboard from "./Chalkboard.vue"           // 黑板
+import CommentAltLines from "./CommentAltLines.vue" // 评论，消息
 
 const icons: any = {
   "video": Video,
-  "chalkboard": IconChalkboard,
-  "comment-alt-lines": IconCommentAltLines,
+  "chalkboard": Chalkboard,
+  "comment-alt-lines": CommentAltLines,
 }
 
 @Component
