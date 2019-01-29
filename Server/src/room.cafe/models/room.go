@@ -7,15 +7,15 @@ import (
 // Room 房间
 type Room struct {
 	ID              uint                 `json:"id"               gorm:"primary_key"`
-	UUID            string               `json:"uuid"             gorm:"unique_index;size:24"`          // 房间对外的 UUID
-	Name            string               `json:"name"             gorm:"size:128"`                      // 自定义房间名称
-	Private         bool                 `json:"private"`                                               // 是否为私密房间
-	State           string               `json:"state"`                                                 // 房间状态: active, archived
-	Owner           uint                 `json:"owner"            gorm:"index"`                         // 管理员
-	RoomID          string               `json:"room_id"          gorm:"size:128;column:room_id"`       // RTC RoomName: 房间名称
-	RoomToken       string               `json:"room_token"       gorm:"-"`                             // RTC RoomToken
-	WhiteboardID    string               `json:"whiteboard_id"    gorm:"size:128;column:whiteboard_id"` // 白板房间 ID
-	WhiteboardToken string               `json:"whiteboard_token" gorm:"-"`                             // 白板房间 token
+	UUID            string               `json:"uuid"             gorm:"unique_index;size:24"` // 房间对外的 UUID
+	Name            string               `json:"name"             gorm:"size:128"`             // 自定义房间名称
+	Private         bool                 `json:"private"`                                      // 是否为私密房间
+	State           string               `json:"state"`                                        // 房间状态: active, archived
+	Owner           uint                 `json:"owner"            gorm:"index"`                // 管理员
+	RTC             string               `json:"-"                gorm:"size:128"`             // RTC RoomName: 房间名称，保持跟 UUID 一致
+	RTCToken        string               `json:"rtc_token"        gorm:"-"`                    // RTC RoomToken
+	Whiteboard      string               `json:"whiteboard_id"    gorm:"size:128"`             // 白板房间 ID
+	WhiteboardToken string               `json:"whiteboard_token" gorm:"-"`                    // 白板房间 token
 	CreatedAt       timestamp.Timestamp  `json:"created_at"`
 	UpdatedAt       timestamp.Timestamp  `json:"updated_at"`
 	DeletedAt       *timestamp.Timestamp `json:"deleted_at,omitempty"`

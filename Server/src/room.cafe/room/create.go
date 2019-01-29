@@ -3,9 +3,8 @@ package room
 import (
 	"net/http"
 
-	"github.com/globalsign/mgo/bson"
-
 	"github.com/gin-gonic/gin"
+	"github.com/globalsign/mgo/bson"
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/rtc"
 	"room.cafe/models"
@@ -22,6 +21,7 @@ type CreateArgs struct {
 }
 
 // Create 创建房间
+// POST	/room
 func Create(c *gin.Context) {
 	log := log.New(c)
 	currentUser := c.MustGet("currentUser").(*models.User)
@@ -63,12 +63,12 @@ func Create(c *gin.Context) {
 	database = database.Begin()
 
 	room := models.Room{
-		UUID:      uuid,
-		Name:      args.Name,
-		Private:   args.Private,
-		Owner:     currentUser.ID,
-		RoomID:    roomAccess.RoomName,
-		RoomToken: roomToken,
+		UUID:     uuid,
+		Name:     args.Name,
+		Private:  args.Private,
+		Owner:    currentUser.ID,
+		RTC:      roomAccess.RoomName,
+		RTCToken: roomToken,
 	}
 
 	// 创建房间
