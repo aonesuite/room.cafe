@@ -37,9 +37,18 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { State, Action, Getter, Mutation } from 'vuex-class';
+import { AxiosPromise } from 'axios';
+
+import { UserState } from '@/store/modules/user';
+
+const namespace: string = 'user';
 
 @Component
 export default class Home extends Vue {
   @Prop() private msg!: string;
+
+  // MapAction
+  // @Action('fetchState', { namespace }) fetchState: AxiosPromise<UserState>;
 }
 </script>
