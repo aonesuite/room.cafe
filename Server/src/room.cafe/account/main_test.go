@@ -1,6 +1,7 @@
 package account_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -89,4 +90,31 @@ func TestState(t *testing.T) {
 	err = json.Unmarshal(w.Body.Bytes(), &state)
 	assert.Nil(err)
 	assert.False(state.SignedIn)
+}
+
+type UserRet struct {
+	Name   string `json:"name"`
+	Email  string `json:"email"`
+	Gender string `json:"gender"`
+	Token  string `json:"token"`
+}
+
+func TestCreate(t *testing.T) {
+	assert := assert.New(t)
+
+	w := testhelper.PerformRequest(router, "POST", "/user", nil)
+	assert.Equal(w.Code, http.StatusBadRequest)
+
+	data := map[string]interface{}{
+		"name": "test user",
+	}
+	msg, _ := json.Marshal(data)
+	w = testhelper.PerformRequest(router, "POST", "/user", nil, bytes.NewReader(msg))
+	assert.Equal(w.Code, http.StatusCreated)
+
+	var user UserRet
+	err := json.Unmarshal(w.Body.Bytes(), &user)
+	assert.Nil(err)
+	assert.NotEmpty(user.Name)
+	assert.NotEmpty(user.Token)
 }

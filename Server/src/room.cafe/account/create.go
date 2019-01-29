@@ -31,6 +31,11 @@ func Create(c *gin.Context) {
 		timeNow  = timestamp.Now()
 	)
 
+	if c.Request.Body == nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid args", "code": "INVALID_ARGS"})
+		return
+	}
+
 	if err := c.BindJSON(&args); err != nil {
 		log.Error("bind create room args failed", err.Error())
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid args", "code": "INVALID_ARGS"})
@@ -98,7 +103,7 @@ func Create(c *gin.Context) {
 
 	c.SetCookie("ROOMCAFE", signed, int(userToken.Expire), "/", host, secure, true)
 
-	c.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusCreated, gin.H{
 		"name":   user.Name,
 		"email":  user.Email,
 		"gender": user.Gender,
