@@ -3,7 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 
@@ -56,6 +58,17 @@ func main() {
 
 	engine.Use(gin.Recovery())
 	engine.Use(log.RouterLogger(nil)) // Set router logger
+
+	engine.Use(cors.New(cors.Config{
+		AllowWildcard:    true,
+		AllowOrigins:     config.GetStringSlice("app.cors.origins"),
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowWebSockets:  true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	engine.NoRoute(func(c *gin.Context) {
 		c.JSON(404, gin.H{"code": "PAGE_NOT_FOUND", "message": "Page not found"})
