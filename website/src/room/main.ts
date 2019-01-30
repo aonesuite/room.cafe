@@ -3,7 +3,7 @@ import '@/assets/main.scss'
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
-
+import axios from 'axios';
 
 import App from './App.vue';
 import store from '@/store';
@@ -16,6 +16,10 @@ Vue.component(Icon.name, Icon);
 Vue.use(Vuex);
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
+
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
+
+Vue.prototype.$http = axios
 
 new Vue({
   store,
