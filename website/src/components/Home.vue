@@ -36,19 +36,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { State, Action, Getter, Mutation, namespace } from 'vuex-class';
-import { AxiosPromise } from 'axios';
+import Vue from 'vue';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
-const userStore = namespace('user')
+export default Vue.extend({
 
-@Component
-export default class Home extends Vue {
+  computed: {
+    ...mapState("user", [
+      "signedIn"
+    ])
+  },
 
-  @userStore.State('signedIn') signedIn: any;
+  methods: {
+    ...mapActions("user", [
 
-  // MapAction
-  @userStore.Action('fetchState') fetchState: any;
+    ])
+  },
 
   created () {
     // eslint-disable-next-line
@@ -57,5 +60,5 @@ export default class Home extends Vue {
 
     this.fetchState()
   }
-}
+})
 </script>
