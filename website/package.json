@@ -44,6 +44,15 @@
     ],
     "parserOptions": {
       "parser": "typescript-eslint-parser"
+    },
+    "rules": {
+      "vue/attribute-hyphenation": "error",
+      "vue/html-closing-bracket-spacing": "error",
+      "vue/html-end-tags": "error",
+      "vue/html-quotes": "error",
+      "vue/html-indent": "error",
+      "vue/no-multi-spaces": "warning",
+      "vue/no-spaces-around-equal-signs-in-attribute": "warning"
     }
   },
   "postcss": {
