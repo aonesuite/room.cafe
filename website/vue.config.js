@@ -16,5 +16,7 @@ module.exports = {
       filename: 'index.html',
       title: 'Room.Cafe'
     }
-  }
+  },
+
+  lintOnSave: undefined
 }

@@ -1,10 +1,10 @@
-import Vue from 'vue';
+import Vue from 'vue'
 import Vuex, { StoreOptions } from 'vuex'
 
 import { RootState } from './modules/types'
 import { user } from './modules/user'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const store: StoreOptions<RootState> = {
   state: {
@@ -15,4 +15,4 @@ const store: StoreOptions<RootState> = {
   }
 }
 
-export default new Vuex.Store<RootState>(store);
+export default new Vuex.Store<RootState>(store)

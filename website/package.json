@@ -1,5 +1,5 @@
 {
-  "name": "website",
+  "name": "room.cafe",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -42,7 +42,6 @@
       "eslint:recommended",
       "@vue/typescript"
     ],
-    "rules": {},
     "parserOptions": {
       "parser": "typescript-eslint-parser"
     }

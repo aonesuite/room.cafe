@@ -37,22 +37,22 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { State, Action, Getter, Mutation } from 'vuex-class';
+import { State, Action, Getter, Mutation, namespace } from 'vuex-class';
 import { AxiosPromise } from 'axios';
 
-import { UserState } from '../store/modules/user';
-const namespace: string = 'user';
+const userStore = namespace('user')
 
 @Component
 export default class Home extends Vue {
-  @Prop() private msg!: string;
+
+  @userStore.State('signedIn') signedIn: any;
 
   // MapAction
-  @Action('fetchState', { namespace }) fetchState: any;
+  @userStore.Action('fetchState') fetchState: any;
 
   created () {
     // eslint-disable-next-line
-    console.log("home page created")
+    console.log("home page created", this.signedIn)
     /* eslint-disable */
 
     this.fetchState()
