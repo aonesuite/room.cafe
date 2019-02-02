@@ -1,29 +1,49 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { Module } from 'vuex'
+import { GetterTree, ActionTree, MutationTree  } from 'vuex'
+import axios, { AxiosPromise } from 'axios'
 
-const state = {
+import { RootState } from './types'
+import * as UserAPI from '@/api/user'
+import { RoomArgs, RoomInfo } from '@/types/room';
+
+export interface RoomState {
+  RoomInfo: RoomInfo
+}
+
+const state: RoomState = {
+  RoomInfo: {} as RoomInfo,
+}
+
+const getters: GetterTree<RoomState, RootState> = {
 
 }
 
-// getters
-const getters = {
 
-}
-// mutations
-const mutations = {
+const mutations: MutationTree<RoomState> = {
 
-}
-
-// actions
-const actions = {
-
+  setRoomInfo(state, info: RoomInfo) {
+    state.RoomInfo = info
+  }
 }
 
-Vue.use(Vuex);
+const actions: ActionTree<RoomState, RootState> = {
 
-export default new Vuex.Store({
+  create({ commit }, args: RoomArgs): AxiosPromise<RoomState> {
+    return UserAPI.AutoCreate(args).then((res) => {
+      commit('setRoomInfo', res.data as RoomInfo)
+      return res
+    })
+  }
+
+}
+
+
+const namespaced: boolean = true
+
+export const room: Module<RoomState, RootState> = {
+  namespaced,
   state,
   getters,
   mutations,
-  actions,
-})
+  actions
+}

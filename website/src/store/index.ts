@@ -3,6 +3,7 @@ import Vuex, { StoreOptions } from 'vuex'
 
 import { RootState } from './modules/types'
 import { user } from './modules/user'
+import { room } from './modules/room'
 
 Vue.use(Vuex)
 
@@ -11,7 +12,8 @@ const store: StoreOptions<RootState> = {
     version: 'v1.0.0'
   },
   modules: {
-    user
+    user,
+    room
   }
 }
 
