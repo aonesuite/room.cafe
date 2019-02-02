@@ -93,7 +93,7 @@ export default Vue.extend({
 
     starting() {
       this.autoCreateUser({ name: this.login }).then(() => {
-
+        this.roomWindow();
       })
     }
   },
