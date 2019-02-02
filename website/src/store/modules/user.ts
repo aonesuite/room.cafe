@@ -4,26 +4,20 @@ import { GetterTree, ActionTree, MutationTree  } from 'vuex'
 import axios, { AxiosPromise } from 'axios'
 
 import * as UserAPI from '@/api/user'
+import { UserArgs } from '@/types/user';
 
 export interface UserState {
   signedIn: boolean
-  firstName: string
-  lastName: string
+  token: string
 }
 
 const state: UserState = {
   signedIn: false,
-  firstName: '',
-  lastName: ''
+  token: ''
 }
 
 const getters: GetterTree<UserState, RootState> = {
-  firstName(state): string {
-    return state.firstName
-  },
-  lastName(state): string {
-    return state.lastName
-  }
+
 }
 
 
@@ -31,8 +25,12 @@ const mutations: MutationTree<UserState> = {
 
   setUserSignedIn(state, signedIn: boolean) {
     state.signedIn = signedIn
-  }
+  },
 
+  setUserToken(state, token: string) {
+    state.token = token
+    localStorage.token = token
+  }
 }
 
 const actions: ActionTree<UserState, RootState> = {
@@ -41,8 +39,13 @@ const actions: ActionTree<UserState, RootState> = {
     return UserAPI.State().then((res) => {
       commit('setUserSignedIn', res.data.signed_in)
       return res
-    }).catch((err) => {
-      return err
+    })
+  },
+
+  autoCreateUser({ commit }, args: UserArgs): AxiosPromise<UserState> {
+    return UserAPI.AutoCreate(args).then((res) => {
+      commit('setUserToken', res.data.token)
+      return res
     })
   }
 
