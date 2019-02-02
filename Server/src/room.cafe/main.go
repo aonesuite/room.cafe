@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"time"
 
@@ -19,8 +18,7 @@ import (
 	"room.cafe/room"
 )
 
-func loadConfig() {
-	flag.Parse()
+func init() {
 	config.SetConfigType("yaml")
 	config.AddConfigPath(".")
 	config.AddConfigPath("$HOME/.room.cafe")
@@ -31,14 +29,9 @@ func loadConfig() {
 		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
 
-}
-
-func init() {
-	loadConfig()
-
 	// 初始化数据库配置
 	driver := db.Driver{}
-	err := config.UnmarshalKey("database", &driver)
+	err = config.UnmarshalKey("database", &driver)
 	if err != nil {
 		panic(fmt.Errorf("Fatal error unmarsha config: %s", err))
 	}
