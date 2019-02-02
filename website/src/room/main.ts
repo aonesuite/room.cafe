@@ -19,17 +19,12 @@ Vue.config.productionTip = false;
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
 
-const transformRequest: AxiosTransformer = () => {
-  return [
-    (data: any, headers: any) => {
-      if (localStorage.token) {
-        headers['Authorization'] = 'Bearer ' + localStorage.token
-      }
-    }
-  ];
-};
-
-axios.defaults.transformRequest = transformRequest;
+axios.interceptors.request.use((config) =>{
+  if (localStorage.token) {
+    config.headers['Authorization'] = 'Bearer ' + localStorage.token;
+  }
+  return config;
+});
 
 Vue.prototype.$http = axios
 
