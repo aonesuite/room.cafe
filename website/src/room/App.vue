@@ -10,9 +10,9 @@
 
       <b-collapse is-nav id="nav_collapse">
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" v-if="!signedIn">
           <b-nav-item>
-            <b-button size="sm" variant="success" type="button">Login</b-button>
+            <b-button size="sm" variant="success" type="button">Quick start</b-button>
           </b-nav-item>
         </b-navbar-nav>
 
@@ -25,6 +25,24 @@
 </template>
 
 <script lang="ts">
-import { Vue } from 'vue-property-decorator';
-export default class App extends Vue {}
+import Vue from 'vue';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+
+export default Vue.extend({
+  computed: {
+    ...mapState("user", [
+      "signedIn"
+    ])
+  },
+
+  methods: {
+    ...mapActions("user", [
+      'fetchState'
+    ])
+  },
+
+  created () {
+    this.fetchState()
+  }
+})
 </script>
