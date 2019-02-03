@@ -4,6 +4,7 @@ var fs = require('fs')
 module.exports = {
   devServer: {
     open: process.platform === 'darwin',
+    host: 'dev.room.cafe',
     port: 3000,
     hotOnly: true
   },
