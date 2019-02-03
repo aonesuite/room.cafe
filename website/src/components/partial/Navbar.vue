@@ -30,8 +30,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
+import { openWindow } from '../../utils/window';
 
 export default Vue.extend({
   components: {
@@ -50,10 +51,19 @@ export default Vue.extend({
       'fetchState'
     ]),
 
+    roomWindow() {
+      const routeData = this.$router.resolve({name: 'room-quick-start', query: {t: 'f2f'} });
+      openWindow(routeData.href, `room/quick-start/${new Date().getTime()}`);
+    },
+
     async quickStart() {
       await this.fetchState()
 
-      this.$root.$emit('bv::show::modal', 'QuickStartModal');
+      if (this.signedIn) {
+        this.roomWindow();
+      } else {
+        this.$root.$emit('bv::show::modal', 'QuickStartModal');
+      }
     }
   },
 

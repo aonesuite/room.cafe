@@ -39,8 +39,13 @@ let router = new Router({
       component: Home
     },
     {
+      name: 'room-quick-start',
+      path: '/room/quick-start',
+      component: Room
+    },
+    {
       name: 'room',
-      path: '/room',
+      path: '/room/:id',
       component: Room
     },
     { path: '*', name: 'redirect', redirect: '/' }

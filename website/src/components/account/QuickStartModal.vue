@@ -40,8 +40,8 @@ export default Vue.extend({
     ]),
 
     roomWindow() {
-      const routeData = this.$router.resolve({name: 'room' })
-      openWindow(routeData.href, 'Room')
+      const routeData = this.$router.resolve({name: 'room-quick-start', query: {t: 'f2f'} });
+      openWindow(routeData.href, `room/quick-start/${new Date().getTime()}`);
     },
 
     starting() {

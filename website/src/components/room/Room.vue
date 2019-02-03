@@ -5,10 +5,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { mapState, mapActions } from 'vuex';
 
-@Component
-export default class Room extends Vue {
+export default Vue.extend({
 
-}
+  computed: {
+    ...mapState("room", [
+      "roomInfo"
+    ])
+  },
+
+  methods: {
+    ...mapActions("room", [
+      "createRoom",
+      "getRoom"
+    ])
+  },
+
+  async created () {
+    if (this.$route.name === 'room-quick-start') {
+      await this.createRoom()
+      this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
+    } else {
+      this.getRoom(this.$route.params.id)
+    }
+  }
+
+})
 </script>
