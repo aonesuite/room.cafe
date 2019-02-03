@@ -6,14 +6,3 @@
 body{
   -webkit-font-smoothing: antialiased;
 }
-
-#navbar{
-  background-color: rgba($color: #000000, $alpha: 0.05);
-
-  .navbar-brand{
-    font-weight: 600;
-    span{
-      margin-right: 5px;
-    }
-  }
-}
