@@ -3,8 +3,11 @@
     <div class="photograph"></div>
     <div class="hero">
       <div class="section">
-        <h1>Interact with your family, friends and colleagues</h1>
-        <h3>In the Room Cafe, you can make video meeting calls, share your ideas and send messages to people you love.</h3>
+        <h1 v-if="!signedIn">Interact with your family, friends and colleagues</h1>
+        <h3 v-if="!signedIn">In the Room Cafe, you can make video meeting calls, share your ideas and send messages to people you love.</h3>
+
+        <h1 v-if="signedIn">Hi, {{ user.name }}</h1>
+        <h3 v-if="signedIn">Get started by video meeting, idea sharing and messaging peoples below.</h3>
 
         <div class="feature-actions">
           <ul class="list-inline">
@@ -49,7 +52,8 @@ export default Vue.extend({
 
   computed: {
     ...mapState("user", [
-      "signedIn"
+      "signedIn",
+      "user"
     ])
   },
 
