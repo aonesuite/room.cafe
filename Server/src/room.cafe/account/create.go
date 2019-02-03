@@ -104,6 +104,7 @@ func Create(c *gin.Context) {
 	c.SetCookie("ROOMCAFE", signed, int(userToken.Expire), "/", host, secure, true)
 
 	c.JSON(http.StatusCreated, gin.H{
+		"id":     user.ID,
 		"name":   user.Name,
 		"email":  user.Email,
 		"gender": user.Gender,

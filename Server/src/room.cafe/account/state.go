@@ -42,7 +42,6 @@ func State(c *gin.Context) {
 
 	database := db.Get(log.ReqID())
 
-	// TODO: 以下两个查询需要改成 Join 查询
 	if result := database.First(&userToken, "id = ?", userToken.ID); result.Error != nil {
 		if result.RecordNotFound() {
 			c.JSON(http.StatusOK, gin.H{"signed_in": false})
@@ -62,5 +61,11 @@ func State(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"signed_in": true})
+	c.JSON(http.StatusOK, gin.H{
+		"signed_in": true,
+		"id":        user.ID,
+		"name":      user.Name,
+		"email":     user.Email,
+		"gender":    user.Gender,
+	})
 }
