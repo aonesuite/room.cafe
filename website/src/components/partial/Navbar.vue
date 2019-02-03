@@ -17,6 +17,10 @@
         <li class="nav-item" v-if="!signedIn">
           <b-button size="sm" variant="success" type="button" @click="quickStart">Sign in</b-button>
         </li>
+
+        <li class="nav-item" v-if="signedIn">
+          <a class="nav-link" href="">{{ user.name }}</a>
+        </li>
       </b-navbar-nav>
     </b-collapse>
 
@@ -36,7 +40,8 @@ export default Vue.extend({
 
   computed: {
     ...mapState("user", [
-      "signedIn"
+      "signedIn",
+      "user"
     ])
   },
 
