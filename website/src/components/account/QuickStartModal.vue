@@ -17,6 +17,7 @@ import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import BootstrapVue, { Modal } from 'bootstrap-vue';
 import { UserArgs } from '../../types/user';
 import * as UserAPI from '../../api/user';
+import { openWindow } from '../../utils/window';
 
 export default Vue.extend({
 
@@ -40,11 +41,7 @@ export default Vue.extend({
 
     roomWindow() {
       const routeData = this.$router.resolve({name: 'room' })
-      const width =  screen.width * 0.8
-      const height = screen.height * 0.8
-      const top = (screen.height - height) / 2
-      const left = (screen.width - width) / 2
-      window.open(routeData.href, 'Room', `resizable=yes,scrollbars=yes,titlebar=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,copyhistory=no,width=${width},height=${height},top=${top},left=${left}`)
+      openWindow(routeData.href, 'Room')
     },
 
     starting() {

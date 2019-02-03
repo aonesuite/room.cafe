@@ -41,6 +41,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
+import { openWindow } from '../utils/window';
 
 export default Vue.extend({
 
@@ -64,11 +65,7 @@ export default Vue.extend({
 
     roomWindow(type: string) {
       const routeData = this.$router.resolve({name: 'room', query: {t: type} })
-      const width =  screen.width * 0.8
-      const height = screen.height * 0.8
-      const top = (screen.height - height) / 2
-      const left = (screen.width - width) / 2
-      window.open(routeData.href, 'Room', `resizable=yes,scrollbars=yes,titlebar=yes,toolbar=no,location=no,directories=no,status=no,menubar=no,copyhistory=no,width=${width},height=${height},top=${top},left=${left}`)
+      openWindow(routeData.href, 'Room')
     },
 
     async quickStart(type: string) {
