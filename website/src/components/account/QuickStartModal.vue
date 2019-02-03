@@ -38,11 +38,6 @@ export default Vue.extend({
       'autoCreateUser'
     ]),
 
-    quickStart(type: string) {
-      var modal: any = this.$refs.QuickStartModal;
-      modal.show();
-    },
-
     roomWindow() {
       const routeData = this.$router.resolve({name: 'room' })
       const width =  screen.width * 0.8
@@ -55,6 +50,7 @@ export default Vue.extend({
     starting() {
       this.autoCreateUser({ name: this.login }).then(() => {
         this.roomWindow();
+        this.$root.$emit('bv::hide::modal', 'QuickStartModal');
       })
     }
   },
