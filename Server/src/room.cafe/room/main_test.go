@@ -74,11 +74,16 @@ func TestCreate(t *testing.T) {
 
 	rooms = append(rooms, room)
 
-	data := map[string]interface{}{
+	data := map[string]interface{}{}
+	msg, _ := json.Marshal(data)
+	w = testhelper.PerformRequest(router, "POST", "/room", nil, bytes.NewReader(msg))
+	assert.Equal(w.Code, http.StatusCreated)
+
+	data = map[string]interface{}{
 		"name":    "test room",
 		"private": true,
 	}
-	msg, _ := json.Marshal(data)
+	msg, _ = json.Marshal(data)
 	w = testhelper.PerformRequest(router, "POST", "/room", nil, bytes.NewReader(msg))
 	assert.Equal(w.Code, http.StatusCreated)
 

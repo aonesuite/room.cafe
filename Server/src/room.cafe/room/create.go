@@ -28,7 +28,7 @@ func Create(c *gin.Context) {
 	args := CreateArgs{}
 
 	if c.Request.Body != nil {
-		if err := c.BindJSON(&args); err != nil {
+		if err := c.Bind(&args); err != nil {
 			log.Error("bind create room args failed", err)
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid args", "code": "INVALID_ARGS"})
 			return
