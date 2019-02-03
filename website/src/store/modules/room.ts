@@ -3,15 +3,15 @@ import { GetterTree, ActionTree, MutationTree  } from 'vuex'
 import axios, { AxiosPromise } from 'axios'
 
 import { RootState } from './types'
-import * as UserAPI from '@/api/user'
+import * as RoomAPI from '@/api/room'
 import { RoomArgs, RoomInfo } from '@/types/room';
 
 export interface RoomState {
-  RoomInfo: RoomInfo
+  roomInfo: RoomInfo
 }
 
 const state: RoomState = {
-  RoomInfo: {} as RoomInfo,
+  roomInfo: {} as RoomInfo,
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -22,19 +22,25 @@ const getters: GetterTree<RoomState, RootState> = {
 const mutations: MutationTree<RoomState> = {
 
   setRoomInfo(state, info: RoomInfo) {
-    state.RoomInfo = info
+    state.roomInfo = info
   }
 }
 
 const actions: ActionTree<RoomState, RootState> = {
 
-  create({ commit }, args: RoomArgs): AxiosPromise<RoomState> {
-    return UserAPI.AutoCreate(args).then((res) => {
+  createRoom({ commit }, args: RoomArgs): AxiosPromise<RoomState> {
+    return RoomAPI.Create(args).then((res) => {
+      commit('setRoomInfo', res.data as RoomInfo)
+      return res
+    })
+  },
+
+  getRoom({ commit }, uuid: string): AxiosPromise<RoomState> {
+    return RoomAPI.Info(uuid).then((res) => {
       commit('setRoomInfo', res.data as RoomInfo)
       return res
     })
   }
-
 }
 
 
