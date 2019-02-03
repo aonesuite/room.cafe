@@ -46,7 +46,7 @@ func State(c *gin.Context) {
 		if result.RecordNotFound() {
 			c.JSON(http.StatusOK, gin.H{"signed_in": false})
 		} else {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": result.Error.Error(), "code": "BAD_REQUEST"})
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": result.Error.Error(), "code": "INTERNAL_SERVER_ERROR"})
 		}
 		return
 	}
@@ -56,7 +56,7 @@ func State(c *gin.Context) {
 		if result.RecordNotFound() {
 			c.JSON(http.StatusOK, gin.H{"signed_in": false})
 		} else {
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": result.Error.Error(), "code": "BAD_REQUEST"})
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": result.Error.Error(), "code": "INTERNAL_SERVER_ERROR"})
 		}
 		return
 	}
