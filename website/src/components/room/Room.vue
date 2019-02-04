@@ -1,5 +1,7 @@
 <template>
-  <div class="welcome">
+  <div class="room">
+    <Navbar />
+
     <h1>ROOM</h1>
   </div>
 </template>
@@ -8,15 +10,30 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 
+import Navbar from './Navbar.vue';
+
 export default Vue.extend({
 
+  components: {
+    Navbar
+  },
+
   computed: {
+    ...mapState("user", [
+      "signedIn",
+      "user"
+    ]),
+
     ...mapState("room", [
       "roomInfo"
     ])
   },
 
   methods: {
+    ...mapActions("user", [
+      'fetchState'
+    ]),
+
     ...mapActions("room", [
       "createRoom",
       "getRoom"
@@ -24,11 +41,19 @@ export default Vue.extend({
   },
 
   async created () {
-    if (this.$route.name === 'room-quick-start') {
-      await this.createRoom()
-      this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
+    await this.fetchState();
+
+    if (this.signedIn) {
+      if (this.$route.name === 'room-quick-start') {
+        await this.createRoom();
+        this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
+      } else {
+        this.getRoom(this.$route.params.id)
+      }
     } else {
-      this.getRoom(this.$route.params.id)
+      // eslint-disable-next-line
+      console.log('not signedIn')
+      /* eslint-disable */
     }
   }
 
