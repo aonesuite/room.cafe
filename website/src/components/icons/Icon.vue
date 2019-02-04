@@ -8,11 +8,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Video from "./Video.vue"                     // 摄像头
 import Chalkboard from "./Chalkboard.vue"           // 黑板
 import CommentAltLines from "./CommentAltLines.vue" // 评论，消息
+import Cog from "./Cog.vue"                         // 齿轮，设置
 
 const icons: any = {
   "video": Video,
   "chalkboard": Chalkboard,
   "comment-alt-lines": CommentAltLines,
+  "cog": Cog,
 }
 
 @Component
