@@ -1,17 +1,20 @@
 import { Module } from 'vuex'
 import { GetterTree, ActionTree, MutationTree  } from 'vuex'
 import axios, { AxiosPromise } from 'axios'
+import * as QNRTC from 'pili-rtc-web'
 
 import { RootState } from './types'
 import * as RoomAPI from '@/api/room'
 import { RoomArgs, RoomInfo } from '@/types/room';
 
 export interface RoomState {
-  roomInfo: RoomInfo
+  roomInfo: RoomInfo,
+  RTC: QNRTC.TrackModeSession,
 }
 
 const state: RoomState = {
   roomInfo: {} as RoomInfo,
+  RTC: new QNRTC.TrackModeSession(),
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -40,7 +43,11 @@ const actions: ActionTree<RoomState, RootState> = {
       commit('setRoomInfo', res.data as RoomInfo)
       return res
     })
-  }
+  },
+
+  async joinRTCRoom({ state, commit }, token) {
+    await state.RTC.joinRoomWithToken(token)
+  },
 }
 
 
