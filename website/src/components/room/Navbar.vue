@@ -16,7 +16,7 @@
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="Board">
+          <b-btn size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="Whiteboard">
             <Icon type="chalkboard" width="22" height="22" />
           </b-btn>
         </li>
