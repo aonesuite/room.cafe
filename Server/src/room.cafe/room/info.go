@@ -2,6 +2,7 @@ package room
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/qiniu/api.v7/auth/qbox"
@@ -46,7 +47,7 @@ func Info(c *gin.Context) {
 		AppID:      config.GetString("qiniu.rtn_appid"),
 		RoomName:   uuid,
 		UserID:     currentUser.RoomUserID(),
-		ExpireAt:   60 * 60 * 12,
+		ExpireAt:   time.Now().Unix() + 60*60*12,
 		Permission: "admin",
 	})
 

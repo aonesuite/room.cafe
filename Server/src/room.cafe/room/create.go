@@ -2,6 +2,7 @@ package room
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/globalsign/mgo/bson"
@@ -48,7 +49,7 @@ func Create(c *gin.Context) {
 		AppID:      config.GetString("qiniu.rtn_appid"),
 		RoomName:   uuid,
 		UserID:     currentUser.RoomUserID(),
-		ExpireAt:   60 * 60 * 12,
+		ExpireAt:   time.Now().Unix() + 60*60*12,
 		Permission: "admin",
 	}
 
