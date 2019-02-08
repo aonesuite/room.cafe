@@ -8,9 +8,8 @@ export class Stream extends EventEmitter {
   public trackList: QNRTC.Track[] = [];
   private direction: "send" | "recv";
 
+  public user: QNRTC.User;
   public tag?: string;
-
-  public user?: RTCUser;
 
   /**
    * 用于标记这个流是否调用了 release 方法，即表示这个流已经被释放
