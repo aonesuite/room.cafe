@@ -1,21 +1,27 @@
 <template>
   <div class="room">
+    <div class="photograph"></div>
+
     <Navbar />
 
-    <h1>ROOM</h1>
+    <Streams v-if="RTC.roomState === 2" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
+import * as QNRTC from 'pili-rtc-web'
+import * as Clarity from '../../constants/clarity'
 
 import Navbar from './Navbar.vue';
+import Streams from './Streams.vue';
 
 export default Vue.extend({
 
   components: {
-    Navbar
+    Navbar,
+    Streams
   },
 
   computed: {
@@ -25,7 +31,9 @@ export default Vue.extend({
     ]),
 
     ...mapState("room", [
-      "roomInfo"
+      "roomInfo",
+      "RTC",
+      "RTCUsers"
     ])
   },
 
@@ -36,8 +44,10 @@ export default Vue.extend({
 
     ...mapActions("room", [
       "createRoom",
-      "getRoom"
+      "getRoom",
+      "joinRTCRoom"
     ])
+
   },
 
   async created () {
@@ -48,13 +58,24 @@ export default Vue.extend({
         await this.createRoom();
         this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
       } else {
-        this.getRoom(this.$route.params.id)
+        await this.getRoom(this.$route.params.id)
+        // eslint-disable-next-line
+        console.log("rtc token:", this.roomInfo.rtc_token)
+        /* eslint-disable */
+        await this.joinRTCRoom({token: this.roomInfo.rtc_token, userData: JSON.stringify(this.user)})
       }
     } else {
       // eslint-disable-next-line
       console.log('not signedIn')
       /* eslint-disable */
     }
+  },
+  async destroyed() {
+    // 释放本地采集
+    for (const track of this.RTC.publishedTracks) {
+      await track.release()
+    }
+    await this.RTC.leaveRoom();
   }
 
 })

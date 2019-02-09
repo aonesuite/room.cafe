@@ -1,15 +1,26 @@
 .room{
   height: 100vh;
   padding-top: 56px;
-  background-color: #000;
-  background-image: url(/beverage-breakfast-cafe-374147.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  box-shadow: 0px 80px 80px -80px rgba(0,0,0,0.25) inset, 0px -214px 214px -214px rgba(0,0,0,0.6) inset;
-  -webkit-font-smoothing: antialiased;
-
   position: relative;
+
+  .photograph{
+    height: 100%;
+    background-color: #000;
+    background-image: url(/beverage-breakfast-cafe-374147.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    box-shadow: 0px 80px 80px -80px rgba(0,0,0,0.25) inset, 0px -214px 214px -214px rgba(0,0,0,0.6) inset;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    &::before{
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($color: #000000, $alpha: 0.5);
+    }
+  }
 }
 
 .navbar-room{
@@ -33,6 +44,33 @@
       &:hover{
         color: rgba($color: #FFF, $alpha: 1);
       }
+    }
+  }
+}
+
+.room .streams{
+  padding: 10px;
+  position: absolute;
+  color: #FFF;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+
+  ul{
+    margin-bottom: 0;
+  }
+
+  li{
+    width: 176px;
+    height: 99px;
+    position: relative;
+
+    .info{
+      padding: 0 3px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
     }
   }
 }

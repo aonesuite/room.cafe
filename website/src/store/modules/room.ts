@@ -1,20 +1,27 @@
-import { Module } from 'vuex'
-import { GetterTree, ActionTree, MutationTree  } from 'vuex'
-import axios, { AxiosPromise } from 'axios'
-import * as QNRTC from 'pili-rtc-web'
+import { Module } from 'vuex';
+import { GetterTree, ActionTree, MutationTree  } from 'vuex';
+import axios, { AxiosPromise } from 'axios';
+import * as QNRTC from 'pili-rtc-web';
 
-import { RootState } from './types'
-import * as RoomAPI from '@/api/room'
+import { RootState } from './types';
+import * as RoomAPI from '@/api/room';
 import { RoomArgs, RoomInfo } from '@/types/room';
+import { Stream } from '@/types/stream';
+import { RTCUser } from '@/types/user';
+import { RTC } from '../../types/rtc';
 
 export interface RoomState {
   roomInfo: RoomInfo,
-  RTC: QNRTC.TrackModeSession,
+  RTC: RTC,
+  RTCUsers: RTCUser[],
+  Streams: Stream[],
 }
 
 const state: RoomState = {
   roomInfo: {} as RoomInfo,
-  RTC: new QNRTC.TrackModeSession(),
+  RTC: new RTC(),
+  RTCUsers: [] as RTCUser[],
+  Streams: [] as Stream[],
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -26,7 +33,13 @@ const mutations: MutationTree<RoomState> = {
 
   setRoomInfo(state, info: RoomInfo) {
     state.roomInfo = info
-  }
+  },
+
+  setRTCUsers(state, users: QNRTC.User[]) {
+    for (const user of users) {
+      state.RTCUsers.push(new RTCUser(user.userId, user.userData))
+    }
+  },
 }
 
 const actions: ActionTree<RoomState, RootState> = {
@@ -45,8 +58,19 @@ const actions: ActionTree<RoomState, RootState> = {
     })
   },
 
-  async joinRTCRoom({ state, commit }, token) {
-    await state.RTC.joinRoomWithToken(token)
+  async joinRTCRoom({ state, commit }, {token, userData}) {
+    var users = await state.RTC.joinRoomWithToken(token, userData);
+    commit('setRTCUsers', users);
+
+    state.RTC.on("track-add", (tracks: QNRTC.Track[]) => {
+      // console.log("new tracks", tracks);
+    })
+
+    state.RTC.on("user-join", (user: QNRTC.User) => {
+      // eslint-disable-next-line
+      console.log("new user!", user);
+      /* eslint-disable */
+    })
   },
 }
 
