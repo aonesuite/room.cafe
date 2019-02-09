@@ -3,7 +3,8 @@ import '@/assets/main.scss'
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
-import axios, { AxiosTransformer } from 'axios';
+import { Select, Option, OptionGroup, Tabs, TabPane } from 'element-ui'
+import axios from 'axios';
 
 import App from './App.vue';
 import store from '@/store';
@@ -11,10 +12,18 @@ import router from './router';
 
 import Icon from "@/components/icons/Icon.vue";
 
-Vue.component(Icon.name, Icon);
-
 Vue.use(Vuex);
 Vue.use(BootstrapVue);
+
+Vue.component(Select.name, Select)
+Vue.component(Option.name, Option)
+Vue.component(OptionGroup.name, OptionGroup)
+
+Vue.use(Tabs);
+Vue.use(TabPane);
+
+Vue.component(Icon.name, Icon);
+
 Vue.config.productionTip = false;
 
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL

@@ -1,0 +1,74 @@
+@import "element-theme";
+
+@import "../../node_modules/element-ui//packages/theme-chalk/src/base.scss";
+
+@import "../../node_modules/element-ui/packages/theme-chalk/src/input.scss";
+@import "../../node_modules/element-ui/packages/theme-chalk/src/select.scss";
+@import "../../node_modules/element-ui/packages/theme-chalk/src/option-group.scss";
+
+@import "../../node_modules/element-ui/packages/theme-chalk/src/tabs.scss";
+@import "../../node_modules/element-ui//packages/theme-chalk/src/tab-pane.scss";
+
+.el-input__inner {
+  height: 36px;
+  line-height: 36px;
+  &:focus,&.focus {
+    border-color: $primary;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(236, 251, 250, 1);
+    box-shadow: 0 0 0 0.2rem rgba(236, 251, 250, 1);
+  }
+}
+
+.el-input__inner::placeholder {
+  color: #868e96;
+  opacity: 0.5;
+}
+
+.el-textarea__inner {
+  padding: 0.375rem 0.75rem;
+  &:focus {
+    color: $dark;
+    background-color: #fff;
+    border-color: $primary;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(236, 251, 250, 1);
+    box-shadow: 0 0 0 0.2rem rgba(236, 251, 250, 1);
+  }
+}
+
+@for $i from 2 through 5 {
+  .el-textarea__inner[rows="#{$i}"]{
+    min-height: #{34 + ($i - 1) * 21}px !important;
+  }
+}
+
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: $primary;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(236, 251, 250, 1);
+  box-shadow: 0 0 0 0.2rem rgba(236, 251, 250, 1);
+}
+
+.el-select-dropdown__item {
+  &.media{
+    height: auto;
+  }
+}
+.el-slider__runway {
+  margin: 10px 0;
+}
+
+.el-step__title {
+  a {
+    color: inherit;
+    &:hover{ text-decoration: none; }
+  }
+}
+
+.d-block {
+  .el-upload { display: block; }
+  .el-upload-dragger { width: inherit; }
+}
+
+.el-message{
+  top: 6px;
+}
