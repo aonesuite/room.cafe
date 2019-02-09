@@ -72,3 +72,14 @@
     }
   }
 }
+
+.modal-room-settings{
+  .tabs{
+    min-height: 320px;
+
+    // fix width:0 bug
+    .el-tabs__active-bar{
+      width: calc(50% - 20px) !important;
+    }
+  }
+}

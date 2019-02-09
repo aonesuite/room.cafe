@@ -28,7 +28,7 @@
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="setting" v-b-tooltip.hover title="Setting">
+          <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Setting">
             <Icon type="cog" width="22" height="22" />
           </b-btn>
         </li>
@@ -40,6 +40,7 @@
     </b-collapse>
 
     <QuickStartModal />
+    <Settings />
   </b-navbar>
 </template>
 
@@ -48,10 +49,12 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
 import { openWindow } from '../../utils/window';
+import Settings from './Settings.vue';
 
 export default Vue.extend({
   components: {
-    QuickStartModal
+    QuickStartModal,
+    Settings
   },
 
   computed: {
@@ -70,8 +73,8 @@ export default Vue.extend({
 
     },
 
-    setting() {
-
+    settings() {
+      this.$root.$emit('bv::show::modal', 'RoomSettingsModal');
     },
 
     async quickStart() {
