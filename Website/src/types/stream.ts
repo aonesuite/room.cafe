@@ -1,7 +1,5 @@
-import remove from "lodash.remove";
 import EventEmitter from "wolfy87-eventemitter";
 import * as QNRTC from "pili-rtc-web";
-import { RTCUser } from '@/types/user';
 
 export class Stream extends EventEmitter {
 
@@ -26,25 +24,7 @@ export class Stream extends EventEmitter {
     this.user = user;
     this.tag = tag;
 
-    tracks.forEach(track => {
-      this.trackList.push(track);
-      if (this.tag === "" || this.tag === undefined) this.tag = track.info.tag || "master";
-      if (track.info.kind === "video") this.videoTrack = track;
-      if (track.info.kind === "audio") this.audioTrack = track;
-
-      track.on("release", () => {
-        // 从 track list 中移除
-        remove(this.trackList, t => t === track);
-
-        if (track.info.kind === "video") this.videoTrack = undefined;
-        if (track.info.kind === "audio") this.audioTrack = undefined;
-
-        // 如果自己所有的 track 都 release 了，自己也 release
-        if (this.trackList.length === 0) {
-          this.release();
-        }
-      })
-    });
+    this.addTracks(tracks);
   }
 
   public addTracks(tracks: QNRTC.Track[]): void {
@@ -52,8 +32,29 @@ export class Stream extends EventEmitter {
       const index = this.trackList.findIndex(t => t.info.trackId === track.info.trackId);
       if (index >= 0) continue;
       this.trackList.push(track);
+      if (this.tag === "" || this.tag === undefined) this.tag = track.info.tag || "master";
       if (track.info.kind === "video") this.videoTrack = track;
       if (track.info.kind === "audio") this.audioTrack = track;
+
+      track.on("release", () => {
+        this.releaseTrack(track);
+      })
+    }
+  }
+
+  private releaseTrack(track: QNRTC.Track) {
+    const index = this.trackList.findIndex(t => t.info.trackId === track.info.trackId);
+
+    if (index < 0) return;
+
+    this.trackList.splice(index, 1);
+
+    if (track.info.kind === "video") this.videoTrack = undefined;
+    if (track.info.kind === "audio") this.audioTrack = undefined;
+
+    // 如果自己所有的 track 都 release 了，自己也 release
+    if (this.trackList.length === 0) {
+      this.release();
     }
   }
 
