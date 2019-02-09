@@ -1,12 +1,14 @@
 import EventEmitter from "wolfy87-eventemitter";
 import * as QNRTC from "pili-rtc-web";
+import { RTCUser } from '@/types/user';
 
 export class Stream extends EventEmitter {
 
   public trackList: QNRTC.Track[] = [];
   private direction: "send" | "recv";
 
-  public user: QNRTC.User;
+  public userId: string;
+  public user: RTCUser;
   public tag?: string;
 
   /**
@@ -21,7 +23,8 @@ export class Stream extends EventEmitter {
     super();
 
     this.direction = direction;
-    this.user = user;
+    this.userId = user.userId;
+    this.user = new RTCUser(user.userId, user.userData);
     this.tag = tag;
 
     this.addTracks(tracks);

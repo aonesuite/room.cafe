@@ -22,7 +22,6 @@ export class RTC extends QNRTC.TrackModeSession {
 
       this.autoSubscribe(this.trackInfoList);
       this.on("track-add", this.autoSubscribe);
-      this.on("track-remove", this.removeTracks);
       return users;
     });
   }
@@ -42,13 +41,8 @@ export class RTC extends QNRTC.TrackModeSession {
   // 向房间中增加 track，归整到对应的 stream 中
   private addTracks(tracks: QNRTC.Track[], direction: "send" | "recv" = "recv") {
     for (const track of tracks) {
-
-      // eslint-disable-next-line
-      console.log("add tracks", track);
-      /* eslint-disable */
-
       let stream = this.streams.find((stream: Stream) => {
-        return stream.user.userId === track.userId && stream.tag === track.info.tag;
+        return stream.userId === track.userId && stream.tag === track.info.tag;
       });
 
       if (stream) {
@@ -63,21 +57,12 @@ export class RTC extends QNRTC.TrackModeSession {
         });
       }
     }
-
-    // eslint-disable-next-line
-    console.log("streams:", this.streams);
-    /* eslint-disable */
-  }
-
-  // 移除房间中的 track，清理对应的 stream
-  private removeTracks(trackInfoList: QNRTC.TrackBaseInfo[]) {
-
   }
 
   // push stream to streams cache
   public push(stream: Stream): void {
     const index = this.streams.findIndex((s: Stream) => {
-      return stream.user.userId === stream.user.userId && s.tag === stream.tag;
+      return stream.userId === stream.userId && s.tag === stream.tag;
     });
 
     if (index < 0) {
@@ -99,7 +84,7 @@ export class RTC extends QNRTC.TrackModeSession {
   // 释放 stream 清理 streams
   public releaseStream(stream: Stream | undefined) {
     if (stream === undefined) return;
-    const index = this.streams.findIndex(s => s.user.userId === stream.user.userId && s.tag === stream.tag);
+    const index = this.streams.findIndex(s => s.userId === stream.userId && s.tag === stream.tag);
     if (index >= 0) this.streams.splice(index, 1);
   }
 
