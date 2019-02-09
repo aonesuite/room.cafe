@@ -1,8 +1,8 @@
 <template>
   <div class="streams">
     <ul class="list-inline">
-      <li class="list-inline-item" v-for="user in RTCUsers" :key="user.id" :id="user.userId">
-        <div class="info">{{ user.name }}</div>
+      <li class="list-inline-item" v-for="stream in RTC.streams" :key="`${stream.user.userId}_${stream.tag}`">
+        <Monitor :stream="stream" />
       </li>
     </ul>
   </div>
@@ -13,8 +13,12 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import * as QNRTC from 'pili-rtc-web'
 import * as Clarity from '../../constants/clarity'
+import Monitor from './Monitor.vue';
 
 export default Vue.extend({
+  components: {
+    Monitor
+  },
 
   computed: {
     ...mapState("user", [
@@ -24,8 +28,7 @@ export default Vue.extend({
 
     ...mapState("room", [
       "roomInfo",
-      "RTC",
-      "RTCUsers"
+      "RTC"
     ])
   },
 
@@ -35,9 +38,7 @@ export default Vue.extend({
     ]),
 
     ...mapActions("room", [
-      "createRoom",
-      "getRoom",
-      "joinRTCRoom"
+      "createRoom"
     ]),
 
     // 发布本地音视频
@@ -61,60 +62,17 @@ export default Vue.extend({
 
       await this.RTC.publish(tracks)
 
-      const containerElement = document.getElementById(`user_${this.user.id}`);
-      if (containerElement === null) return;
-
-      for (const track of tracks) {
-        if (track.info.tag === "audio") continue;
-        track.play(containerElement, true);
-      }
-    },
-
-    async subscribe(room: QNRTC.TrackModeSession, trackInfoList: QNRTC.TrackBaseInfo[]) {
-      const trackIds = trackInfoList.map(info => info.trackId || '');
-      const remoteTracks = await room.subscribe(trackIds);
-
-      for (const remoteTrack of remoteTracks) {
-        const containerElement = document.getElementById(`user_${remoteTrack.userId}`);
-        if (containerElement === null) continue;
-        remoteTrack.play(containerElement);
-      }
-    },
-
-    // 这里的参数 this.RTC 是指刚刚加入房间时初始化的 Session 对象, 同上
-    autoSubscribe() {
-      const trackInfoList = this.RTC.trackInfoList;
-
       // eslint-disable-next-line
-      console.log("room current trackInfo list", trackInfoList)
+      console.log("publish tracks", tracks);
       /* eslint-disable */
 
-      this.subscribe(this.RTC, trackInfoList)
-        .then(() =>
-          // eslint-disable-next-line
-          console.log("subscribe success!"))
-          /* eslint-disable */
-        .catch(e =>
-          // eslint-disable-next-line
-          console.error("subscribe error", e))
-          /* eslint-disable */
+      // const containerElement = document.getElementById(`user_${this.user.id}`);
+      // if (containerElement === null) return;
 
-      // 添加事件监听，当房间中出现新的 Track 时就会触发，参数是 trackInfo 列表
-      this.RTC.on("track-add", (trackInfoList: QNRTC.TrackBaseInfo[]) => {
-        // eslint-disable-next-line
-          console.log("get track-add event!", trackInfoList);
-        /* eslint-disable */
-
-        this.subscribe(this.RTC, trackInfoList)
-          .then(() =>
-            // eslint-disable-next-line
-            console.log("subscribe success!"))
-            /* eslint-disable */
-          .catch(e =>
-            // eslint-disable-next-line
-            console.error("subscribe error", e))
-            /* eslint-disable */
-      })
+      // for (const track of tracks) {
+      //   if (track.info.tag === "audio") continue;
+      //   track.play(containerElement, true);
+      // }
     }
   },
 

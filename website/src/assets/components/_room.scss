@@ -64,13 +64,11 @@
   li{
     width: 176px;
     height: 99px;
+    float: left;
     position: relative;
 
-    .info{
-      padding: 0 3px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
+    &:not(:last-child) {
+      margin-right: 0.125rem;
     }
   }
 }

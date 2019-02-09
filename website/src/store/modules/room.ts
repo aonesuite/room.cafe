@@ -14,14 +14,12 @@ export interface RoomState {
   roomInfo: RoomInfo,
   RTC: RTC,
   RTCUsers: RTCUser[],
-  Streams: Stream[],
 }
 
 const state: RoomState = {
   roomInfo: {} as RoomInfo,
   RTC: new RTC(),
   RTCUsers: [] as RTCUser[],
-  Streams: [] as Stream[],
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -58,19 +56,9 @@ const actions: ActionTree<RoomState, RootState> = {
     })
   },
 
-  async joinRTCRoom({ state, commit }, {token, userData}) {
-    var users = await state.RTC.joinRoomWithToken(token, userData);
+  async joinRTCRoom({ state, commit }, {token, user}) {
+    var users = await state.RTC.joinRoomWithToken(token, user);
     commit('setRTCUsers', users);
-
-    state.RTC.on("track-add", (tracks: QNRTC.Track[]) => {
-      // console.log("new tracks", tracks);
-    })
-
-    state.RTC.on("user-join", (user: QNRTC.User) => {
-      // eslint-disable-next-line
-      console.log("new user!", user);
-      /* eslint-disable */
-    })
   },
 }
 

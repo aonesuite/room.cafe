@@ -58,11 +58,8 @@ export default Vue.extend({
         await this.createRoom();
         this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
       } else {
-        await this.getRoom(this.$route.params.id)
-        // eslint-disable-next-line
-        console.log("rtc token:", this.roomInfo.rtc_token)
-        /* eslint-disable */
-        await this.joinRTCRoom({token: this.roomInfo.rtc_token, userData: JSON.stringify(this.user)})
+        await this.getRoom(this.$route.params.id);
+        await this.joinRTCRoom({token: this.roomInfo.rtc_token, user: this.user});
       }
     } else {
       // eslint-disable-next-line
