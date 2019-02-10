@@ -10,6 +10,7 @@ export class Stream extends EventEmitter {
   public userId: string;
   public user: RTCUser;
   public tag?: string;
+  public id: string;
 
   /**
    * 用于标记这个流是否调用了 release 方法，即表示这个流已经被释放
@@ -28,6 +29,8 @@ export class Stream extends EventEmitter {
     this.tag = tag;
 
     this.addTracks(tracks);
+
+    this.id = `${this.userId}_${this.tag}`;
   }
 
   public addTracks(tracks: QNRTC.Track[]): void {
