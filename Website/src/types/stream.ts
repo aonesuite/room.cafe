@@ -40,12 +40,16 @@ export class Stream extends EventEmitter {
       if (track.info.kind === "audio") this.audioTrack = track;
 
       track.on("release", () => {
-        this.releaseTrack(track);
+        this.removeTrack(track);
       })
     }
   }
 
-  private releaseTrack(track: QNRTC.Track) {
+  /**
+   * 释放 stream 的 track
+   * @param track
+   */
+  private removeTrack(track: QNRTC.Track) {
     const index = this.trackList.findIndex(t => t.info.trackId === track.info.trackId);
 
     if (index < 0) return;

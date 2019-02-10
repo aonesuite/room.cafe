@@ -81,6 +81,27 @@ export class RTC extends QNRTC.TrackModeSession {
     })
   }
 
+  // 取消发布指定 tag 和 kind 的 track
+  public unpublishWithTag(tag: string, kind?: string) {
+    const tracks = this.publishedTracks.filter(t => {
+      return kind ? (t.info.tag === tag && t.info.kind === kind) : t.info.tag === tag;
+    })
+
+    const trackIds = tracks.map(t => t.info.trackId || "" );
+
+    return this.unpublish(trackIds);
+  }
+
+  // overwrite unpublish method
+  public unpublish(trackIds: string[]) {
+    const tracks = this.publishedTracks.filter(t => trackIds.includes(t.info.trackId || ""));
+    return super.unpublish(trackIds).then(() => {
+      for (const track of tracks) {
+        track.release();
+      }
+    });
+  }
+
   // 释放 stream 清理 streams
   public releaseStream(stream: Stream | undefined) {
     if (stream === undefined) return;
