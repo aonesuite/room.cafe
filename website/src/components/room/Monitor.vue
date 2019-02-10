@@ -1,20 +1,26 @@
 <template>
-  <div class="monitor" @click="clickHandler">
+  <div :id="stream.id" class="monitor" :class="{active: StageStreamId === stream.id}" @click="clickHandler">
 
     <div class="cover">
       <img class="avatar" :src="`${stream.user.avatar}?imageView2/1/w/352/h/198/q/100`" width="176">
     </div>
 
-    <div ref="player" class="player" :class="{ 'video-mute': stream.videoTrack && stream.videoTrack.info.muted, 'audio-mute': stream.audioTrack && stream.audioTrack.info.muted }">
-
-      <div class="audio-status" :class="{mute: stream.audioTrack.info.muted}" v-if="stream.audioTrack">
-        <canvas class="audio-wave" ref="audioWave" width="76" height="20"></canvas>
-      </div>
+    <div
+      ref="player"
+      class="player"
+      :class="{
+        'video-mute': stream.videoTrack && stream.videoTrack.info.muted,
+        'audio-mute': stream.audioTrack && stream.audioTrack.info.muted
+      }">
     </div>
 
     <div class="info">
       <span>{{ stream.user.name }}</span>
       <small class="ml-2" v-if="stream.tag === 'screen'">Screen</small>
+
+      <div class="audio-status" :class="{mute: stream.audioTrack.info.muted}" v-if="stream.audioTrack">
+        <canvas class="audio-wave" ref="audioWave" width="76" height="20"></canvas>
+      </div>
     </div>
 
   </div>
@@ -24,7 +30,7 @@
 var cancelAnimationFrame = window.cancelAnimationFrame;
 
 import Vue from 'vue';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import * as QNRTC from 'pili-rtc-web';
 import { Stream } from '../../types/stream';
 
@@ -43,10 +49,15 @@ export default Vue.extend({
   },
   computed: {
     ...mapState("room", [
-      "RTC"
+      "RTC",
+      "StageStreamId"
     ])
   },
   methods: {
+
+    ...mapMutations("room", [
+      "setStageStreamId"
+    ]),
 
     // 绘制音量柱
     drawAudioVolume(track: QNRTC.Track) {
@@ -95,8 +106,7 @@ export default Vue.extend({
 
     // 播放
     play(track: QNRTC.Track) {
-      this.$el.setAttribute(`data-track-${track.info.kind}-id`, track.info.trackId as string);
-      this.$el.setAttribute(`data-track-${track.info.kind}-tag`, track.info.tag as string);
+      this.$el.setAttribute(`data-track-${track.info.kind}`, track.info.trackId as string);
 
       var muted = track.info.kind === 'audio' && track.userId === this.RTC.userId;
       const ele = this.$refs.player as HTMLElement;
@@ -104,9 +114,7 @@ export default Vue.extend({
     },
 
     clickHandler() {
-      // eslint-disable-next-line
-      console.log(this.stream);
-      /* eslint-disable */
+      this.setStageStreamId(this.stream.id);
     }
   },
   created () {

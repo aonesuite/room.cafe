@@ -1,6 +1,5 @@
 <template>
   <div class="room">
-    <div class="photograph"></div>
 
     <Navbar />
 

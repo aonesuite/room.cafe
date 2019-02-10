@@ -1,10 +1,6 @@
 <template>
   <div class="streams">
-    <ul class="list-inline">
-      <li class="list-inline-item" v-for="stream in RTC.streams" :key="`${stream.user.userId}_${stream.tag}`">
-        <Monitor :stream="stream" />
-      </li>
-    </ul>
+    <Monitor :stream="stream" v-for="stream in RTC.streams" :key="`${stream.user.userId}_${stream.tag}`" />
   </div>
 </template>
 

@@ -6,7 +6,6 @@ import * as QNRTC from 'pili-rtc-web';
 import { RootState } from './types';
 import * as RoomAPI from '@/api/room';
 import { RoomArgs, RoomInfo } from '@/types/room';
-import { Stream } from '@/types/stream';
 import { RTCUser } from '@/types/user';
 import { RTC } from '../../types/rtc';
 
@@ -14,12 +13,14 @@ export interface RoomState {
   roomInfo: RoomInfo,
   RTC: RTC,
   RTCUsers: RTCUser[],
+  StageStreamId: string,
 }
 
 const state: RoomState = {
   roomInfo: {} as RoomInfo,
   RTC: new RTC(),
   RTCUsers: [] as RTCUser[],
+  StageStreamId: "",
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -30,14 +31,18 @@ const getters: GetterTree<RoomState, RootState> = {
 const mutations: MutationTree<RoomState> = {
 
   setRoomInfo(state, info: RoomInfo) {
-    state.roomInfo = info
+    state.roomInfo = info;
   },
 
   setRTCUsers(state, users: QNRTC.User[]) {
     for (const user of users) {
-      state.RTCUsers.push(new RTCUser(user.userId, user.userData))
+      state.RTCUsers.push(new RTCUser(user.userId, user.userData));
     }
   },
+
+  setStageStreamId(stage, streamId: string) {
+    stage.StageStreamId = streamId;
+  }
 }
 
 const actions: ActionTree<RoomState, RootState> = {

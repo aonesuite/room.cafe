@@ -4,6 +4,10 @@
   font-size: 12px;
   vertical-align: top;
   overflow: hidden;
+  border: 3px solid transparent;
+  border-radius: 1.5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.26);
+  transition: transform 250ms ease-out 250ms;
 
   .cover{
     width: 100%;
@@ -30,6 +34,21 @@
     background: rgba($color: #000000, $alpha: 0.35);
     background: linear-gradient(transparent, rgba($color: #000000, $alpha: 0.35));
     z-index: 3;
+
+    .audio-status{
+      padding: 0px 2px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      text-align: right;
+
+      .audio-wave{ width: 38px; height: 10px; }
+      .audio-mute{ display: none; height: 15px; color: #CCC }
+      &.mute {
+        .audio-wave{ display: none; }
+        .audio-mute{ display: inline; }
+      }
+    }
   }
 
   .player {
@@ -40,23 +59,6 @@
     position: relative;
     z-index: 2;
     transition: all .5s ease;
-
-    .audio-status{
-      padding: 0px 2px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 2;
-      text-align: right;
-
-      .audio-wave{ width: 38px; height: 10px; }
-      .audio-mute{ display: none; height: 15px; color: #CCC }
-      &.mute {
-        .audio-wave{ display: none; }
-        .audio-mute{ display: inline; }
-      }
-    }
 
     video{
       display: flex;
