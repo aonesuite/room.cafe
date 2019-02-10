@@ -1,5 +1,5 @@
 <template>
-  <div class="monitor">
+  <div class="monitor" @click="clickHandler">
 
     <div class="cover">
       <img class="avatar" :src="`${stream.user.avatar}?imageView2/1/w/352/h/198/q/100`" width="176">
@@ -20,23 +20,24 @@
   </div>
 </template>
 
-<script>
-var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame
+<script lang="ts">
+var cancelAnimationFrame = window.cancelAnimationFrame;
 
 import Vue from 'vue';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import * as QNRTC from 'pili-rtc-web';
+import { Stream } from '../../types/stream';
 
 export default Vue.extend({
   props: {
     stream: {
-      type: Object,
-      default: () => {}
+      type: Stream
     }
   },
   data () {
     return {
       frame: {
-        id: null
+        id: 0
       }
     }
   },
@@ -48,53 +49,64 @@ export default Vue.extend({
   methods: {
 
     // 绘制音量柱
-    drawAudioVolume(track) {
-      if (!track) return
+    drawAudioVolume(track: QNRTC.Track) {
+      if (!track) return;
 
-      const canvas = this.$refs.audioWave
-      if (!canvas) return
+      const canvas = this.$refs.audioWave as HTMLCanvasElement;
+      if (!canvas) return;
 
-      const ctx = canvas.getContext('2d')
-      const columns = 8
-      const width = ctx.canvas.width
-      const height = ctx.canvas.height
-      const normalColor = 'rgba(255, 255, 255, 0.45)'
-      const activeColor = '#81D8D0'
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
-      const animationFrameFunc = (track, ctx) => {
+      const columns = 8;
+      const width = ctx.canvas.width;
+      const height = ctx.canvas.height;
+      const normalColor = "rgba(255, 255, 255, 0.45)";
+      const activeColor = "#81D8D0";
+
+      const animationFrameFunc = (track: QNRTC.Track, ctx: CanvasRenderingContext2D) => {
+        if (!track) return;
+
         const data = track.getCurrentFrequencyData()
-        const avg = data.reduce((accumulator, currentValue) => accumulator + currentValue) / data.length
-        const dB = 20 * Math.log10(avg / 255)
-        const volume = Math.round((100 + dB) * 80 / 120 / 10)
+        const avg = data.reduce((accumulator, currentValue) => accumulator + currentValue) / data.length;
+        const dB = 20 * Math.log10(avg / 255);
+        const volume = Math.round((100 + dB) * 80 / 120 / 10);
 
-        ctx.clearRect(0, 0, width, height)
+        ctx.clearRect(0, 0, width, height);
 
         for (let i = 0; i < columns; i += 1) {
-          var w = 5
-          var h = height / columns * (i + 1)
-          var x = i * 10
-          var y = height - h
-          ctx.fillStyle = volume < i ? normalColor : (track.info.muted ? normalColor : activeColor)
-          ctx.fillRect(x, y, w, h)
+          var w = 5;
+          var h = height / columns * (i + 1);
+          var x = i * 10;
+          var y = height - h;
+          ctx.fillStyle = volume < i ? normalColor : (track.info.muted ? normalColor : activeColor);
+          ctx.fillRect(x, y, w, h);
         }
 
-        this.frame.id = requestAnimationFrame(() => animationFrameFunc(track, ctx))
+        this.frame.id = requestAnimationFrame(() => animationFrameFunc(track, ctx));
       }
 
-      this.frame.id = requestAnimationFrame(() => animationFrameFunc(track, ctx))
+      this.frame.id = requestAnimationFrame(() => animationFrameFunc(track, ctx));
 
-      track.once('release', () => {
-        cancelAnimationFrame(this.frame.id)
+      track.once("release", () => {
+        cancelAnimationFrame(this.frame.id);
       })
     },
 
     // 播放
-    play(track) {
-      this.$el.setAttribute(`data-track-${track.info.kind}-id`, track.info.trackId)
-      this.$el.setAttribute(`data-track-${track.info.kind}-tag`, track.info.tag)
+    play(track: QNRTC.Track) {
+      this.$el.setAttribute(`data-track-${track.info.kind}-id`, track.info.trackId as string);
+      this.$el.setAttribute(`data-track-${track.info.kind}-tag`, track.info.tag as string);
 
-      var muted = track.info.kind === 'audio' && track.userId === this.RTC.userId
-      track.play(this.$refs.player, muted)
+      var muted = track.info.kind === 'audio' && track.userId === this.RTC.userId;
+      const ele = this.$refs.player as HTMLElement;
+      track.play(ele, muted);
+    },
+
+    clickHandler() {
+      // eslint-disable-next-line
+      console.log(this.stream);
+      /* eslint-disable */
     }
   },
   created () {
@@ -102,29 +114,16 @@ export default Vue.extend({
   },
   mounted () {
     if (this.stream.audioTrack) {
-      this.drawAudioVolume(this.stream.audioTrack)
-      this.play(this.stream.audioTrack)
-
-      // this.$watch('stream.audioTrack', function (track) {
-      //   if (track !== undefined && track.mediaElement === undefined) {
-      //     if (this.frame.id) cancelAnimationFrame(this.frame.id)
-      //     this.drawAudioVolume(this.stream.audioTrack)
-      //     track.play(this.$refs.player)
-      //   }
-      // })
+      this.drawAudioVolume(this.stream.audioTrack as QNRTC.Track);
+      this.play(this.stream.audioTrack);
     }
 
     if (this.stream.videoTrack) {
-      this.play(this.stream.videoTrack)
-      // this.$watch('stream.videoTrack', function (track) {
-      //   if (track !== undefined && track.mediaElement === undefined) {
-      //     track.play(this.$refs.player)
-      //   }
-      // })
+      this.play(this.stream.videoTrack);
     }
   },
   destroyed() {
-    if (this.frame.id) cancelAnimationFrame(this.frame.id)
+    if (this.frame.id) cancelAnimationFrame(this.frame.id);
   }
 })
 </script>
