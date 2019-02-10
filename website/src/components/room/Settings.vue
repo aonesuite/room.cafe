@@ -2,7 +2,7 @@
   <b-modal class="modal-room-settings" id="RoomSettingsModal" ref="RoomSettingsModal" centered :lazy="true" hide-footer hide-header @show="modalShow()">
     <form v-on:submit.prevent="onSubmit">
 
-      <el-tabs class="tabs" :stretch="true" value="general">
+      <el-tabs class="tabs" :stretch="true" v-model="tabActive">
         <el-tab-pane label="General" name="general">
           <div class="form-group">
             <label for="video-device">Video</label>
@@ -29,7 +29,7 @@
           <div class="form-group">
             <label for="incoming-video">Incoming video</label>
             <el-select class="d-block" id="incoming-video" placeholder="Select resolution" v-model="settings.clarity">
-              <el-option v-for="(clarity, key) in clarities" :key="key" :label="clarity.label" :value="key"></el-option>
+              <el-option v-for="(clarity, key) in clarities" :key="key" :label="`Up to ${clarity.label}`" :value="key"></el-option>
             </el-select>
           </div>
         </el-tab-pane>
@@ -52,6 +52,7 @@ export default Vue.extend({
 
   data() {
     return {
+      tabActive: "general",
       deviceInfoList: [] as MediaDeviceInfo[],
       settings: {
         currentAudioOutputDevice: 'default',
@@ -81,7 +82,7 @@ export default Vue.extend({
     async publish() {
       if (this.RTC.roomState != QNRTC.RoomState.Connected) return;
 
-      const clarity = Clarity.getClarity("HD");
+      const clarity = Clarity.getClarity(this.settings.clarity as Clarity.ClarityType);
       var tracks = await QNRTC.deviceManager.getLocalTracks({
         audio: {
           enabled: true,
@@ -99,12 +100,13 @@ export default Vue.extend({
       });
 
       tracks.map(track => track.setMaster(true));
+      await this.RTC.unpublishWithTag("master");
       await this.RTC.publish(tracks);
+      this.$root.$emit('bv::hide::modal', 'RoomSettingsModal');
     },
 
     async onSubmit () {
       this.isSubmitting = true
-      // await this.unpublishTracks()
       await this.publish()
       this.isSubmitting = false
     }
