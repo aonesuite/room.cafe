@@ -22,7 +22,7 @@
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('im')" v-b-tooltip.hover title="Message">
+          <b-btn size="sm" variant="link" @click="component('im')" v-b-tooltip.hover title="Chat">
             <Icon type="comment-alt-lines" width="22" height="22" />
           </b-btn>
         </li>

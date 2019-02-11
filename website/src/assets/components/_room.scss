@@ -4,6 +4,16 @@
   background: #000;
 }
 
+.room .placeholder{
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  top: 60px;
+  color: #FFF;
+  text-align: center;
+  z-index: 11;
+}
+
 .navbar-room{
   background-color: rgba($color: #000000, $alpha: 0.05);
   border-bottom: 1px solid;
@@ -26,18 +36,6 @@
       &:hover{
         color: rgba($color: #FFF, $alpha: 1);
       }
-    }
-  }
-}
-
-
-.modal-room-settings{
-  .tabs{
-    min-height: 320px;
-
-    // fix width:0 bug
-    .el-tabs__active-bar{
-      width: calc(50% - 20px) !important;
     }
   }
 }
@@ -96,6 +94,17 @@
         background-color: transparent;
         visibility: visible;
       }
+    }
+  }
+}
+
+.modal-room-settings{
+  .tabs{
+    min-height: 320px;
+
+    // fix width:0 bug
+    .el-tabs__active-bar{
+      width: calc(50% - 20px) !important;
     }
   }
 }

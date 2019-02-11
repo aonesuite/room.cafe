@@ -1,5 +1,8 @@
 <template>
   <div class="room">
+    <div class="placeholder">
+      <div v-if="RTC.roomState === 2 && RTCUsers.length === 1">You are the only one here.</div>
+    </div>
 
     <Navbar />
 
