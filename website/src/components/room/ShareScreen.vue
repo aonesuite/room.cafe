@@ -17,7 +17,6 @@
 import Vue from 'vue';
 import { mapState, mapGetters, mapMutations } from 'vuex';
 import * as QNRTC from "pili-rtc-web";
-import * as Clarity from '../../constants/clarity';
 
 export default Vue.extend({
   props: {
@@ -51,14 +50,10 @@ export default Vue.extend({
         }
       }
 
-      const clarity = Clarity.getClarity("HD");
       var tracks = await QNRTC.deviceManager.getLocalTracks({
         screen: {
           enabled: true,
           tag: "screen",
-          width: clarity.width,
-          height: clarity.height,
-          bitrate: clarity.bitrate,
         }
       });
 
