@@ -54,7 +54,7 @@
   .monitor{
     width: 176px;
     height: 99px;
-    float: left;
+    float: right;
     position: relative;
 
     &:not(:last-child) {
@@ -75,6 +75,10 @@
       left: 0;
       right: 0;
 
+      .player video{
+        object-fit: contain !important;
+      }
+
       .info{
         padding: 2px 5px;
         top: 0;
@@ -87,8 +91,10 @@
         }
       }
 
-      .player video{
-        object-fit: contain !important;
+      .actions{
+        height: 28px;
+        background-color: transparent;
+        visibility: visible;
       }
     }
   }

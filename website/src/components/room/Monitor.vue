@@ -1,5 +1,5 @@
 <template>
-  <div :id="stream.id" class="monitor" :class="{active: StageStreamId === stream.id}" @click="clickHandler">
+  <div :id="stream.id" class="monitor" :class="{active: StageStreamId === stream.id}">
 
     <div class="cover">
       <img class="avatar" :src="`${stream.user.avatar}?imageView2/1/w/352/h/198/q/100`" width="176">
@@ -21,6 +21,15 @@
       <div class="audio-status" :class="{mute: stream.audioTrack.info.muted}" v-if="stream.audioTrack">
         <canvas class="audio-wave" ref="audioWave" width="76" height="20"></canvas>
       </div>
+    </div>
+
+    <div class="actions">
+      <b-btn size="sm" variant="link" @click="screenFull" v-if="StageStreamId !== stream.id">
+        <Icon type="screen-full" width="22" height="22" />
+      </b-btn>
+      <b-btn size="sm" variant="link" @click="screenNormal" v-if="StageStreamId === stream.id">
+        <Icon type="screen-normal" width="22" height="22" />
+      </b-btn>
     </div>
 
   </div>
@@ -113,8 +122,12 @@ export default Vue.extend({
       track.play(ele, muted);
     },
 
-    clickHandler() {
+    screenFull() {
       this.setStageStreamId(this.stream.id);
+    },
+
+    screenNormal() {
+      this.setStageStreamId("");
     }
   },
   created () {
