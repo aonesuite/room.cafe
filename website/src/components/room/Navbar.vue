@@ -27,6 +27,12 @@
           </b-btn>
         </li>
 
+        <li class="nav-item">
+          <b-btn size="sm" variant="link" @click="component('screen-share')" v-b-tooltip.hover title="Share screen">
+            <Icon type="screen-share" width="22" height="22" />
+          </b-btn>
+        </li>
+
         <li class="nav-item" v-if="fullscreenEnabled">
           <b-btn size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
             <Icon type="screen-full" width="22" height="22" v-show="!isFullscreen" />

@@ -13,6 +13,7 @@ import ScreenFull from "./ScreenFull.vue";           // 进入全屏
 import ScreenNormal from "./ScreenNormal.vue";       // 退出全屏
 import ScreenEnter from "./ScreenEnter.vue";         // 进入全屏
 import ScreenExit from "./ScreenExit.vue";           // 退出全屏
+import ScreenShare from "./ScreenShare.vue";         // 屏幕分享
 
 const icons: any = {
   "video": Video,
@@ -23,6 +24,7 @@ const icons: any = {
   "screen-normal": ScreenNormal,
   "screen-enter": ScreenEnter,
   "screen-exit": ScreenExit,
+  "screen-share": ScreenShare,
 }
 
 @Component
