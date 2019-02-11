@@ -8,9 +8,11 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/fscreen": "^1.0.1",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
     "element-ui": "^2.5.4",
+    "fscreen": "^1.0.2",
     "pili-rtc-web": "^2.1.0-patch.0",
     "vue": "^2.6.3",
     "vue-class-component": "^6.0.0",

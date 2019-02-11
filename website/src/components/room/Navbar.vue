@@ -27,6 +27,13 @@
           </b-btn>
         </li>
 
+        <li class="nav-item" v-if="fullscreenEnabled">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
+            <Icon type="screen-full" width="22" height="22" v-show="!isFullscreen" />
+            <Icon type="screen-normal" width="22" height="22" v-show="isFullscreen" />
+          </b-btn>
+        </li>
+
         <li class="nav-item">
           <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Setting">
             <Icon type="cog" width="22" height="22" />
@@ -47,6 +54,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
+import fscreen from 'fscreen';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
 import { openWindow } from '../../utils/window';
 import Settings from './Settings.vue';
@@ -55,6 +63,13 @@ export default Vue.extend({
   components: {
     QuickStartModal,
     Settings
+  },
+
+  data () {
+    return {
+      fullscreenEnabled: false,
+      isFullscreen: false
+    }
   },
 
   computed: {
@@ -73,12 +88,17 @@ export default Vue.extend({
 
     },
 
+    // 全屏切换
+    switchFullscreen() {
+      this.isFullscreen ? fscreen.exitFullscreen(): fscreen.requestFullscreen(document.documentElement);
+    },
+
     settings() {
       this.$root.$emit('bv::show::modal', 'RoomSettingsModal');
     },
 
     async quickStart() {
-      await this.fetchState()
+      await this.fetchState();
 
       if (this.signedIn) {
         this.roomWindow();
@@ -89,6 +109,11 @@ export default Vue.extend({
   },
 
   created () {
+
+    if (fscreen.fullscreenEnabled) {
+      this.fullscreenEnabled = fscreen.fullscreenEnabled;
+      fscreen.addEventListener('fullscreenchange', () => { this.isFullscreen = fscreen.fullscreenElement !== null; }, false);
+    }
 
   }
 })
