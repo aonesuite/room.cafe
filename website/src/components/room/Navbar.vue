@@ -27,12 +27,10 @@
           </b-btn>
         </li>
 
-        <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('screen-share')" v-b-tooltip.hover title="Share screen">
-            <Icon type="screen-share" width="22" height="22" />
-          </b-btn>
-        </li>
+        <!-- 屏幕共享 -->
+        <ShareScreen tag="li" class="nav-item" v-if="$browser.name === 'chrome' || $browser.name === 'firefox'" />
 
+        <!-- 全屏 -->
         <li class="nav-item" v-if="fullscreenEnabled">
           <b-btn size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
             <Icon type="screen-full" width="22" height="22" v-show="!isFullscreen" />
@@ -40,6 +38,7 @@
           </b-btn>
         </li>
 
+        <!-- 设置 -->
         <li class="nav-item">
           <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Setting">
             <Icon type="cog" width="22" height="22" />
@@ -63,11 +62,13 @@ import { mapState, mapActions } from 'vuex';
 import fscreen from 'fscreen';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
 import { openWindow } from '../../utils/window';
+import ShareScreen from './ShareScreen.vue';
 import Settings from './Settings.vue';
 
 export default Vue.extend({
   components: {
     QuickStartModal,
+    ShareScreen,
     Settings
   },
 

@@ -16,7 +16,7 @@
 
     <div class="info">
       <span>{{ stream.user.name }}</span>
-      <small class="ml-2" v-if="stream.tag === 'screen'">Screen</small>
+      <span v-if="stream.tag === 'screen'">'s Screensharing</span>
 
       <div class="audio-status" :class="{mute: stream.audioTrack.info.muted}" v-if="stream.audioTrack">
         <canvas class="audio-wave" ref="audioWave" width="76" height="20"></canvas>
