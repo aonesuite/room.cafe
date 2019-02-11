@@ -24,10 +24,10 @@
     </div>
 
     <div class="actions">
-      <b-btn size="sm" variant="link" @click="screenFull" v-if="StageStreamId !== stream.id">
+      <b-btn size="sm" variant="link" @click="screenFull" v-show="StageStreamId !== stream.id">
         <Icon type="screen-full" width="22" height="22" />
       </b-btn>
-      <b-btn size="sm" variant="link" @click="screenNormal" v-if="StageStreamId === stream.id">
+      <b-btn size="sm" variant="link" @click="screenNormal" v-show="StageStreamId === stream.id">
         <Icon type="screen-normal" width="22" height="22" />
       </b-btn>
     </div>
