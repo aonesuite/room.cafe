@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -83,5 +85,23 @@ func main() {
 		router.GET("/room/:uuid", room.Info) // 房间信息
 	}
 
-	engine.Run(":" + config.GetString("app.port"))
+	// engine.Run(":" + config.GetString("app.port"))
+
+	srv := &http.Server{
+		Addr:    ":" + config.GetString("app.port"),
+		Handler: engine,
+	}
+
+	if config.GetString("app.mode") == gin.DebugMode {
+		fmt.Printf("Listening and serving HTTP on %s\n", srv.Addr)
+		if err := srv.ListenAndServeTLS("../../certificate/dev.room.cafe.crt", "../../certificate/dev.room.cafe.key"); err != nil {
+			os.Exit(1)
+		}
+
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		if err := srv.ListenAndServe(); err != nil {
+			os.Exit(1)
+		}
+	}
 }
