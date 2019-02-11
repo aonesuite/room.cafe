@@ -1,10 +1,11 @@
-import '@/assets/main.scss'
+import '@/assets/main.scss';
 
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
-import { Select, Option, OptionGroup, Tabs, TabPane } from 'element-ui'
+import { Select, Option, OptionGroup, Tabs, TabPane } from 'element-ui';
 import axios from 'axios';
+import { detect } from 'detect-browser';
 
 import App from './App.vue';
 import store from '@/store';
@@ -15,9 +16,9 @@ import Icon from "@/components/icons/Icon.vue";
 Vue.use(Vuex);
 Vue.use(BootstrapVue);
 
-Vue.component(Select.name, Select)
-Vue.component(Option.name, Option)
-Vue.component(OptionGroup.name, OptionGroup)
+Vue.component(Select.name, Select);
+Vue.component(Option.name, Option);
+Vue.component(OptionGroup.name, OptionGroup);
 
 Vue.use(Tabs);
 Vue.use(TabPane);
@@ -26,7 +27,7 @@ Vue.component(Icon.name, Icon);
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL
+axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
 axios.interceptors.request.use((config) =>{
   if (localStorage.token) {
@@ -35,7 +36,8 @@ axios.interceptors.request.use((config) =>{
   return config;
 });
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios;
+Vue.prototype.$browser = detect();
 
 new Vue({
   store,
