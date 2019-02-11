@@ -5,12 +5,14 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-import Video from "./Video.vue"                     // 摄像头
-import Chalkboard from "./Chalkboard.vue"           // 黑板
-import CommentAltLines from "./CommentAltLines.vue" // 评论，消息
-import Cog from "./Cog.vue"                         // 齿轮，设置
-import ScreenFull from "./ScreenFull.vue"           // 全屏
-import ScreenNormal from "./ScreenNormal.vue"           // 全屏
+import Video from "./Video.vue";                     // 摄像头
+import Chalkboard from "./Chalkboard.vue";           // 黑板
+import CommentAltLines from "./CommentAltLines.vue"; // 评论，消息
+import Cog from "./Cog.vue";                         // 齿轮，设置
+import ScreenFull from "./ScreenFull.vue";           // 进入全屏
+import ScreenNormal from "./ScreenNormal.vue";       // 退出全屏
+import ScreenEnter from "./ScreenEnter.vue";         // 进入全屏
+import ScreenExit from "./ScreenExit.vue";           // 退出全屏
 
 const icons: any = {
   "video": Video,
@@ -19,6 +21,8 @@ const icons: any = {
   "cog": Cog,
   "screen-full": ScreenFull,
   "screen-normal": ScreenNormal,
+  "screen-enter": ScreenEnter,
+  "screen-exit": ScreenExit,
 }
 
 @Component
