@@ -11,7 +11,7 @@ export class RTC extends QNRTC.TrackModeSession {
     super();
   }
 
-  // overwrite joinRoomWithToken method
+  // overwrite joinRoomWithToken method 加入房间
   public joinRoomWithToken(roomToken: string, user?: any): Promise<QNRTC.User[]> {
 
     const timestamp = Math.round(new Date().getTime() / 1000);
@@ -53,7 +53,7 @@ export class RTC extends QNRTC.TrackModeSession {
         this.streams.push(stream);
 
         stream.on("release", () => {
-          this.releaseStream(stream);
+          this.removeStream(stream);
         });
       }
     }
@@ -69,12 +69,12 @@ export class RTC extends QNRTC.TrackModeSession {
       this.streams.push(stream);
 
       stream.on("release", () => {
-        this.releaseStream(stream);
+        this.removeStream(stream);
       });
     }
   }
 
-  // overwrite publish method
+  // overwrite publish method 发布
   public publish(tracks: QNRTC.Track[]): Promise<void> {
     return super.publish(tracks).then(() => {
       this.addTracks(tracks, "send");
@@ -92,7 +92,7 @@ export class RTC extends QNRTC.TrackModeSession {
     return this.unpublish(trackIds);
   }
 
-  // overwrite unpublish method
+  // overwrite unpublish method 取消发布
   public unpublish(trackIds: string[]) {
     const tracks = this.publishedTracks.filter(t => trackIds.includes(t.info.trackId || ""));
     return super.unpublish(trackIds).then(() => {
@@ -103,7 +103,7 @@ export class RTC extends QNRTC.TrackModeSession {
   }
 
   // 释放 stream 清理 streams
-  public releaseStream(stream: Stream | undefined) {
+  private removeStream(stream: Stream | undefined) {
     if (stream === undefined) return;
     const index = this.streams.findIndex(s => s.userId === stream.userId && s.tag === stream.tag);
     if (index >= 0) this.streams.splice(index, 1);
@@ -122,5 +122,14 @@ export class RTC extends QNRTC.TrackModeSession {
     if (kind === "video" && stream.videoTrack) {
       this.muteTracks([{ trackId: stream.videoTrack.info.trackId as string, muted: muted }]);
     }
+  }
+
+  // overwrite leaveRoom method 离开房间
+  public leaveRoom() {
+    const streams = this.streams.filter(stream => stream.userId === this.userId);
+    for (const stream of streams) {
+      stream.release();
+    }
+    return super.leaveRoom();
   }
 }

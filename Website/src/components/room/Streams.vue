@@ -77,7 +77,7 @@ export default Vue.extend({
     },
 
     hangUp() {
-
+      this.RTC.leaveRoom();
     },
 
     switchVideo() {
