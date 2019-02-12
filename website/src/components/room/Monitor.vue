@@ -19,7 +19,8 @@
       <span v-if="stream.tag === 'screen'">'s Screensharing</span>
 
       <div class="audio-status" :class="{mute: stream.audioTrack.info.muted}" v-if="stream.audioTrack">
-        <canvas class="audio-wave" ref="audioWave" width="76" height="20"></canvas>
+        <canvas class="audio-wave" ref="audioWave" width="76" height="20" v-show="!stream.audioTrack.info.muted"></canvas>
+        <Icon type="microphone-slash" height="18" v-if="stream.audioTrack.info.muted" />
       </div>
     </div>
 

@@ -109,4 +109,18 @@ export class RTC extends QNRTC.TrackModeSession {
     if (index >= 0) this.streams.splice(index, 1);
   }
 
+  // 将本地发布的 stream 静音
+  public muteStream(tag: string, kind: string, muted: boolean) {
+    const stream = this.streams.find(stream => stream.tag === tag && stream.userId === this.userId);
+
+    if (stream === undefined) return;
+
+    if (kind === "audio" && stream.audioTrack) {
+      this.muteTracks([{ trackId: stream.audioTrack.info.trackId as string, muted: muted }]);
+    }
+
+    if (kind === "video" && stream.videoTrack) {
+      this.muteTracks([{ trackId: stream.videoTrack.info.trackId as string, muted: muted }]);
+    }
+  }
 }

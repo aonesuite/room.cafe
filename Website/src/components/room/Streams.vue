@@ -1,18 +1,16 @@
 <template>
   <div class="streams">
     <div class="actions">
-      <b-btn size="sm" variant="link" class="btn-microphone">
-        <Icon type="microphone" height="22" />
-        <Icon type="microphone-slash" height="22" />
+      <b-btn size="sm" variant="link" class="btn-microphone" @click="switchMicrophone">
+        <Icon :type="microphoneMuted ? 'microphone-slash' : 'microphone'" height="22" />
       </b-btn>
 
-      <b-btn size="sm" variant="link" class="btn-phone">
+      <b-btn size="sm" variant="link" class="btn-phone" @click="hangUp">
         <Icon type="phone" height="22" class="phone-hang-up" />
       </b-btn>
 
-      <b-btn size="sm" variant="link" class="btn-video">
-        <Icon type="video" height="22" />
-        <Icon type="video-slash" height="20" />
+      <b-btn size="sm" variant="link" class="btn-video" @click="switchVideo">
+        <Icon :type="videoMuted ? 'video-slash' : 'video'" height="22" />
       </b-btn>
     </div>
 
@@ -30,6 +28,13 @@ import Monitor from './Monitor.vue';
 export default Vue.extend({
   components: {
     Monitor
+  },
+
+  data() {
+    return {
+      microphoneMuted: false,
+      videoMuted: false,
+    }
   },
 
   computed: {
@@ -64,6 +69,20 @@ export default Vue.extend({
 
       tracks.map(track => track.setMaster(true));
       await this.RTC.publish(tracks);
+    },
+
+    switchMicrophone() {
+      this.RTC.muteStream("master", "audio", !this.microphoneMuted);
+      this.microphoneMuted = !this.microphoneMuted;
+    },
+
+    hangUp() {
+
+    },
+
+    switchVideo() {
+      this.RTC.muteStream("master", "video", !this.videoMuted);
+      this.videoMuted = !this.videoMuted;
     }
   },
 

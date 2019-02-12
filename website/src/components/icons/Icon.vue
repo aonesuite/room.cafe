@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
 import Video from "./Video.vue";                     // 摄像头
 import VideoSlash from "./VideoSlash.vue";           // 摄像头(禁用)
@@ -40,6 +40,11 @@ export default class Icon extends Vue {
   @Prop() private type!: string;
 
   currentIcon = icons[this.type];
+
+  @Watch('type', { immediate: true })
+  onIconTypeChanged(val: string, oldVal: string) {
+    this.currentIcon = icons[val];
+  }
 }
 </script>
 
