@@ -14,15 +14,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapState, mapGetters, mapMutations } from 'vuex';
+import Vue from "vue";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import * as QNRTC from "pili-rtc-web";
 
 export default Vue.extend({
   props: {
     tag: {
       type: String,
-      default: 'div',
+      default: "div",
     }
   },
 
@@ -34,42 +34,46 @@ export default Vue.extend({
   },
 
   computed: {
-    ...mapState('room', [
-      'RTC',
+    ...mapState("room", [
+      "RTC",
     ])
   },
 
   methods: {
     // 开始屏幕共享
     async startSharing() {
-      if (this.$browser.name === 'chrome') {
+      if (this.$browser.name === "chrome") {
         const isAvailable = await QNRTC.isChromeExtensionAvailable()
         if (!isAvailable) {
-          this.$root.$emit('bv::show::modal', 'SharingScreenExtensionModal');
+          this.$root.$emit("bv::show::modal", "SharingScreenExtensionModal");
           return
         }
       }
 
-      var tracks = await QNRTC.deviceManager.getLocalTracks({
-        screen: {
-          enabled: true,
-          tag: "screen",
-        }
-      });
+      try {
+        var tracks = await QNRTC.deviceManager.getLocalTracks({
+          screen: {
+            enabled: true,
+            tag: "screen",
+          }
+        });
 
-      await this.RTC.publish(tracks);
+        await this.RTC.publish(tracks);
 
-      this.trackReadyStateInterval = window.setInterval(() => {
-        for (const track of tracks) {
-          this.screenTrackReadyState = track.mediaTrack.readyState;
-        }
-      }, 1000);
+        this.trackReadyStateInterval = window.setInterval(() => {
+          for (const track of tracks) {
+            this.screenTrackReadyState = track.mediaTrack.readyState;
+          }
+        }, 1000);
+      } catch (error) {
+        this.screenTrackReadyState === "";
+      }
     },
 
     // 停止屏幕共享
     async stopSharing() {
       await this.RTC.unpublishWithTag("screen");
-      this.screenTrackReadyState === 'ended';
+      this.screenTrackReadyState === "ended";
     },
 
     switchScreenSharing() {
@@ -83,7 +87,7 @@ export default Vue.extend({
 
   watch: {
     screenTrackReadyState: async function(state) {
-      if (state === 'ended') {
+      if (state === "ended") {
         await this.stopSharing();
         window.clearInterval(this.trackReadyStateInterval);
       }
@@ -92,6 +96,10 @@ export default Vue.extend({
 
   created () {
 
+  },
+
+  destroyed() {
+    window.clearInterval(this.trackReadyStateInterval);
   }
 })
 </script>
