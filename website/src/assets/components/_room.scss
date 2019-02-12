@@ -49,6 +49,27 @@
   right: 0;
   text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
 
+  > .actions{
+    transform: translateX(-50%);
+    position: fixed;
+    left: 50%;
+    bottom: 150px;
+    z-index: 1;
+
+    .btn{
+      width: 56px;
+      height: 56px;
+      margin: 8px;
+      border-radius: 50%;
+      color: #FFF;
+      background-color: rgba($color: #000000, $alpha: 0.35);
+
+      &.btn-phone{
+        background-color: #db4437;
+      }
+    }
+  }
+
   .monitor{
     width: 176px;
     height: 99px;

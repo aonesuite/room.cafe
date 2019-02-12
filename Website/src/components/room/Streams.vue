@@ -1,5 +1,21 @@
 <template>
   <div class="streams">
+    <div class="actions">
+      <b-btn size="sm" variant="link" class="btn-microphone">
+        <Icon type="microphone" height="22" />
+        <Icon type="microphone-slash" height="22" />
+      </b-btn>
+
+      <b-btn size="sm" variant="link" class="btn-phone">
+        <Icon type="phone" height="22" class="phone-hang-up" />
+      </b-btn>
+
+      <b-btn size="sm" variant="link" class="btn-video">
+        <Icon type="video" height="22" />
+        <Icon type="video-slash" height="20" />
+      </b-btn>
+    </div>
+
     <Monitor :stream="stream" v-for="stream in RTC.streams" :key="`${stream.user.userId}_${stream.tag}`" />
   </div>
 </template>
