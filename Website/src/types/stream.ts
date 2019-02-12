@@ -71,14 +71,14 @@ export class Stream extends EventEmitter {
   /**
    * 释放这个流下的所有资源，包括流和用于播放流的媒体元素
    */
-  public release(): void {
+  public async release() {
     if (this.isDestroyed) {
       return;
     }
 
     for (let i = 0; i < this.trackList.length; i += 1) {
       const track = this.trackList[i];
-      track.release();
+      await track.release();
     }
 
     this.trackList = [];

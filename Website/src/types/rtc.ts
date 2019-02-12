@@ -126,11 +126,19 @@ export class RTC extends QNRTC.TrackModeSession {
   }
 
   // overwrite leaveRoom method 离开房间
-  public leaveRoom() {
+  public async leaveRoom() {
+    const tracks = this.publishedTracks
+    await this.unpublish(this.publishedTracks.map(track => track.info.trackId || ""));
+
+    for (const track of tracks) {
+      await track.release()
+    }
+
     const streams = this.streams.filter(stream => stream.userId === this.userId);
     for (const stream of streams) {
-      stream.release();
+      await stream.release();
     }
+
     super.leaveRoom();
     this.exited = true;
   }
