@@ -6,6 +6,7 @@ import { Stream } from '@/types/stream';
 export class RTC extends QNRTC.TrackModeSession {
 
   public streams: Stream[] = [];
+  public exited: boolean = false;
 
   public constructor() {
     super();
@@ -130,6 +131,7 @@ export class RTC extends QNRTC.TrackModeSession {
     for (const stream of streams) {
       stream.release();
     }
-    return super.leaveRoom();
+    super.leaveRoom();
+    this.exited = true;
   }
 }

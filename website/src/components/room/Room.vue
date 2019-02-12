@@ -6,7 +6,12 @@
     </div>
     -->
 
+
     <Navbar />
+
+    <div class="hint-exited" v-if="RTC.exited">
+      You left the interact room.
+    </div>
 
     <Streams v-if="RTC.roomState === 2" />
   </div>
