@@ -12,6 +12,8 @@ import (
 	"components/db"
 	"components/log"
 
+	"providers/white"
+
 	"room.cafe/models"
 )
 
@@ -32,11 +34,12 @@ func Info(c *gin.Context) {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "the room doesn't exist", "code": "ROOM_NOT_FOUND"})
 		} else {
 			log.Error("find room failed", result.Error)
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
 		}
 		return
 	}
 
+	// 获取 RTN token
 	rtcMgr := rtc.NewManager(&qbox.Mac{
 		AccessKey: config.GetString("qiniu.access_key"),
 		SecretKey: []byte(config.GetString("qiniu.secret_key")),
@@ -45,7 +48,7 @@ func Info(c *gin.Context) {
 	var err error
 	room.RTCToken, err = rtcMgr.GetRoomToken(rtc.RoomAccess{
 		AppID:      config.GetString("qiniu.rtn_appid"),
-		RoomName:   uuid,
+		RoomName:   room.UUID,
 		UserID:     currentUser.RoomUserID(),
 		ExpireAt:   time.Now().Unix() + 60*60*12,
 		Permission: "admin",
@@ -53,10 +56,21 @@ func Info(c *gin.Context) {
 
 	if err != nil {
 		log.Error("get rtn room token failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
+	// 获取白板 token
+	whiteClient := white.NewClient(config.GetString("herewhite.mini_token"), config.GetString("herewhite.host"))
+
+	room.WhiteboardToken, err = whiteClient.GetRoomToken(log, room.Whiteboard)
+	if err != nil {
+		log.Error("get join white room token failed", err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
+		return
+	}
+
+	// 获取房间人员
 	attendee := models.Attendee{
 		UserID: currentUser.ID,
 		RoomID: room.ID,
@@ -64,7 +78,7 @@ func Info(c *gin.Context) {
 
 	if err := database.FirstOrCreate(&attendee).Error; err != nil {
 		log.Error("room add attendee failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 

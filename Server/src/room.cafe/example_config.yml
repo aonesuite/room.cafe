@@ -16,6 +16,6 @@ qiniu:
   secret_key: secret_key
   rtn_appid:
   rtn_addr: https://rtc.qiniuapi.com
-white:
+herewhite:
   mini_token:
   host: https://cloudcapiv3.herewhite.com

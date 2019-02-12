@@ -8,11 +8,14 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/rtc"
-	"room.cafe/models"
 
 	"components/config"
 	"components/db"
 	"components/log"
+
+	"providers/white"
+
+	"room.cafe/models"
 )
 
 // CreateArgs create room args
@@ -36,14 +39,13 @@ func Create(c *gin.Context) {
 		}
 	}
 
-	mac := &qbox.Mac{
-		AccessKey: config.GetString("qiniu.access_key"),
-		SecretKey: []byte(config.GetString("qiniu.secret_key")),
-	}
-
 	uuid := bson.NewObjectId().Hex()
 
-	rtcMgr := rtc.NewManager(mac)
+	// 获取 RTN token
+	rtcMgr := rtc.NewManager(&qbox.Mac{
+		AccessKey: config.GetString("qiniu.access_key"),
+		SecretKey: []byte(config.GetString("qiniu.secret_key")),
+	})
 
 	roomAccess := rtc.RoomAccess{
 		AppID:      config.GetString("qiniu.rtn_appid"),
@@ -60,16 +62,28 @@ func Create(c *gin.Context) {
 		return
 	}
 
+	// 获取白板 token
+	whiteClient := white.NewClient(config.GetString("herewhite.mini_token"), config.GetString("herewhite.host"))
+	whiteArgs := white.ReqCreateWhite{Name: uuid, Limit: 100}
+	whiteRet, err := whiteClient.CreateWhite(log, whiteArgs)
+	if err != nil {
+		log.Error("create white room failed", err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		return
+	}
+
 	database := db.Get(log.ReqID())
 	database = database.Begin()
 
 	room := models.Room{
-		UUID:     uuid,
-		Name:     args.Name,
-		Private:  args.Private,
-		Owner:    currentUser.ID,
-		RTC:      roomAccess.RoomName,
-		RTCToken: roomToken,
+		UUID:            uuid,
+		Name:            args.Name,
+		Private:         args.Private,
+		Owner:           currentUser.ID,
+		RTC:             roomAccess.RoomName,
+		RTCToken:        roomToken,
+		Whiteboard:      whiteRet.Room.UUID,
+		WhiteboardToken: whiteRet.RoomToken,
 	}
 
 	// 创建房间

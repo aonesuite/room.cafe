@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
+	"components/config"
 	"components/db"
 	"components/log"
 	"components/testhelper"
@@ -25,7 +27,26 @@ const (
 
 var router *gin.Engine
 
+func mock() *httptest.Server {
+	r := gin.New()
+
+	r.POST("/room", func(c *gin.Context) {
+		c.Writer.WriteHeader(200)
+		c.Writer.Write([]byte(`{"code":200,"msg":{"roomToken":"222222222", "room":{"uuid":"1232321312312321"}}}`))
+	})
+
+	r.POST("/room/join", func(c *gin.Context) {
+		c.JSON(200, gin.H{"code": 200, "msg": gin.H{"roomToken": "12134552312"}})
+	})
+
+	return httptest.NewServer(r)
+}
+
 func init() {
+
+	server := mock()
+	config.Set("herewhite.mini_token", "herewhite_mini_token")
+	config.Set("herewhite.host", server.URL)
 
 	testhelper.InitTestDatabase()
 
@@ -70,7 +91,10 @@ func TestCreate(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &room)
 	assert.Nil(err)
 	assert.NotEmpty(room.UUID)
+	assert.NotEmpty(room.Owner)
 	assert.NotEmpty(room.RTCToken)
+	assert.NotEmpty(room.Whiteboard)
+	assert.NotEmpty(room.WhiteboardToken)
 
 	rooms = append(rooms, room)
 
@@ -105,6 +129,9 @@ func TestInfo(t *testing.T) {
 		err := json.Unmarshal(w.Body.Bytes(), &room)
 		assert.Nil(err)
 		assert.NotEmpty(room.UUID)
+		assert.NotEmpty(room.Owner)
 		assert.NotEmpty(room.RTCToken)
+		assert.NotEmpty(room.Whiteboard)
+		assert.NotEmpty(room.WhiteboardToken)
 	}
 }

@@ -1,3 +1,6 @@
+// Package white whiteboard provider
+// 开发文档： https://developer.herewhite.com/
+// 开发者控制台： https://console.herewhite.com/
 package white
 
 import (
@@ -5,23 +8,23 @@ import (
 	"net/http"
 	"time"
 
-	"components/config"
 	"components/log"
 	"components/rpc"
 )
 
-type WhiteClient struct {
+// Client herewhite client
+type Client struct {
 	miniToken string
 	host      string
 	client    *rpc.Client
 }
 
-// NewWhiteClient 新建一个白板客户端
-func NewWhiteClient() *WhiteClient {
-	return &WhiteClient{
-		config.GetString("herewhite.mini_token"),
-		config.GetString("herewhite.host"),
-		&rpc.Client{Client: http.DefaultClient},
+// NewClient 新建一个白板客户端
+func NewClient(miniToken, host string) *Client {
+	return &Client{
+		miniToken: miniToken,
+		host:      host,
+		client:    &rpc.Client{Client: http.DefaultClient},
 	}
 }
 
@@ -58,7 +61,7 @@ type CreateWhiteResp struct {
 }
 
 // CreateWhite 创建白板
-func (wc *WhiteClient) CreateWhite(l *log.Logger, req ReqCreateWhite) (res CreateWhiteResp, err error) {
+func (wc *Client) CreateWhite(l *log.Logger, req ReqCreateWhite) (res CreateWhiteResp, err error) {
 	var (
 		resp struct {
 			WhiteReturnCode
@@ -77,7 +80,7 @@ func (wc *WhiteClient) CreateWhite(l *log.Logger, req ReqCreateWhite) (res Creat
 }
 
 // GetWhite 获取白板信息
-func (wc *WhiteClient) GetWhite(l *log.Logger, uuid string) (res Info, err error) {
+func (wc *Client) GetWhite(l *log.Logger, uuid string) (res Info, err error) {
 	var (
 		resp struct {
 			WhiteReturnCode
@@ -96,7 +99,7 @@ func (wc *WhiteClient) GetWhite(l *log.Logger, uuid string) (res Info, err error
 }
 
 // DeleteWhite 删除房间
-func (wc *WhiteClient) DeleteWhite(l *log.Logger, uuid string) (err error) {
+func (wc *Client) DeleteWhite(l *log.Logger, uuid string) (err error) {
 	resp := WhiteReturnCode{}
 	err = wc.client.CallWithJSON(l, &resp, fmt.Sprintf("%s/room/close?token=%s", wc.host, wc.miniToken), map[string]string{"uuid": uuid})
 	if err != nil || resp.Code != 200 {
@@ -111,7 +114,7 @@ type RoomToken struct {
 }
 
 // GetRoomToken 获取加入房间需要用到的token
-func (wc *WhiteClient) GetRoomToken(l *log.Logger, uuid string) (rt RoomToken, err error) {
+func (wc *Client) GetRoomToken(l *log.Logger, uuid string) (token string, err error) {
 	var resp struct {
 		WhiteReturnCode
 		Msg RoomToken `json:"msg"`
@@ -124,6 +127,6 @@ func (wc *WhiteClient) GetRoomToken(l *log.Logger, uuid string) (rt RoomToken, e
 		return
 	}
 
-	rt = resp.Msg
+	token = resp.Msg.RoomToken
 	return
 }
