@@ -24,6 +24,7 @@ const icons: any = {
   "video-slash": VideoSlash,
   "microphone": Microphone,
   "microphone-slash": MicrophoneSlash,
+  "phone": Phone,
   "chalkboard": Chalkboard,
   "comment-alt-lines": CommentAltLines,
   "cog": Cog,
@@ -41,3 +42,9 @@ export default class Icon extends Vue {
   currentIcon = icons[this.type];
 }
 </script>
+
+<style lang="scss">
+.phone-hang-up{
+  transform: rotate(0.6251turn);
+}
+</style>
