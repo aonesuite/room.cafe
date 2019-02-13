@@ -1,0 +1,369 @@
+.svg-whiteboard .textarea-layout {
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+.svg-whiteboard .textarea-layout > * {
+  position: absolute;
+  pointer-events: auto;
+}
+.svg-whiteboard .textarea-shadow {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.svg-whiteboard .textarea-shadow > * {
+  position: absolute;
+}
+.svg-whiteboard .textarea-shadow > span {
+  padding: 3px;
+  border: 1px dashed dodgerblue;
+}
+.svg-whiteboard .textarea-shadow > textarea,
+.svg-whiteboard .textarea-layout > div.textarea-wrapper > textarea {
+  -webkit-appearance: none;
+  padding: 0;
+  outline: none;
+  border: none;
+  resize: none;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.7);
+}
+.svg-whiteboard .tag-boxes-fixed {
+  z-index: 2;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.svg-whiteboard .tag-boxes-fixed > * {
+  position: absolute;
+}
+.svg-whiteboard .tag-boxes-shadow {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.svg-whiteboard .tag-boxes-shadow > * {
+  position: absolute;
+}
+.svg-background {
+  width: 100%;
+  height: 100%;
+}
+.svg-whiteboard {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  overflow: hidden;
+}
+.svg-whiteboard .svg-background {
+  width: 100%;
+  height: 100%;
+}
+.svg-whiteboard .svg-background svg {
+  width: 100%;
+  height: 100%;
+}
+.whiteboard-hand {
+  cursor: url("https://sdk.herewhite.com/resource/mouse-cursor/hand-cursor.svg") 0 0, auto;
+  cursor: -webkit-image-set(url("https://sdk.herewhite.com/resource/mouse-cursor/hand-cursor.svg") 1x, url("https://sdk.herewhite.com/resource/mouse-cursor/hand-cursor%402x.png") 2x) 0 0, auto;
+}
+.whiteboard-hand {
+  cursor: url("https://sdk.herewhite.com/resource/mouse-cursor/hand-cursor.svg") 0 0, auto;
+  cursor: -webkit-image-set(url("https://sdk.herewhite.com/resource/mouse-cursor/hand-cursor.svg") 1x, url("https://sdk.herewhite.com/resource/mouse-cursor/hand-cursor%402x.png") 2x) 0 0, auto;
+}
+.whiteboard-selector {
+  cursor: url("https://sdk.herewhite.com/resource/mouse-cursor/selector-cursor.png") 5 4, auto;
+  cursor: -webkit-image-set(url("https://sdk.herewhite.com/resource/mouse-cursor/selector-cursor.png") 1x, url("https://sdk.herewhite.com/resource/mouse-cursor/selector-cursor%402x.png") 2x) 5 4, auto;
+}
+.whiteboard-pencil {
+  cursor: url("https://sdk.herewhite.com/resource/mouse-cursor/pencil-cursor.png") 2 22, auto;
+  cursor: -webkit-image-set(url("https://sdk.herewhite.com/resource/mouse-cursor/pencil-cursor.png") 1x, url("https://sdk.herewhite.com/resource/mouse-cursor/pencil-cursor%402x.png") 2x) 2 22, auto;
+}
+.whiteboard-eraser {
+  cursor: url("https://sdk.herewhite.com/resource/mouse-cursor/easer-cursor.png") 8 18, auto;
+  cursor: -webkit-image-set(url("https://sdk.herewhite.com/resource/mouse-cursor/easer-cursor.png") 1x, url("https://sdk.herewhite.com/resource/mouse-cursor/easer-cursor%402x.png") 2x) 8 18, auto;
+}
+.whiteboard-rectangle {
+  cursor: crosshair;
+}
+.whiteboard-ellipse {
+  cursor: crosshair;
+}
+.whiteboard-text {
+  cursor: text;
+}
+.svg-whiteboard .tag-boxes-fixed > div.highlight-box {
+  border: 1px solid;
+  box-shadow: 0 0 1px 0 #FFFFFF, inset 0 0 1px 0 #FFFFFF;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > *.cursor-nwse,
+.svg-whiteboard .tag-boxes-fixed > div.editor-box-mask.cursor-nwse {
+  cursor: nwse-resize;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > *.cursor-nesw,
+.svg-whiteboard .tag-boxes-fixed > div.editor-box-mask.cursor-nesw {
+  cursor: nesw-resize;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > *.cursor-ns,
+.svg-whiteboard .tag-boxes-fixed > div.editor-box-mask.cursor-ns {
+  cursor: ns-resize;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > *.cursor-ew,
+.svg-whiteboard .tag-boxes-fixed > div.editor-box-mask.cursor-ew {
+  cursor: ew-resize;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box {
+  pointer-events: none;
+  border: 1px solid;
+  box-shadow: 0 0 1px 0 #FFFFFF, inset 0 0 1px 0 #FFFFFF;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > div.operation-point-desktop {
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  pointer-events: auto;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > div.operation-point-touch {
+  width: 33px;
+  height: 33px;
+  position: absolute;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > div.operation-point-touch > * {
+  pointer-events: none;
+  width: 7px;
+  height: 7px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.left-top {
+  left: -4px;
+  top: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.right-top {
+  right: -4px;
+  top: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.left-bottom {
+  left: -4px;
+  bottom: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.right-bottom {
+  right: -4px;
+  bottom: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.top {
+  top: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.right {
+  right: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.bottom {
+  bottom: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-desktop.left {
+  left: -4px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.left-top {
+  left: -17px;
+  top: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.right-top {
+  right: -17px;
+  top: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.left-bottom {
+  left: -17px;
+  bottom: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.right-bottom {
+  right: -17px;
+  bottom: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.top {
+  top: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.right {
+  right: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.bottom {
+  bottom: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box > .operation-point-touch.left {
+  left: -17px;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box-mask {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.svg-whiteboard .tag-boxes-fixed > div.editor-box-others {
+  border: 1px solid;
+}
+.svg-whiteboard .tag-boxes-fixed > div.selected-group {
+  border: 1px solid;
+  box-shadow: 0 0 1px 0 #FFFFFF, inset 0 0 1px 0 #FFFFFF;
+}
+.svg-whiteboard .tag-boxes-fixed > div.textarea-box {
+  border: 1px dashed;
+}
+
+// --------------------------------------------------------------------
+
+#whiteboard{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  background: #FFF;
+
+  &.active{ z-index: 999; }
+}
+
+#whiteboard-main{
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+#whiteboard-toolbar{
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  border-top-left-radius: 15px;
+  background: rgba($color: #FFF, $alpha: 0.75);
+  box-shadow: 0 0 0.5rem 0.1rem rgba($color: #FFF, $alpha: 0.25);
+
+  &:hover{
+    background: #f0f5f8;
+    box-shadow: 0 0 0.5rem 0.1rem rgba($color: #000, $alpha: 0.25);
+  }
+
+  #appliances {
+    .nav{
+      float: left;
+    }
+    .nav-item{
+      margin: 0 5px;
+    }
+    .btn{
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      color: rgb(133, 139, 144);
+      text-align: center;
+      background: transparent;
+
+      &:hover, &.active{
+        color: #FFF;
+        background-color: #81D8D0;
+      }
+    }
+  }
+}
+
+#appliance-popover-container{
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  .arrow{
+    display: none;
+  }
+
+  .popover{
+    max-width: 420px;
+    margin-bottom: 15px;
+  }
+
+  .fade {
+    -webkit-transition: opacity 0.055s linear;
+    transition: opacity 0.055s linear;
+  }
+
+  .appliance-toolbar{
+    .btn-group{ min-height: 36px; margin-right: 8px; }
+    .btn-group:last-child{ margin-right: 0; }
+  }
+  .stroke-colors{
+    padding-top: 6px;
+    .btn{
+      width: 25px;
+      height: 25px;
+      border-color: #FFF;
+    }
+    .red{ background: rgb(234, 41, 41); }
+    .red.active{ box-shadow: 0 0 0 0.2rem rgba(234, 41, 41, 0.5); }
+
+    .orange{ background: rgb(249, 156, 61); }
+    .orange.active{ box-shadow: 0 0 0 0.2rem rgba(249, 156, 61, 0.65); }
+
+    .yellow{ background: rgb(254, 213, 114); }
+    .yellow.active{ box-shadow: 0 0 0 0.2rem rgba(254, 213, 114, 0.85); }
+
+    .blue{ background: rgb(92, 173, 234); }
+    .blue.active{ box-shadow: 0 0 0 0.2rem rgba(92, 173, 234, 0.65); }
+
+    .tiffany{ background: rgb(129, 216, 208); }
+    .tiffany.active{ box-shadow: 0 0 0 0.2rem rgba(129, 216, 208, 0.85); }
+
+    .gray{ background: rgb(189, 189, 189); }
+    .gray.active{ box-shadow: 0 0 0 0.2rem rgba(189, 189, 189, 0.65); }
+  }
+  .stroke-widths{
+    .btn{
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin: 0 2px;
+      padding: 0.375rem 0.5rem;
+      border-color: transparent;
+      background: transparent;
+
+      &::after{
+        display: block;
+        content: '';
+        background: #979797;
+      }
+      &.active{
+        border-color: #81D8D0;
+        box-shadow: 0 0 0 0.2rem rgba($color: #81D8D0, $alpha: 0.15);
+      }
+    }
+    .fine::after  { height: 1px; }
+    .normal::after{ height: 2px; }
+    .bold::after  { height: 3px; }
+  }
+  .stroke-text{
+    label{
+      margin-right: 5px;
+      font-size: 14px;
+    }
+  }
+}

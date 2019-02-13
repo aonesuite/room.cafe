@@ -6,12 +6,13 @@
     </div>
     -->
 
-
     <Navbar />
 
     <div class="hint-exited" v-if="RTC.exited">
       You left the interact room.
     </div>
+
+    <WhiteBoard v-if="roomInfo.whiteboard_id && roomInfo.whiteboard_token" />
 
     <Streams v-if="RTC.roomState === 2" />
   </div>
@@ -25,12 +26,14 @@ import * as Clarity from '../../constants/clarity'
 
 import Navbar from './Navbar.vue';
 import Streams from './Streams.vue';
+import WhiteBoard from './WhiteBoard.vue';
 
 export default Vue.extend({
 
   components: {
     Navbar,
-    Streams
+    Streams,
+    WhiteBoard
   },
 
   computed: {

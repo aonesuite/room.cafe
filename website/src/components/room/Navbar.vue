@@ -48,6 +48,20 @@
         <li class="nav-item" v-if="signedIn">
           <a class="nav-link" href="">{{ user.name }}</a>
         </li>
+
+        <!--
+        <b-btn size="sm" variant="link" class="btn-phone" @click="RTC.leaveRoom()" v-if="RTC.userId === stream.userId">
+          <Icon type="phone" height="22" class="phone-hang-up" />
+        </b-btn>
+
+        <b-btn size="sm" variant="link" class="btn-microphone" @click="RTC.muteStream(stream.tag, 'audio', !stream.audioTrack.info.muted)" v-if="RTC.userId === stream.userId && stream.audioTrack">
+          <Icon :type="stream.audioTrack.info.muted ? 'microphone-slash' : 'microphone'" height="22" />
+        </b-btn>
+
+        <b-btn size="sm" variant="link" class="btn-video" @click="RTC.muteStream(stream.tag, 'video', !stream.videoTrack.info.muted)" v-if="RTC.userId === stream.userId && stream.videoTrack">
+          <Icon :type="stream.videoTrack.info.muted ? 'video-slash' : 'video'" height="22" />
+        </b-btn>
+        -->
       </b-navbar-nav>
     </b-collapse>
 
