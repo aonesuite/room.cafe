@@ -25,11 +25,8 @@
     </div>
 
     <div class="actions">
-      <b-btn size="sm" variant="link" @click="screenFull" v-show="StageStreamId !== stream.id">
-        <Icon type="screen-full" width="22" height="22" />
-      </b-btn>
-      <b-btn size="sm" variant="link" @click="screenNormal" v-show="StageStreamId === stream.id">
-        <Icon type="screen-normal" width="22" height="22" />
+      <b-btn size="sm" variant="link" @click="setStageStreamId(StageStreamId === stream.id ? '' : stream.id)">
+        <Icon :type="StageStreamId === stream.id ? 'screen-normal' : 'screen-full'" height="22" />
       </b-btn>
     </div>
 
