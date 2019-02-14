@@ -60,7 +60,7 @@ export default {
   },
 
   destroyed() {
-
+    this.whiteboard.disconnect()
   }
 }
 </script>
