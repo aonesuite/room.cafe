@@ -17,6 +17,7 @@
 }
 
 .navbar-room{
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
   background-color: #000;
   border-bottom: 1px solid;
 
@@ -34,6 +35,9 @@
   .navbar-nav{
     .nav-link,
     .btn-link{
+      min-width: 42px;
+      padding: 0.25rem 0.25rem;
+      text-align: center;
       color: rgba($color: #FFF, $alpha: 0.95);
       &:hover{
         color: rgba($color: #FFF, $alpha: 1);

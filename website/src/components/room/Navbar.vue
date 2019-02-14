@@ -2,7 +2,7 @@
   <b-navbar toggleable="md" fixed="top" type="dark" class="navbar-room">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <b-navbar-brand href="/">
+    <b-navbar-brand>
       <span>ROOM CAFE</span>
       <img src="@/assets/images/logo.svg" alt="ROOM CAFE" width="24">
 
@@ -29,14 +29,14 @@
         <!-- 音频开关 -->
         <li class="nav-item">
           <b-btn size="sm" variant="link" class="btn-microphone" v-b-tooltip.hover :title="microphoneMuted ? 'Open microphone' : 'Mute microphone'" @click="switchMicrophone">
-            <Icon :type="microphoneMuted ? 'microphone-slash' : 'microphone'" width="22" height="22" />
+            <Icon :type="microphoneMuted ? 'microphone-slash' : 'microphone'" height="22" />
           </b-btn>
         </li>
 
         <!-- 视频开关 -->
         <li class="nav-item">
           <b-btn size="sm" variant="link" class="btn-video" v-b-tooltip.hover :title="videoMuted ? 'Open video' : 'Mute video'" @click="switchVideo">
-            <Icon :type="videoMuted ? 'video-slash' : 'video'" width="22" height="22" />
+            <Icon :type="videoMuted ? 'video-slash' : 'video'" height="22" />
           </b-btn>
         </li>
 
@@ -50,7 +50,7 @@
         <!-- 设置 -->
         <li class="nav-item">
           <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Settings">
-            <Icon type="cog" width="22" height="22" />
+            <Icon type="cog" height="22" />
           </b-btn>
         </li>
 
