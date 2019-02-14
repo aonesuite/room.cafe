@@ -229,6 +229,16 @@
 
 // --------------------------------------------------------------------
 
+// fixed
+.svg-whiteboard.crosshair {
+  cursor: crosshair;
+}
+.svg-whiteboard.text {
+  cursor: text;
+}
+
+// --------------------------------------------------------------------
+
 #whiteboard{
   position: absolute;
   bottom: 0;
@@ -244,126 +254,70 @@
 #whiteboard-main{
   position: absolute;
   bottom: 0;
-  left: 50px;
+  left: 0;
   right: 0;
   top: 0;
   z-index: 1;
 }
 
-#whiteboard-toolbar{
-  padding: 10px;
+.toolbar{
+  width: 50px;
+  padding: 5px;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  left: 10px;
+  top: 50%;
   z-index: 2;
-  border-top-left-radius: 15px;
-  background: rgba($color: #FFF, $alpha: 0.75);
+  transform: translateY(-60%);
+  border-radius: 5px;
+  text-align: center;
+  background: rgba($color: #FFF, $alpha: 0.85);
   box-shadow: 0 0 0.5rem 0.1rem rgba($color: #FFF, $alpha: 0.25);
 
   &:hover{
     background: #f0f5f8;
-    box-shadow: 0 0 0.5rem 0.1rem rgba($color: #000, $alpha: 0.25);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.26);
   }
 
-  #appliances {
-    .nav{
-      float: left;
-    }
-    .nav-item{
-      margin: 0 5px;
-    }
-    .btn{
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      color: rgb(133, 139, 144);
-      text-align: center;
-      background: transparent;
+  .btn{
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin: 3px 0;
+    border-radius: 50%;
+    color: rgb(133, 139, 144);
+    text-align: center;
+    background: transparent;
 
-      &:hover, &.active{
-        color: #FFF;
-        background-color: #81D8D0;
+    &:hover, &.active{
+      color: #000;
+      background-color: rgba($color: #000, $alpha: 0.05);
+    }
+  }
+
+  .color-picker{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 3px 0;
+    padding: 5px 0;
+
+    &:hover, &.active{
+      color: #000;
+      background-color: rgba($color: #000, $alpha: 0.05);
+    }
+
+    .el-color-picker__trigger{
+      width: 28px;
+      height: 28px;
+
+      padding: 3px;
+      .el-color-picker__color{
+        border: none;
       }
     }
   }
 }
 
-#appliance-popover-container{
-  position: absolute;
-  left: 0;
-  right: 0;
-
-  .arrow{
-    display: none;
-  }
-
-  .popover{
-    max-width: 420px;
-    margin-bottom: 15px;
-  }
-
-  .fade {
-    -webkit-transition: opacity 0.055s linear;
-    transition: opacity 0.055s linear;
-  }
-
-  .appliance-toolbar{
-    .btn-group{ min-height: 36px; margin-right: 8px; }
-    .btn-group:last-child{ margin-right: 0; }
-  }
-  .stroke-colors{
-    padding-top: 6px;
-    .btn{
-      width: 25px;
-      height: 25px;
-      border-color: #FFF;
-    }
-    .red{ background: rgb(234, 41, 41); }
-    .red.active{ box-shadow: 0 0 0 0.2rem rgba(234, 41, 41, 0.5); }
-
-    .orange{ background: rgb(249, 156, 61); }
-    .orange.active{ box-shadow: 0 0 0 0.2rem rgba(249, 156, 61, 0.65); }
-
-    .yellow{ background: rgb(254, 213, 114); }
-    .yellow.active{ box-shadow: 0 0 0 0.2rem rgba(254, 213, 114, 0.85); }
-
-    .blue{ background: rgb(92, 173, 234); }
-    .blue.active{ box-shadow: 0 0 0 0.2rem rgba(92, 173, 234, 0.65); }
-
-    .tiffany{ background: rgb(129, 216, 208); }
-    .tiffany.active{ box-shadow: 0 0 0 0.2rem rgba(129, 216, 208, 0.85); }
-
-    .gray{ background: rgb(189, 189, 189); }
-    .gray.active{ box-shadow: 0 0 0 0.2rem rgba(189, 189, 189, 0.65); }
-  }
-  .stroke-widths{
-    .btn{
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      margin: 0 2px;
-      padding: 0.375rem 0.5rem;
-      border-color: transparent;
-      background: transparent;
-
-      &::after{
-        display: block;
-        content: '';
-        background: #979797;
-      }
-      &.active{
-        border-color: #81D8D0;
-        box-shadow: 0 0 0 0.2rem rgba($color: #81D8D0, $alpha: 0.15);
-      }
-    }
-    .fine::after  { height: 1px; }
-    .normal::after{ height: 2px; }
-    .bold::after  { height: 3px; }
-  }
-  .stroke-text{
-    label{
-      margin-right: 5px;
-      font-size: 14px;
-    }
-  }
+.whiteboard-color-picker-panel{
+  .el-color-dropdown__value{ display: none; }
 }
