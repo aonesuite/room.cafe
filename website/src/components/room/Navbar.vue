@@ -5,6 +5,8 @@
     <b-navbar-brand href="/">
       <span>ROOM CAFE</span>
       <img src="@/assets/images/logo.svg" alt="ROOM CAFE" width="24">
+
+      <small class="ml-2" v-if="signedIn">{{ user.name }}</small>
     </b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
@@ -58,11 +60,6 @@
             <Icon type="sign-out-alt" height="22" />
           </b-btn>
         </li>
-
-        <!-- <li class="nav-item" v-if="signedIn">
-          <a class="nav-link" href="">{{ user.name }}</a>
-        </li> -->
-
       </b-navbar-nav>
     </b-collapse>
 
