@@ -37,6 +37,7 @@
       color: rgba($color: #FFF, $alpha: 0.95);
       &:hover{
         color: rgba($color: #FFF, $alpha: 1);
+        background: rgba($color: #FFF, $alpha: 0.15);
       }
     }
   }

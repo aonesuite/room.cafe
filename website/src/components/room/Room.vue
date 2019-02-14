@@ -12,7 +12,7 @@
       You left the interact room.
     </div>
 
-    <WhiteBoard v-if="roomInfo.whiteboard_id && roomInfo.whiteboard_token" />
+    <WhiteBoard v-if="RTC.roomState === 2 && roomInfo.whiteboard_id && roomInfo.whiteboard_token" />
 
     <Streams v-if="RTC.roomState === 2" />
   </div>

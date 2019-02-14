@@ -1,5 +1,5 @@
 <template>
-  <component :class="`icon-${type}`" v-bind:is="currentIcon"></component>
+  <component role="img" :class="`icon-${type}`" v-bind:is="currentIcon"></component>
 </template>
 
 <script lang="ts">
@@ -18,21 +18,24 @@ import ScreenNormal from "./ScreenNormal.vue";       // 退出全屏
 import ScreenEnter from "./ScreenEnter.vue";         // 进入全屏
 import ScreenExit from "./ScreenExit.vue";           // 退出全屏
 import ScreenShare from "./ScreenShare.vue";         // 屏幕分享
+import SignOutAlt from "./SignOutAlt.vue";           // 退出
+
 
 const icons: any = {
-  "video": Video,
-  "video-slash": VideoSlash,
-  "microphone": Microphone,
-  "microphone-slash": MicrophoneSlash,
-  "phone": Phone,
-  "chalkboard": Chalkboard,
+  "video":             Video,
+  "video-slash":       VideoSlash,
+  "microphone":        Microphone,
+  "microphone-slash":  MicrophoneSlash,
+  "phone":             Phone,
+  "chalkboard":        Chalkboard,
   "comment-alt-lines": CommentAltLines,
-  "cog": Cog,
-  "screen-full": ScreenFull,
-  "screen-normal": ScreenNormal,
-  "screen-enter": ScreenEnter,
-  "screen-exit": ScreenExit,
-  "screen-share": ScreenShare,
+  "cog":               Cog,
+  "screen-full":       ScreenFull,
+  "screen-normal":     ScreenNormal,
+  "screen-enter":      ScreenEnter,
+  "screen-exit":       ScreenExit,
+  "screen-share":      ScreenShare,
+  "sign-out-alt":      SignOutAlt,
 }
 
 @Component

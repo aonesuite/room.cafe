@@ -1,7 +1,7 @@
 <template>
   <component :is="tag">
     <b-btn size="sm" variant="link" v-b-tooltip.hover :title="screenTrackReadyState === 'live' ? 'Stop Sharescreen' : 'Share screen'" @click="switchScreenSharing">
-      <Icon type="screen-share" width="22" height="22" />
+      <Icon type="screen-share" height="22" />
     </b-btn>
 
     <!-- Chrome 屏幕共享插件安装提示 -->
