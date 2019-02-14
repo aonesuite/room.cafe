@@ -10,58 +10,59 @@
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="ml-auto">
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('video')" v-b-tooltip.hover title="Video Call">
-            <Icon type="video" width="22" height="22" />
-          </b-btn>
-        </li>
-
-        <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="Whiteboard">
-            <Icon type="chalkboard" width="22" height="22" />
+          <b-btn size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="WhiteBoard">
+            <Icon type="chalkboard" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item">
           <b-btn size="sm" variant="link" @click="component('im')" v-b-tooltip.hover title="Chat">
-            <Icon type="comment-alt-lines" width="22" height="22" />
+            <Icon type="comment-alt-lines" height="22" />
           </b-btn>
         </li>
 
         <!-- 屏幕共享 -->
         <ShareScreen tag="li" class="nav-item" v-if="$browser.name === 'chrome' || $browser.name === 'firefox'" />
 
+        <!-- 音频开关 -->
+        <li class="nav-item">
+          <b-btn size="sm" variant="link" class="btn-microphone" v-b-tooltip.hover :title="microphoneMuted ? 'Open microphone' : 'Mute microphone'" @click="switchMicrophone">
+            <Icon :type="microphoneMuted ? 'microphone-slash' : 'microphone'" width="22" height="22" />
+          </b-btn>
+        </li>
+
+        <!-- 视频开关 -->
+        <li class="nav-item">
+          <b-btn size="sm" variant="link" class="btn-video" v-b-tooltip.hover :title="videoMuted ? 'Open video' : 'Mute video'" @click="switchVideo">
+            <Icon :type="videoMuted ? 'video-slash' : 'video'" width="22" height="22" />
+          </b-btn>
+        </li>
+
         <!-- 全屏 -->
         <li class="nav-item" v-if="fullscreenEnabled">
           <b-btn size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
-            <Icon type="screen-full" width="22" height="22" v-show="!isFullscreen" />
-            <Icon type="screen-normal" width="22" height="22" v-show="isFullscreen" />
+            <Icon :type="isFullscreen ? 'screen-normal' : 'screen-full'" height="22" />
           </b-btn>
         </li>
 
         <!-- 设置 -->
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Setting">
+          <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Settings">
             <Icon type="cog" width="22" height="22" />
           </b-btn>
         </li>
 
-        <li class="nav-item" v-if="signedIn">
-          <a class="nav-link" href="">{{ user.name }}</a>
+        <!-- 退出 -->
+        <li class="nav-item">
+          <b-btn size="sm" variant="link" class="btn-phone" @click="exit" v-b-tooltip.hover title="Exit">
+            <Icon type="sign-out-alt" height="22" />
+          </b-btn>
         </li>
 
-        <!--
-        <b-btn size="sm" variant="link" class="btn-phone" @click="RTC.leaveRoom()" v-if="RTC.userId === stream.userId">
-          <Icon type="phone" height="22" class="phone-hang-up" />
-        </b-btn>
+        <!-- <li class="nav-item" v-if="signedIn">
+          <a class="nav-link" href="">{{ user.name }}</a>
+        </li> -->
 
-        <b-btn size="sm" variant="link" class="btn-microphone" @click="RTC.muteStream(stream.tag, 'audio', !stream.audioTrack.info.muted)" v-if="RTC.userId === stream.userId && stream.audioTrack">
-          <Icon :type="stream.audioTrack.info.muted ? 'microphone-slash' : 'microphone'" height="22" />
-        </b-btn>
-
-        <b-btn size="sm" variant="link" class="btn-video" @click="RTC.muteStream(stream.tag, 'video', !stream.videoTrack.info.muted)" v-if="RTC.userId === stream.userId && stream.videoTrack">
-          <Icon :type="stream.videoTrack.info.muted ? 'video-slash' : 'video'" height="22" />
-        </b-btn>
-        -->
       </b-navbar-nav>
     </b-collapse>
 
@@ -89,7 +90,9 @@ export default Vue.extend({
   data () {
     return {
       fullscreenEnabled: false,
-      isFullscreen: false
+      isFullscreen: false,
+      microphoneMuted: false,
+      videoMuted: false,
     }
   },
 
@@ -97,6 +100,11 @@ export default Vue.extend({
     ...mapState("user", [
       "signedIn",
       "user"
+    ]),
+
+    ...mapState("room", [
+      "roomInfo",
+      "RTC"
     ])
   },
 
@@ -126,6 +134,20 @@ export default Vue.extend({
       } else {
         this.$root.$emit('bv::show::modal', 'QuickStartModal');
       }
+    },
+
+    switchMicrophone() {
+      this.RTC.muteStream("master", "audio", !this.microphoneMuted);
+      this.microphoneMuted = !this.microphoneMuted;
+    },
+
+    switchVideo() {
+      this.RTC.muteStream("master", "video", !this.videoMuted);
+      this.videoMuted = !this.videoMuted;
+    },
+
+    exit() {
+      this.RTC.leaveRoom()
     }
   },
 
