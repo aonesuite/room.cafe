@@ -20,6 +20,13 @@ import ScreenExit from "./ScreenExit.vue";           // 退出全屏
 import ScreenShare from "./ScreenShare.vue";         // 屏幕分享
 import SignOutAlt from "./SignOutAlt.vue";           // 退出
 
+import MousePointer from "./MousePointer.vue"; // 默认鼠标， 选择工具
+import PencilAlt from "./PencilAlt.vue";       // 铅笔
+import Text from "./Text.vue";                 // 文字
+import Rectangle from "./Rectangle.vue";       // 矩形
+import Square from "./Square.vue";             // 正方形
+import Circle from "./Circle.vue";             // 圆形
+import Eraser from "./Eraser.vue";             // 橡皮擦
 
 const icons: any = {
   "video":             Video,
@@ -36,6 +43,13 @@ const icons: any = {
   "screen-exit":       ScreenExit,
   "screen-share":      ScreenShare,
   "sign-out-alt":      SignOutAlt,
+  "mouse-pointer":     MousePointer,
+  "pencil-alt":        PencilAlt,
+  "text":              Text,
+  "rectangle":         Rectangle,
+  "square":            Square,
+  "circle":            Circle,
+  "eraser":            Eraser,
 }
 
 @Component
