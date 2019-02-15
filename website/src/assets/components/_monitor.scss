@@ -6,7 +6,6 @@
   border: 3px solid transparent;
   border-radius: 1.5px;
   box-shadow: 0 0 5px rgba(0,0,0,0.26);
-  // transition: all 500ms ease-out;
 
   .cover{
     width: 100%;
@@ -16,6 +15,10 @@
     left: 0;
     z-index: 1;
     overflow: hidden;
+    background: url(../assets/images/default-avatar.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 
   .player {
@@ -23,7 +26,9 @@
     height: 100%;
     overflow: hidden;
     display: inline-block;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     z-index: 2;
     transition: all .5s ease;
 

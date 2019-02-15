@@ -102,16 +102,30 @@
       border: 3px solid #FFF;
     }
 
+    .cover{
+      background-position: center;
+    }
+
     &.active{
       border: none;
       width: 100%;
       height: auto;
       border-radius: 0;
+      background: #000;
       position: fixed;
       top: 57px;
       bottom: 0;
       left: 0;
       right: 0;
+
+      .cover{
+        width: 228px;
+        height: 228px;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+      }
 
       .player video{
         object-fit: contain !important;

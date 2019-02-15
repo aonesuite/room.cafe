@@ -1,8 +1,14 @@
 <template>
-  <div :id="stream.id" class="monitor" :class="{active: StageStreamId === stream.id}">
+  <div :id="stream.id" class="monitor" :class="{
+    active: StageStreamId === stream.id,
+    'video-mute': stream.videoTrack && stream.videoTrack.info.muted,
+    'audio-mute': stream.audioTrack && stream.audioTrack.info.muted
+  }">
+
+    <svg role="img" viewBox="0 0 16 9" xmlns="http://www.w3.org/2000/svg"></svg>
 
     <div class="cover">
-      <img class="avatar" :src="`${stream.user.avatar}?imageView2/1/w/352/h/198/q/100`" width="176">
+      <img class="avatar" :src="`${stream.user.avatar}?imageView2/1/w/352/h/198/q/100`" v-if="stream.user.avatar">
     </div>
 
     <div
