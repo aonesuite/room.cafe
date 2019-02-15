@@ -47,15 +47,21 @@
   }
 }
 
-.room .hint-exited{
+.room .hint{
   width: 100%;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-55%);
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
   color: #FFF;
+
+  .hint-allow{
+    max-width: 800px;
+    margin: auto;
+    text-align: left;
+  }
 }
 
 .room .streams{
@@ -160,5 +166,27 @@
     .el-tabs__active-bar{
       width: calc(50% - 20px) !important;
     }
+  }
+}
+
+.modal-allow-devices{
+  .modal-dialog{
+    width: 640px;
+  }
+
+  .hint-allow{
+    h5{
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    p{
+      margin-bottom: 0;
+      color: #666;
+    }
+  }
+
+  .modal-backdrop.show {
+    top: 57px;
+    opacity: 1;
   }
 }
