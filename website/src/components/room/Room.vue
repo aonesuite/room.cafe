@@ -9,7 +9,8 @@
     <Navbar />
 
     <div class="hint-exited" v-if="RTC.exited">
-      You left the interact room.
+      <p>You left the interact room.</p>
+      <b-btn variant="success" @click="joinRoom">Reenter the room</b-btn>
     </div>
 
     <WhiteBoard v-if="RTC.roomState === 2 && roomInfo.whiteboard_id && roomInfo.whiteboard_token" />
@@ -58,7 +59,12 @@ export default Vue.extend({
       "createRoom",
       "getRoom",
       "joinRTCRoom"
-    ])
+    ]),
+
+    async joinRoom() {
+      await this.getRoom(this.$route.params.id);
+      await this.joinRTCRoom({token: this.roomInfo.rtc_token, user: this.user});
+    }
 
   },
 
@@ -70,8 +76,7 @@ export default Vue.extend({
         await this.createRoom();
         this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
       } else {
-        await this.getRoom(this.$route.params.id);
-        await this.joinRTCRoom({token: this.roomInfo.rtc_token, user: this.user});
+        await this.joinRoom();
       }
     } else {
       // eslint-disable-next-line
