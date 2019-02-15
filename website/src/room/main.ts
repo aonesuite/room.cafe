@@ -6,6 +6,7 @@ import BootstrapVue from 'bootstrap-vue';
 import { Select, Option, OptionGroup, Tabs, TabPane, ColorPicker } from 'element-ui';
 import axios from 'axios';
 import { detect } from 'detect-browser';
+import lodash from 'lodash'
 
 import App from './App.vue';
 import store from '@/store';
@@ -39,6 +40,7 @@ axios.interceptors.request.use((config) =>{
 
 Vue.prototype.$http = axios;
 Vue.prototype.$browser = detect();
+Vue.prototype.$lodash = lodash
 
 new Vue({
   store,
