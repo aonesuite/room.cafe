@@ -35,8 +35,9 @@
         </el-tab-pane>
       </el-tabs>
 
-      <div class="clearfix">
-        <b-btn type="submit" size="sm" variant="outline-primary" class="float-right" :disabled="isSubmitting">Done</b-btn>
+      <div class="clearfix text-right">
+        <b-btn size="sm" variant="outline-secondary" class="mr-2" @click="$root.$emit('bv::hide::modal', 'RoomSettingsModal')">Cancel</b-btn>
+        <b-btn type="submit" size="sm" variant="outline-primary" :disabled="isSubmitting">Done</b-btn>
       </div>
     </form>
   </b-modal>
