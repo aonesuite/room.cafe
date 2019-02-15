@@ -105,7 +105,8 @@
     &.active{
       border: none;
       width: 100%;
-      height: 100%;
+      height: auto;
+      border-radius: 0;
       position: fixed;
       top: 57px;
       bottom: 0;
