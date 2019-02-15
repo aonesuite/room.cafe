@@ -63,7 +63,6 @@
       </b-navbar-nav>
     </b-collapse>
 
-    <QuickStartModal />
     <Settings />
   </b-navbar>
 </template>
@@ -72,14 +71,12 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import fscreen from 'fscreen';
-import QuickStartModal from '@/components/account/QuickStartModal.vue';
 import { openWindow } from '../../utils/window';
 import ShareScreen from './ShareScreen.vue';
 import Settings from './Settings.vue';
 
 export default Vue.extend({
   components: {
-    QuickStartModal,
     ShareScreen,
     Settings
   },
@@ -121,16 +118,6 @@ export default Vue.extend({
 
     settings() {
       this.$root.$emit('bv::show::modal', 'RoomSettingsModal');
-    },
-
-    async quickStart() {
-      await this.fetchState();
-
-      if (this.signedIn) {
-        this.roomWindow();
-      } else {
-        this.$root.$emit('bv::show::modal', 'QuickStartModal');
-      }
     },
 
     switchMicrophone() {

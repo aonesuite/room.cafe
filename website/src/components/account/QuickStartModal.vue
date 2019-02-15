@@ -46,7 +46,12 @@ export default Vue.extend({
 
     starting() {
       this.autoCreateUser({ name: this.login }).then(() => {
-        this.roomWindow();
+        if (this.$route.name === "room") {
+          this.$emit('joinRoom');
+        } else {
+          this.roomWindow();
+        }
+
         this.$root.$emit('bv::hide::modal', 'QuickStartModal');
       })
     }

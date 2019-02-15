@@ -16,6 +16,8 @@
     <WhiteBoard v-if="RTC.roomState === 2 && roomInfo.whiteboard_id && roomInfo.whiteboard_token" />
 
     <Streams v-if="RTC.roomState === 2" />
+
+    <QuickStartModal @joinRoom="joinRoom" />
   </div>
 </template>
 
@@ -28,10 +30,12 @@ import * as Clarity from '../../constants/clarity'
 import Navbar from './Navbar.vue';
 import Streams from './Streams.vue';
 import WhiteBoard from './WhiteBoard.vue';
+import QuickStartModal from '@/components/account/QuickStartModal.vue';
 
 export default Vue.extend({
 
   components: {
+    QuickStartModal,
     Navbar,
     Streams,
     WhiteBoard
@@ -79,9 +83,7 @@ export default Vue.extend({
         await this.joinRoom();
       }
     } else {
-      // eslint-disable-next-line
-      console.log('not signedIn')
-      /* eslint-disable */
+      this.$root.$emit('bv::show::modal', 'QuickStartModal');
     }
   },
   async destroyed() {
