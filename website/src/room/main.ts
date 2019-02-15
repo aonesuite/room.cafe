@@ -3,7 +3,7 @@ import '@/assets/main.scss';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
-import { Select, Option, OptionGroup, Tabs, TabPane, ColorPicker } from 'element-ui';
+import { Select, Option, OptionGroup, Tabs, TabPane } from 'element-ui';
 import axios from 'axios';
 import { detect } from 'detect-browser';
 import lodash from 'lodash'
@@ -23,7 +23,6 @@ Vue.component(OptionGroup.name, OptionGroup);
 
 Vue.use(Tabs);
 Vue.use(TabPane);
-Vue.use(ColorPicker);
 
 Vue.component(Icon.name, Icon);
 
