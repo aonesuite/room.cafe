@@ -1,0 +1,10 @@
+@import 'variables';
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+@import "components/index";
+
+@import "element-ui";
+
+body{
+  -webkit-font-smoothing: antialiased;
+}

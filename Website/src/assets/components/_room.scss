@@ -1,0 +1,192 @@
+.room{
+  height: 100vh;
+  min-width: 960px;
+  min-height: 540px;
+  position: relative;
+  background: #000;
+}
+
+.room .placeholder{
+  width: 100%;
+  padding: 20px;
+  position: absolute;
+  top: 60px;
+  color: #FFF;
+  text-align: center;
+  z-index: 11;
+}
+
+.navbar-room{
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  background-color: #000;
+  border-bottom: 1px solid;
+
+  .navbar-brand{
+    font-weight: 600;
+    span{
+      margin-right: 5px;
+    }
+  }
+
+  .nav-item .btn{
+    margin: 0.25rem !important;
+  }
+
+  .navbar-nav{
+    .nav-link,
+    .btn-link{
+      min-width: 42px;
+      padding: 0.25rem 0.25rem;
+      text-align: center;
+      color: rgba($color: #FFF, $alpha: 0.95);
+      &:hover{
+        color: rgba($color: #FFF, $alpha: 1);
+        background: rgba($color: #FFF, $alpha: 0.15);
+      }
+    }
+  }
+}
+
+.room .hint{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-55%);
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #FFF;
+
+  .hint-allow{
+    max-width: 800px;
+    margin: auto;
+    text-align: left;
+  }
+}
+
+.room .streams{
+  padding: 10px;
+  position: absolute;
+  color: #FFF;
+  z-index: 10;
+  bottom: 0;
+  right: 0;
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+
+  > .actions{
+    transform: translateX(-50%);
+    position: fixed;
+    left: 50%;
+    bottom: 150px;
+    z-index: 1;
+
+    .btn{
+      width: 56px;
+      height: 56px;
+      margin: 8px;
+      border-radius: 50%;
+      color: #FFF;
+      background-color: rgba($color: #000000, $alpha: 0.35);
+
+      &.btn-phone{
+        background-color: #db4437;
+      }
+    }
+  }
+
+  .monitor{
+    width: 176px;
+    height: 99px;
+    float: right;
+    position: relative;
+
+    &:not(:last-child) {
+      margin-right: -3px;
+    }
+
+    &:hover{
+      border: 3px solid #FFF;
+    }
+
+    .cover{
+      background-position: center;
+    }
+
+    &.active{
+      border: none;
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      background: #000;
+      position: fixed;
+      top: 57px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      .cover{
+        width: 228px;
+        height: 228px;
+        top: 48%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+      }
+
+      .player video{
+        object-fit: contain !important;
+      }
+
+      .info{
+        padding: 2px 5px;
+        top: 0;
+        bottom: initial;
+        font-size: initial;
+        background: linear-gradient(rgba($color: #000000, $alpha: 0.35), transparent);
+        .audio-status{
+          top: 0px;
+          right: 5px;
+        }
+      }
+
+      .actions{
+        height: 28px;
+        background-color: transparent;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.modal-room-settings{
+  .tabs{
+    min-height: 320px;
+
+    // fix width:0 bug
+    .el-tabs__active-bar{
+      width: calc(50% - 20px) !important;
+    }
+  }
+}
+
+.modal-allow-devices{
+  .modal-dialog{
+    width: 640px;
+  }
+
+  .hint-allow{
+    h5{
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    p{
+      margin-bottom: 0;
+      color: #666;
+    }
+  }
+
+  .modal-backdrop.show {
+    top: 57px;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "room.cafe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@types/fscreen": "^1.0.1",
+    "axios": "^0.18.0",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "detect-browser": "^4.1.0",
+    "element-ui": "^2.5.4",
+    "fscreen": "^1.0.2",
+    "lodash": "^4.17.11",
+    "pili-rtc-web": "^2.1.0-patch.0",
+    "vue": "^2.6.3",
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^7.0.0",
+    "vue-router": "^3.0.2",
+    "vuex": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.24",
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-plugin-eslint": "^3.3.0",
+    "@vue/cli-plugin-typescript": "^3.4.0",
+    "@vue/cli-service": "^3.3.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "typescript": "~3.2.1",
+    "vue-template-compiler": "^2.6.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/typescript"
+    ],
+    "parserOptions": {
+      "parser": "@typescript-eslint/parser"
+    },
+    "rules": {
+      "vue/attribute-hyphenation": "error",
+      "vue/html-closing-bracket-spacing": "error",
+      "vue/html-end-tags": "error",
+      "vue/html-quotes": "error",
+      "vue/html-indent": "error",
+      "vue/no-multi-spaces": "warning",
+      "vue/no-spaces-around-equal-signs-in-attribute": "warning"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
