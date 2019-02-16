@@ -19,6 +19,7 @@ import ScreenEnter from "./ScreenEnter.vue";         // 进入全屏
 import ScreenExit from "./ScreenExit.vue";           // 退出全屏
 import ScreenShare from "./ScreenShare.vue";         // 屏幕分享
 import SignOutAlt from "./SignOutAlt.vue";           // 退出
+import UserPlus from "./UserPlus.vue";               // 添加用户
 
 import MousePointer from "./MousePointer.vue"; // 默认鼠标， 选择工具
 import PencilAlt from "./PencilAlt.vue";       // 铅笔
@@ -43,6 +44,7 @@ const icons: any = {
   "screen-exit":       ScreenExit,
   "screen-share":      ScreenShare,
   "sign-out-alt":      SignOutAlt,
+  "user-plus":          UserPlus,
   "mouse-pointer":     MousePointer,
   "pencil-alt":        PencilAlt,
   "text":              Text,
@@ -68,5 +70,8 @@ export default class Icon extends Vue {
 <style lang="scss">
 .phone-hang-up{
   transform: rotate(0.6251turn);
+}
+.flip-horizontal{
+  transform: scaleX(-1);
 }
 </style>
