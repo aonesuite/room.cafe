@@ -1,13 +1,25 @@
 <template>
-  <b-modal id="QuickStartModal" ref="QuickStartModal" centered :lazy="true" hide-footer title="Quick start">
-    <form @submit.prevent="starting">
+  <b-modal
+    id="QuickStartModal"
+    ref="QuickStartModal"
+    centered
+    :lazy="true"
+    hide-footer
+    :title="modalTitle"
+    :no-close-on-backdrop="noCloseOnBackdrop"
+    :hide-header-close="hideHeaderClose">
+
+    <form @submit.prevent="submit">
       <b-input-group>
         <b-form-input v-model.trim="login" id="login" placeholder="Enter a name or email"></b-form-input>
         <b-input-group-append>
-          <b-btn type="submit" variant="outline-success" :disabled="login === ''">Starting</b-btn>
+          <b-btn type="submit" variant="outline-success" :disabled="login === ''">{{ submitBtnText }}</b-btn>
         </b-input-group-append>
       </b-input-group>
     </form>
+
+    <!-- TODO: OAuth logic begin -->
+    <!-- TODO: OAuth logic end -->
   </b-modal>
 </template>
 
@@ -23,6 +35,10 @@ export default Vue.extend({
 
   data() {
     return {
+      modalTitle: "Quick start",
+      noCloseOnBackdrop: false,
+      hideHeaderClose: false,
+      submitBtnText: "Starting",
       login: ''
     }
   },
@@ -44,8 +60,9 @@ export default Vue.extend({
       openWindow(routeData.href, `room/quick-start/${new Date().getTime()}`);
     },
 
-    starting() {
+    submit() {
       this.autoCreateUser({ name: this.login }).then(() => {
+        // 如果是在房间中创建用户，则直接调用 Room.vue#joinRoom 方法进入房间
         if (this.$route.name === "room") {
           this.$emit('joinRoom');
         } else {
@@ -58,7 +75,12 @@ export default Vue.extend({
   },
 
   created () {
-
+    if (this.$route.name === "room") {
+      this.modalTitle = "Join the room";
+      this.noCloseOnBackdrop = true;
+      this.hideHeaderClose = true;
+      this.submitBtnText = "Join";
+    }
   }
 })
 </script>
