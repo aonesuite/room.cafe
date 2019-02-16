@@ -12,13 +12,13 @@
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="ml-auto">
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="WhiteBoard">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="WhiteBoard">
             <Icon type="chalkboard" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="component('im')" v-b-tooltip.hover title="Chat">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="component('im')" v-b-tooltip.hover title="Chat">
             <Icon type="comment-alt-lines" height="22" />
           </b-btn>
         </li>
@@ -28,35 +28,35 @@
 
         <!-- 音频开关 -->
         <li class="nav-item">
-          <b-btn size="sm" variant="link" class="btn-microphone" v-b-tooltip.hover :title="microphoneMuted ? 'Open microphone' : 'Mute microphone'" @click="switchMicrophone">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-microphone" v-b-tooltip.hover :title="microphoneMuted ? 'Open microphone' : 'Mute microphone'" @click="switchMicrophone">
             <Icon :type="microphoneMuted ? 'microphone-slash' : 'microphone'" height="22" />
           </b-btn>
         </li>
 
         <!-- 视频开关 -->
         <li class="nav-item">
-          <b-btn size="sm" variant="link" class="btn-video" v-b-tooltip.hover :title="videoMuted ? 'Open video' : 'Mute video'" @click="switchVideo">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-video" v-b-tooltip.hover :title="videoMuted ? 'Open video' : 'Mute video'" @click="switchVideo">
             <Icon :type="videoMuted ? 'video-slash' : 'video'" height="22" />
           </b-btn>
         </li>
 
         <!-- 全屏 -->
         <li class="nav-item" v-if="fullscreenEnabled">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
             <Icon :type="isFullscreen ? 'screen-normal' : 'screen-full'" height="22" />
           </b-btn>
         </li>
 
         <!-- 设置 -->
         <li class="nav-item">
-          <b-btn size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Settings">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Settings">
             <Icon type="cog" height="22" />
           </b-btn>
         </li>
 
         <!-- 退出 -->
         <li class="nav-item">
-          <b-btn size="sm" variant="link" class="btn-phone" @click="exit" v-b-tooltip.hover title="Exit">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-phone" @click="exit" v-b-tooltip.hover title="Exit">
             <Icon type="sign-out-alt" height="22" />
           </b-btn>
         </li>
