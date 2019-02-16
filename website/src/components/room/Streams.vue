@@ -19,6 +19,7 @@ export default Vue.extend({
   data() {
     return {
       deviceAllowed: false,
+      timeoutID: 0,
       microphoneMuted: false,
       videoMuted: false,
     }
@@ -56,7 +57,7 @@ export default Vue.extend({
         }
       });
 
-      window.setTimeout(() => {
+      this.timeoutID = window.setTimeout(() => {
         if (this.deviceAllowed) {
           this.$root.$emit('bv::hide::modal', 'AllowDevices');
         } else {
@@ -66,6 +67,7 @@ export default Vue.extend({
 
       promise.then((tracks) => {
         this.deviceAllowed = true;
+        window.clearTimeout(this.timeoutID);
         this.$root.$emit('bv::hide::modal', 'AllowDevices');
         tracks.map(track => track.setMaster(true));
         this.RTC.publish(tracks);
@@ -75,6 +77,9 @@ export default Vue.extend({
 
   created () {
     this.publish()
+  },
+  destroyed() {
+    window.clearTimeout(this.timeoutID);
   }
 })
 </script>
