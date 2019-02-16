@@ -18,6 +18,7 @@ export default Vue.extend({
 
   data() {
     return {
+      deviceAllowed: false,
       microphoneMuted: false,
       videoMuted: false,
     }
@@ -38,8 +39,10 @@ export default Vue.extend({
   methods: {
     // 发布本地音视频
     async publish() {
+
       const clarity = Clarity.getClarity("HD");
-      var tracks = await QNRTC.deviceManager.getLocalTracks({
+
+      const promise = QNRTC.deviceManager.getLocalTracks({
         audio: {
           enabled: true,
           tag: "master",
@@ -53,8 +56,20 @@ export default Vue.extend({
         }
       });
 
-      tracks.map(track => track.setMaster(true));
-      await this.RTC.publish(tracks);
+      window.setTimeout(() => {
+        if (this.deviceAllowed) {
+          this.$root.$emit('bv::hide::modal', 'AllowDevices');
+        } else {
+          this.$root.$emit('bv::show::modal', 'AllowDevices');
+        }
+      }, 10);
+
+      promise.then((tracks) => {
+        this.deviceAllowed = true;
+        this.$root.$emit('bv::hide::modal', 'AllowDevices');
+        tracks.map(track => track.setMaster(true));
+        this.RTC.publish(tracks);
+      });
     }
   },
 
