@@ -147,7 +147,8 @@ export default {
   },
 
   created () {
-
+    document.addEventListener('beforeunload', () => this.whiteboard.disconnect())
+    window.addEventListener('beforeunload', () => this.whiteboard.disconnect())
   },
 
   mounted () {

@@ -93,8 +93,6 @@ export default Vue.extend({
   async created () {
     await this.fetchState();
 
-    this.$root.$emit('bv::show::modal', 'AllowDevices');
-
     if (this.signedIn) {
       if (this.$route.name === 'room-quick-start') {
         await this.createRoom();
@@ -105,11 +103,14 @@ export default Vue.extend({
     } else {
       this.$root.$emit('bv::show::modal', 'QuickStartModal');
     }
+
+    document.addEventListener('beforeunload', () => this.RTC.leaveRoom());
+    window.addEventListener('beforeunload', () => this.RTC.leaveRoom());
   },
   async destroyed() {
     // 释放本地采集
     for (const track of this.RTC.publishedTracks) {
-      await track.release()
+      await track.release();
     }
     await this.RTC.leaveRoom();
   }
