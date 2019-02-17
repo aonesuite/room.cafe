@@ -7,6 +7,7 @@
     hide-footer
     :title="modalTitle"
     :no-close-on-backdrop="noCloseOnBackdrop"
+    :no-close-on-esc="noCloseOnEsc"
     :hide-header-close="hideHeaderClose">
 
     <form @submit.prevent="submit">
@@ -37,6 +38,7 @@ export default Vue.extend({
     return {
       modalTitle: "Quick start",
       noCloseOnBackdrop: false,
+      noCloseOnEsc: false,
       hideHeaderClose: false,
       submitBtnText: "Starting",
       login: ''
@@ -78,6 +80,7 @@ export default Vue.extend({
     if (this.$route.name === "room") {
       this.modalTitle = "Join the room";
       this.noCloseOnBackdrop = true;
+      this.noCloseOnEsc = true;
       this.hideHeaderClose = true;
       this.submitBtnText = "Join";
     }
