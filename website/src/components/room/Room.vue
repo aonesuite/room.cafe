@@ -9,7 +9,11 @@
     <Navbar />
 
     <div class="hint">
-      <div class="hint-exited" v-if="RTC.exited">
+      <div class="hint-init" v-if="RTC.roomState === 1">
+        <b-spinner variant="light" label="Loading..." />
+      </div>
+
+      <div class="hint-exited" v-if="RTC.exited && RTC.roomState === 0">
         <p>You left the interact room.</p>
         <b-btn variant="success" @click="joinRoom">Reenter the room</b-btn>
       </div>
