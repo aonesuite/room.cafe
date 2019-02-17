@@ -12,6 +12,26 @@
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="ml-auto">
         <li class="nav-item">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="$refs.InvitePeopleModal.show()" v-b-tooltip.hover title="Invite People">
+            <Icon type="user-plus" height="22" class="flip-horizontal" />
+          </b-btn>
+
+          <b-modal
+            id="InvitePeopleModal"
+            ref="InvitePeopleModal"
+            centered
+            hide-footer
+            title="Invite People">
+
+            <b-form-input id="InvitePeopleLink" readonly="readonly" v-model="shareLink"></b-form-input>
+            <b-btn variant="outline-primary" class="float-right mt-2" id="CopyShareLinkBtn" ref="CopyShareLinkBtn" @click="copyLink" data-clipboard-target="#InvitePeopleLink">
+              <Icon type="link" height="22" rotate="45" class="mr-2" />
+              Copy link to share
+            </b-btn>
+          </b-modal>
+        </li>
+
+        <li class="nav-item">
           <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="WhiteBoard">
             <Icon type="chalkboard" height="22" />
           </b-btn>
@@ -52,6 +72,7 @@
           <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Settings">
             <Icon type="cog" height="22" />
           </b-btn>
+          <Settings />
         </li>
 
         <!-- 退出 -->
@@ -62,8 +83,6 @@
         </li>
       </b-navbar-nav>
     </b-collapse>
-
-    <Settings />
   </b-navbar>
 </template>
 
@@ -71,6 +90,7 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import fscreen from 'fscreen';
+import Clipboard from 'clipboard';
 import { openWindow } from '../../utils/window';
 import ShareScreen from './ShareScreen.vue';
 import Settings from './Settings.vue';
@@ -83,6 +103,8 @@ export default Vue.extend({
 
   data () {
     return {
+      copyBtn: {} as ClipboardJS, //存储初始化复制按钮事件
+      shareLink: "",
       fullscreenEnabled: false,
       isFullscreen: false,
       microphoneMuted: false,
@@ -111,6 +133,24 @@ export default Vue.extend({
 
     },
 
+    copyLink() {
+      let clipboard = this.copyBtn as ClipboardJS;
+
+      if (!clipboard) return;
+
+      clipboard.on('success', function() {
+        // eslint-disable-next-line
+        console.log("copy success");
+        /* eslint-disable */
+      });
+
+      clipboard.on('error', function() {
+        // eslint-disable-next-line
+        console.log("copy error");
+        /* eslint-disable */
+      });
+    },
+
     // 全屏切换
     switchFullscreen() {
       this.isFullscreen ? fscreen.exitFullscreen(): fscreen.requestFullscreen(document.documentElement);
@@ -137,11 +177,18 @@ export default Vue.extend({
 
   created () {
 
+    const routeData = this.$router.resolve({name: 'room', params: {id: this.$route.params.id} });
+    this.shareLink = `https://room.cafe${routeData.href}`
+
     if (fscreen.fullscreenEnabled) {
       this.fullscreenEnabled = fscreen.fullscreenEnabled;
       fscreen.addEventListener('fullscreenchange', () => { this.isFullscreen = fscreen.fullscreenElement !== null; }, false);
     }
 
+  },
+
+  mounted () {
+    this.copyBtn = new Clipboard(this.$refs.CopyShareLinkBtn as Element);
   }
 })
 </script>
