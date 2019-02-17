@@ -77,9 +77,10 @@
 
         <!-- 退出 -->
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-phone" @click="exit" v-b-tooltip.hover title="Exit">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" id="exitBtn" @click="exit(); $refs.exitTooltip.$emit('close')">
             <Icon type="sign-out-alt" height="22" />
           </b-btn>
+          <b-tooltip id="exitTooltip" ref="exitTooltip" target="exitBtn" placement="bottom">Exit</b-tooltip>
         </li>
       </b-navbar-nav>
     </b-collapse>
@@ -170,7 +171,11 @@ export default Vue.extend({
       this.videoMuted = !this.videoMuted;
     },
 
-    exit() {
+    async exit() {
+      // 释放本地采集
+      for (const track of this.RTC.publishedTracks) {
+        await track.release();
+      }
       this.RTC.leaveRoom()
     }
   },
