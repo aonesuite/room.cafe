@@ -1,5 +1,5 @@
 <template>
-  <component role="img" :class="`icon-${type}`" v-bind:is="currentIcon"></component>
+  <component role="img" :class="`icon icon-${type}`" v-bind:is="currentIcon"></component>
 </template>
 
 <script lang="ts">
@@ -20,6 +20,7 @@ import ScreenExit from "./ScreenExit.vue";           // 退出全屏
 import ScreenShare from "./ScreenShare.vue";         // 屏幕分享
 import SignOutAlt from "./SignOutAlt.vue";           // 退出
 import UserPlus from "./UserPlus.vue";               // 添加用户
+import Link from "./Link.vue";                       // 链接
 
 import MousePointer from "./MousePointer.vue"; // 默认鼠标， 选择工具
 import PencilAlt from "./PencilAlt.vue";       // 铅笔
@@ -44,7 +45,8 @@ const icons: any = {
   "screen-exit":       ScreenExit,
   "screen-share":      ScreenShare,
   "sign-out-alt":      SignOutAlt,
-  "user-plus":          UserPlus,
+  "user-plus":         UserPlus,
+  "link":              Link,
   "mouse-pointer":     MousePointer,
   "pencil-alt":        PencilAlt,
   "text":              Text,
@@ -73,5 +75,8 @@ export default class Icon extends Vue {
 }
 .flip-horizontal{
   transform: scaleX(-1);
+}
+.icon[rotate='45']{
+  transform: rotate(45deg);
 }
 </style>
