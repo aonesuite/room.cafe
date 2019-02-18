@@ -148,7 +148,7 @@ export default {
 
   created () {
     window.addEventListener('resize', () => {
-      this.whiteboard.refreshViewSize();
+      if (this.whiteboard) this.whiteboard.refreshViewSize();
     });
 
     document.addEventListener('beforeunload', () => this.whiteboard.disconnect());
