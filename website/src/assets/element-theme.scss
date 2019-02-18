@@ -65,8 +65,8 @@ $--border-color-lighter: #ebeef5 !default;
 $--border-color-extra-light: #f2f6fc !default;
 $--border-color-hover: $--color-text-placeholder !default;
 $--border-base: $--border-width-base $--border-style-base $--border-color-base !default;
-$--border-radius-base: 4px !default;
-$--border-radius-small: 2px !default;
+$--border-radius-base: 0.2rem !default;
+$--border-radius-small: 0.15rem !default;
 $--border-radius-circle: 100% !default;
 
 /* Box-shadow
