@@ -22,6 +22,7 @@ import SignOutAlt from "./SignOutAlt.vue";           // 退出
 import UserPlus from "./UserPlus.vue";               // 添加用户
 import Link from "./Link.vue";                       // 链接
 import PaperPlane from "./PaperPlane.vue";           // 发送
+import Times from "./Times.vue";                     // 叉，关闭
 
 import MousePointer from "./MousePointer.vue"; // 默认鼠标， 选择工具
 import PencilAlt from "./PencilAlt.vue";       // 铅笔
@@ -48,7 +49,9 @@ const icons: any = {
   "sign-out-alt":      SignOutAlt,
   "user-plus":         UserPlus,
   "link":              Link,
-  "paper-plane":        PaperPlane,
+  "paper-plane":       PaperPlane,
+  "times":             Times,
+
   "mouse-pointer":     MousePointer,
   "pencil-alt":        PencilAlt,
   "text":              Text,
