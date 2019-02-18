@@ -39,9 +39,10 @@
         </li>
 
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="component('im')" v-b-tooltip.hover title="Chat">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" id="chatBtn" @click="switchChat(); $refs.chatTooltip.$emit('close')">
             <Icon type="comment-alt-lines" height="22" />
           </b-btn>
+          <b-tooltip id="chatTooltip" ref="chatTooltip" target="chatBtn" placement="bottom">{{ ChatPopUp ? 'Close chat' : 'Open chat' }}</b-tooltip>
         </li>
 
         <!-- 屏幕共享 -->
@@ -122,25 +123,29 @@ export default Vue.extend({
 
     ...mapState("room", [
       "roomInfo",
-      "RTC"
+      "RTC",
+      "ChatPopUp"
     ])
   },
 
   methods: {
     ...mapMutations("room", [
-      'setStageStreamId'
+      "setStageStreamId",
+      "setChatPopUp"
     ]),
 
     ...mapActions("user", [
-      'fetchState'
+      "fetchState"
     ]),
 
+    // 切换白板
     switchWhiteBoard() {
-      this.setStageStreamId("")
+      this.setStageStreamId("");
     },
 
-    component(component: string) {
-
+    // 切换白板
+    switchChat() {
+      this.setChatPopUp(!this.ChatPopUp);
     },
 
     copyLink() {
