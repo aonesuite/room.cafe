@@ -1,5 +1,8 @@
 import * as QNRTC from "pili-rtc-web";
 import { Stream } from '@/types/stream';
+import { RTCUser } from '@/types/user';
+import { ChatMessage } from './message';
+import { CustomMessage } from 'pili-rtc-web';
 
 // QNRTC.log.level = "disable";
 
@@ -30,6 +33,12 @@ export class RTC extends QNRTC.TrackModeSession {
   // 查找房间中用户
   public findUser(userId: string): QNRTC.User{
     return this.users.find(u => u.userId === userId) || new QNRTC.User(userId);
+  }
+
+  // 当前用户
+  public currentUser(): RTCUser {
+    const rtcUser = this.findUser(this.userId as string);
+    return new RTCUser(rtcUser.userId, rtcUser.userData);
   }
 
   // 自动订阅房间中已发布的 track， 并归整到对应的 stream 中
@@ -141,5 +150,31 @@ export class RTC extends QNRTC.TrackModeSession {
 
     super.leaveRoom();
     this.exited = true;
+  }
+
+  public encodeChatMessage(content: string): ChatMessage {
+    const message = new ChatMessage({
+      userId: this.userId as string,
+      timestamp: new Date().getTime(),
+      content: content,
+    });
+
+    message.user = this.currentUser();
+    return message;
+  }
+
+  public parseChatMessage(message: CustomMessage): ChatMessage {
+    const msg = JSON.parse(message.data)
+    const rtcUser = this.findUser(message.userId);
+    const user = new RTCUser(rtcUser.userId, rtcUser.userData);
+
+    const chatMessage = new ChatMessage({
+      userId: msg.userId,
+      timestamp: new Date().getTime(),
+      content: msg.content,
+    });
+
+    chatMessage.user = user;
+    return chatMessage;
   }
 }
