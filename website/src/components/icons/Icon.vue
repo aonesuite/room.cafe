@@ -21,6 +21,7 @@ import ScreenShare from "./ScreenShare.vue";         // 屏幕分享
 import SignOutAlt from "./SignOutAlt.vue";           // 退出
 import UserPlus from "./UserPlus.vue";               // 添加用户
 import Link from "./Link.vue";                       // 链接
+import PaperPlane from "./PaperPlane.vue";           // 发送
 
 import MousePointer from "./MousePointer.vue"; // 默认鼠标， 选择工具
 import PencilAlt from "./PencilAlt.vue";       // 铅笔
@@ -47,6 +48,7 @@ const icons: any = {
   "sign-out-alt":      SignOutAlt,
   "user-plus":         UserPlus,
   "link":              Link,
+  "paper-plane":        PaperPlane,
   "mouse-pointer":     MousePointer,
   "pencil-alt":        PencilAlt,
   "text":              Text,
