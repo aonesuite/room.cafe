@@ -1,5 +1,5 @@
 <template>
-  <div class="room">
+  <div class="room" :class="{'chat-open': ChatPopUp}">
     <!--
     <div class="placeholder">
       <div v-if="RTC.roomState === 2 && RTCUsers.length === 1">You are the only one here.</div>
@@ -22,6 +22,8 @@
     <WhiteBoard v-if="RTC.roomState === 2 && roomInfo.whiteboard_id && roomInfo.whiteboard_token" />
 
     <Streams v-if="RTC.roomState === 2" />
+
+    <Chat v-if="RTC.roomState === 2" />
 
     <QuickStartModal @joinRoom="joinRoom" />
 
@@ -52,6 +54,7 @@ import * as Clarity from '../../constants/clarity'
 import Navbar from './Navbar.vue';
 import Streams from './Streams.vue';
 import WhiteBoard from './WhiteBoard.vue';
+import Chat from './Chat.vue';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
 
 export default Vue.extend({
@@ -60,7 +63,8 @@ export default Vue.extend({
     QuickStartModal,
     Navbar,
     Streams,
-    WhiteBoard
+    WhiteBoard,
+    Chat
   },
 
   computed: {
@@ -72,7 +76,8 @@ export default Vue.extend({
     ...mapState("room", [
       "roomInfo",
       "RTC",
-      "RTCUsers"
+      "RTCUsers",
+      "ChatPopUp"
     ])
   },
 

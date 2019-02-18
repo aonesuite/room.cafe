@@ -1,0 +1,33 @@
+.chat-open{
+
+  #chat{
+    right: 0;
+  }
+
+  #whiteboard,
+  .streams{
+    right: 280px;
+  }
+}
+
+#chat{
+  height: 100vh;
+  width: 280px;
+  overflow: auto;
+  background: #FFF;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px 0px;
+  position: absolute;
+  right: -300px;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  // transition: all 0.5s ease 0s;
+  // transform: none;
+
+  .intercom{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
