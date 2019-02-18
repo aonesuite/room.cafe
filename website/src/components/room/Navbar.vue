@@ -33,7 +33,7 @@
         </li>
 
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="component('board')" v-b-tooltip.hover title="WhiteBoard">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="switchWhiteBoard" v-b-tooltip.hover title="WhiteBoard">
             <Icon type="chalkboard" height="22" />
           </b-btn>
         </li>
@@ -90,7 +90,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapMutations, mapActions } from 'vuex';
 import fscreen from 'fscreen';
 import Clipboard from 'clipboard';
 import { openWindow } from '../../utils/window';
@@ -127,9 +127,17 @@ export default Vue.extend({
   },
 
   methods: {
+    ...mapMutations("room", [
+      'setStageStreamId'
+    ]),
+
     ...mapActions("user", [
       'fetchState'
     ]),
+
+    switchWhiteBoard() {
+      this.setStageStreamId("")
+    },
 
     component(component: string) {
 
