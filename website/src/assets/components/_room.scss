@@ -163,6 +163,13 @@
   }
 }
 
+.modal-invite-people{
+  .alert{
+    display: inline-block;
+    margin-bottom: 0;
+  }
+}
+
 .modal-allow-devices{
   .modal-dialog{
     width: 640px;
