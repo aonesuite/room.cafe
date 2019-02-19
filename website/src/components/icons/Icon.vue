@@ -63,17 +63,30 @@ const icons: any = {
   "eraser":            Eraser,
 }
 
-@Component
-export default class Icon extends Vue {
-  @Prop() private type!: string;
+export default Vue.component("Icon", {
+  props: {
+    type: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      currentIcon: null
+    }
+  },
+  methods: {
 
-  currentIcon = icons[this.type];
-
-  @Watch('type', { immediate: true })
-  onIconTypeChanged(val: string, oldVal: string) {
-    this.currentIcon = icons[val];
+  },
+  watch: {
+    type: function (val: string, oldVal: string) {
+      this.currentIcon = icons[val];
+    }
+  },
+  created() {
+    this.currentIcon = icons[this.type]
   }
-}
+})
 </script>
 
 <style lang="scss">
