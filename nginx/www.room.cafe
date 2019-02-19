@@ -31,8 +31,7 @@ server {
     error_log   /var/log/nginx/www.room.cafe.error.log;
     access_log  /var/log/nginx/www.room.cafe.access.log main;
 
-    # TODO need change 
-    root /home/ubuntu/room.cafe;
+    root /home/ubuntu/room.cafe/package/front;
     index index.html;
 
     # proxy headers
@@ -51,5 +50,6 @@ server {
         add_header              X-Frame-Options deny;
         add_header              X-Content-Type-Options nosniff;
         add_header              Cache-Control no-cache;
+        try_files $uri $uri/ /index.html;
     }
 }

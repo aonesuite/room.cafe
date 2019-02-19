@@ -87,3 +87,8 @@ temp_coverage_test.go
 # redis conf
 **/*.aof
 **/*.conf
+
+# deploy
+room.cafe*
+package
+config.yaml
