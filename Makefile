@@ -13,6 +13,4 @@ build-frontend:
 	cd Website; cp -R dist/* ../package/front/
 
 production: build-backend build-frontend
-	cp config.yaml package/
-	cp supervisor.conf package/
 	tar zcvf room.cafe.tar.gz package/
