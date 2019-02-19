@@ -1,9 +1,4 @@
 # 构建
-build:
-	cd Server; rm -rf pkg bin/room.cafe
-	cd Server; go clean -i ./src/room.cafe/...
-	cd Server; source env.sh; CGO_ENABLED=0 go install -v ./src/room.cafe/...
-
 build-backend:
 	mkdir -p package
 	cd Server; source env.sh && make build-linux-64
@@ -11,9 +6,25 @@ build-backend:
 
 build-frontend:
 	mkdir -p package
+	rm -rf package/front
 	cd website; yarn install && yarn build
-	cd website; cp -R dist/* ../package/front/
+	cd website; mv dist ../package/front
 
 production: build-backend build-frontend
 	mkdir -p package
 	tar zcvf room.cafe.tar.gz package/
+
+deploy:
+	scp room.cafe.tar.gz ubuntu@119.28.77.106:/home/ubuntu/room.cafe
+	ssh ubuntu@119.28.77.106 tar zxvf /home/ubuntu/room.cafe/room.cafe.tar.gz
+
+	scp room.cafe.tar.gz ubuntu@119.28.82.60:/home/ubuntu/room.cafe
+	ssh ubuntu@119.28.82.60 tar zxvf /home/ubuntu/room.cafe/room.cafe.tar.gz
+
+status:
+	ssh ubuntu@119.28.77.106 supervisorctl status room.cafe
+	ssh ubuntu@119.28.82.60 supervisorctl status room.cafe
+
+restart:
+	ssh ubuntu@119.28.77.106 supervisorctl restart room.cafe
+	ssh ubuntu@119.28.82.60 supervisorctl restart room.cafe
