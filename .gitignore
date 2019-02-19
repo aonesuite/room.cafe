@@ -84,10 +84,6 @@ temp_coverage_test.go
 # logs
 **/*.log
 
-# redis conf
-**/*.aof
-**/*.conf
-
 # deploy
 room.cafe*
 package
