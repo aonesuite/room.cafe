@@ -31,3 +31,10 @@ report:
 	CGO_ENABLED=0 go install -v ./src/vendor/gopkg.in/matm/v1/gocov-html
 	rm -rf coverage.html coverage.xml coverage.txt coverage.log
 	sh ./scripts/coverage.sh --html --xml | tee coverage.log
+
+# 编译 linux 64位 运行二进制
+build-linux-64:
+	rm -rf pkg bin
+	go clean -i ./src/room.cafe/...
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go install -v ./src/room.cafe/...
+
