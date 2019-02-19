@@ -16,10 +16,10 @@ production: build-backend build-frontend
 
 deploy:
 	scp room.cafe.tar.gz ubuntu@119.28.77.106:/home/ubuntu/room.cafe
-	ssh ubuntu@119.28.77.106 tar zxvf /home/ubuntu/room.cafe/room.cafe.tar.gz
+	ssh ubuntu@119.28.77.106 tar zxvf /home/ubuntu/room.cafe/room.cafe.tar.gz -C /home/ubuntu/room.cafe
 
 	scp room.cafe.tar.gz ubuntu@119.28.82.60:/home/ubuntu/room.cafe
-	ssh ubuntu@119.28.82.60 tar zxvf /home/ubuntu/room.cafe/room.cafe.tar.gz
+	ssh ubuntu@119.28.82.60 tar zxvf /home/ubuntu/room.cafe/room.cafe.tar.gz -C /home/ubuntu/room.cafe
 
 status:
 	ssh ubuntu@119.28.77.106 supervisorctl status room.cafe
