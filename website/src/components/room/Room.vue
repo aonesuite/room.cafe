@@ -106,13 +106,13 @@ export default Vue.extend({
       if (this.$route.name === 'room-quick-start') {
         await this.createRoom();
         this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
-      } else {
-        await this.joinRoom();
       }
+      await this.joinRoom();
     } else {
       this.$root.$emit('bv::show::modal', 'QuickStartModal');
     }
-
+  },
+  mounted () {
     document.addEventListener('beforeunload', () => this.RTC.leaveRoom());
     window.addEventListener('beforeunload', () => this.RTC.leaveRoom());
   },
