@@ -12,7 +12,7 @@ build-backend:
 build-frontend:
 	mkdir -p package
 	cd website; yarn install && yarn build
-	cd website; cp -R dist ../package/front/
+	cd website; cp -R dist/* ../package/front/
 
 production: build-backend build-frontend
 	mkdir -p package
