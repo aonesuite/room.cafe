@@ -143,7 +143,11 @@ export default {
   },
 
   watch: {
-
+    'RTC.roomState': function (state) {
+      if (state !== 2) {
+        this.whiteboard.disconnect();
+      }
+    }
   },
 
   created () {
