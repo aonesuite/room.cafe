@@ -32,7 +32,6 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
-import { openWindow } from '../../utils/window';
 
 export default Vue.extend({
   components: {
@@ -43,6 +42,10 @@ export default Vue.extend({
     ...mapState("user", [
       "signedIn",
       "user"
+    ]),
+
+    ...mapState("room", [
+      "roomInfo"
     ])
   },
 
@@ -51,16 +54,16 @@ export default Vue.extend({
       'fetchState'
     ]),
 
-    roomWindow() {
-      const routeData = this.$router.resolve({name: 'room-quick-start', query: {t: 'f2f'} });
-      openWindow(routeData.href, `room/quick-start/${new Date().getTime()}`);
-    },
+    ...mapActions("room", [
+      "createRoom"
+    ]),
 
     async quickStart() {
       await this.fetchState()
 
       if (this.signedIn) {
-        this.roomWindow();
+        await this.createRoom();
+        this.$router.push({ name: "room", params: { id: this.roomInfo.uuid } });
       } else {
         this.$root.$emit('bv::show::modal', 'QuickStartModal');
       }

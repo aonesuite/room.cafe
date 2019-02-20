@@ -26,11 +26,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-import BootstrapVue, { Modal } from 'bootstrap-vue';
-import { UserArgs } from '../../types/user';
-import * as UserAPI from '../../api/user';
-import { openWindow } from '../../utils/window';
+import { mapState, mapActions } from 'vuex';
 
 export default Vue.extend({
 
@@ -48,6 +44,10 @@ export default Vue.extend({
   computed: {
     ...mapState("user", [
       "signedIn"
+    ]),
+
+    ...mapState("room", [
+      "roomInfo"
     ])
   },
 
@@ -57,18 +57,18 @@ export default Vue.extend({
       'autoCreateUser'
     ]),
 
-    roomWindow() {
-      const routeData = this.$router.resolve({name: 'room-quick-start', query: {t: 'f2f'} });
-      openWindow(routeData.href, `room/quick-start/${new Date().getTime()}`);
-    },
+    ...mapActions("room", [
+      "createRoom"
+    ]),
 
     submit() {
-      this.autoCreateUser({ name: this.login }).then(() => {
+      this.autoCreateUser({ name: this.login }).then(async () => {
         // 如果是在房间中创建用户，则直接调用 Room.vue#joinRoom 方法进入房间
         if (this.$route.name === "room") {
           this.$emit('joinRoom');
         } else {
-          this.roomWindow();
+          await this.createRoom()
+          this.$router.push({ name: "room", params: { id: this.roomInfo.uuid } });
         }
 
         this.$root.$emit('bv::hide::modal', 'QuickStartModal');

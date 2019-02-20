@@ -65,6 +65,10 @@ export default Vue.extend({
     ...mapState("user", [
       "signedIn",
       "user"
+    ]),
+
+    ...mapState("room", [
+      "roomInfo"
     ])
   },
 
@@ -73,16 +77,16 @@ export default Vue.extend({
       'fetchState'
     ]),
 
-    roomWindow(type: string) {
-      const routeData = this.$router.resolve({name: 'room-quick-start', query: {t: type} });
-      openWindow(routeData.href, `room/quick-start/${new Date().getTime()}`);
-    },
+    ...mapActions("room", [
+      "createRoom"
+    ]),
 
     async quickStart(type: string) {
       await this.fetchState();
 
       if (this.signedIn) {
-        this.roomWindow(type);
+        await this.createRoom();
+        this.$router.push({ name: "room", params: { id: this.roomInfo.uuid } });
       } else {
         this.$root.$emit('bv::show::modal', 'QuickStartModal');
       }
