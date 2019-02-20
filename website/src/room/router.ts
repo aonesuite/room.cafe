@@ -8,26 +8,6 @@ let loginAuth = async (to: Route, from: Route, next: (to?: RawLocation | false |
   next()
 }
 
-let scrollBehavior = function(to: Route, from: Route, savedPosition: any) {
-  if (savedPosition) {
-    return savedPosition
-  } else {
-    const position = {
-      selector: "",
-      x: 0,
-      y: 0,
-    }
-    if (to.hash) {
-      position.selector = to.hash
-    }
-    if (to.matched.some(m => m.meta.scrollToTop)) {
-      position.x = 0
-      position.y = 0
-    }
-    return position
-  }
-}
-
 Vue.use(Router)
 
 let router = new Router({
@@ -39,26 +19,14 @@ let router = new Router({
       component: Home
     },
     {
-      name: 'room-quick-start',
-      path: '/room/quick-start',
-      component: Room
-    },
-    {
       name: 'room',
       path: '/room/:id',
       component: Room
     },
     { path: '*', name: 'redirect', redirect: '/' }
-  ],
-  scrollBehavior: scrollBehavior
+  ]
 })
 
 router.beforeEach(loginAuth)
-
-router.afterEach((to, from) => {
-  if (from.fullPath !== '/') {
-    window.localStorage.setItem('previous-route', from.fullPath)
-  }
-})
 
 export default router

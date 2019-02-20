@@ -48,8 +48,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
-import * as QNRTC from 'pili-rtc-web'
-import * as Clarity from '../../constants/clarity'
 
 import Navbar from './Navbar.vue';
 import Streams from './Streams.vue';
@@ -87,7 +85,6 @@ export default Vue.extend({
     ]),
 
     ...mapActions("room", [
-      "createRoom",
       "getRoom",
       "joinRTCRoom"
     ]),
@@ -103,10 +100,6 @@ export default Vue.extend({
     await this.fetchState();
 
     if (this.signedIn) {
-      if (this.$route.name === 'room-quick-start') {
-        await this.createRoom();
-        this.$router.replace({ name: "room", params: { id: this.roomInfo.uuid } });
-      }
       await this.joinRoom();
     } else {
       this.$root.$emit('bv::show::modal', 'QuickStartModal');
