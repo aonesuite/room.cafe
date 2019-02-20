@@ -15,7 +15,8 @@
 
       <div class="hint-exited" v-if="RTC.exited && RTC.roomState === 0">
         <p>You left the interact room.</p>
-        <b-btn variant="success" @click="joinRoom">Reenter the room</b-btn>
+        <b-btn variant="success" class="mx-1" @click="joinRoom">Reenter the room</b-btn>
+        <router-link class="btn btn-success mx-1" :to="{ name: 'home' }">Go home</router-link>
       </div>
     </div>
 
@@ -114,7 +115,9 @@ export default Vue.extend({
     for (const track of this.RTC.publishedTracks) {
       await track.release();
     }
-    await this.RTC.leaveRoom();
+    if (this.RTC.roomState === 2) {
+      await this.RTC.leaveRoom();
+    }
   }
 
 })
