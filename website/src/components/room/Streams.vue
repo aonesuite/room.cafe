@@ -63,7 +63,7 @@ export default Vue.extend({
         } else {
           this.$root.$emit('bv::show::modal', 'AllowDevices');
         }
-      }, 300);
+      }, 500);
 
       promise.then((tracks) => {
         this.deviceAllowed = true;
