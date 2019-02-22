@@ -768,7 +768,8 @@
 		},
 		{
 			"path": "golang.org/x/oauth2",
-			"revision": ""
+			"revision": "",
+			"version": "9b3c75971fc92dd27c6436a37c05c831498658f1"
 		},
 		{
 			"checksumSHA1": "0lYy3rZu/WgPAXXLHPLN1YWEZmI=",
@@ -1071,5 +1072,5 @@
 			"revisionTime": "2015-07-21T03:42:11Z"
 		}
 	],
-	"rootPath": "/Users/wentx/room.cafe/Server/src"
+	"rootPath": "/Users/miclle/projects/room.cafe/Server/src"
 }
