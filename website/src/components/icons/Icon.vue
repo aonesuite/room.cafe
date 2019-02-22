@@ -33,6 +33,9 @@ import Square from "./Square.vue";             // 正方形
 import Circle from "./Circle.vue";             // 圆形
 import Eraser from "./Eraser.vue";             // 橡皮擦
 
+import Google from "./Google.vue";             // Google
+import GitHub from "./GitHub.vue";             // GitHub
+
 const icons: any = {
   "video":             Video,
   "video-slash":       VideoSlash,
@@ -61,6 +64,9 @@ const icons: any = {
   "square":            Square,
   "circle":            Circle,
   "eraser":            Eraser,
+
+  "google":            Google,
+  "github":            GitHub,
 }
 
 export default Vue.component("Icon", {
