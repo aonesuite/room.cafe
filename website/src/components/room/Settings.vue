@@ -120,8 +120,8 @@ export default Vue.extend({
       this.deviceInfoList = deviceInfoList
     })
 
-    const count = this.deviceInfoList.filter((info) => info && info.kind === 'videoinput').length
-    if (count === 1) {
+    const videoInputDevices = this.deviceInfoList.filter((info) => info && info.kind === 'videoinput')
+    if (videoInputDevices.length === 1) {
       this.settings.currentVideoInputDeviceID = this.videoInputDevices[0].deviceId
     }
 
