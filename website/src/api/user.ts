@@ -10,3 +10,8 @@ export function State () {
 export function AutoCreate (args: UserArgs) {
   return axios.post('/user', args)
 }
+
+// OAuth
+export function Authorize (provider: string) {
+  return axios.get('/authorize/' + provider)
+}

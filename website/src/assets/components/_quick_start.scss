@@ -1,0 +1,35 @@
+form.session{
+  padding: 20px 15px;
+}
+
+.oauth-actions{
+  margin: 45px 15px 0;
+  text-align: center;
+  border-top: 1px solid #CCC;
+
+  h6{
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #666;
+    background: #FFF;
+    clear: left;
+    transform: translateY(-65%);
+    padding: 0 5px;
+  }
+
+  .btn{
+    padding: 0.375rem 1rem;
+    text-align: center;
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+
+    &:hover{
+      color: #000;
+    }
+
+    span{
+      display: block;
+    }
+  }
+}
