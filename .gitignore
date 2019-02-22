@@ -85,6 +85,5 @@ temp_coverage_test.go
 **/*.log
 
 # deploy
-room.cafe*
 package
 config.yaml
