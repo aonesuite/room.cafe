@@ -80,8 +80,8 @@ func main() {
 	engine.GET("/user/state", account.State) // 用户当前状态
 	engine.POST("/user", account.Create)     // 创建用户
 
-	engine.GET("/oauth/:provider/callback", account.Callback) // oauth2 回调
-	engine.GET("/authorize/:provider", account.AuthCodeURL)   // 获取 redirect url
+	engine.GET("/authorize/:provider/callback", account.Callback) // oauth2 回调
+	engine.GET("/authorize/:provider", account.AuthCodeURL)       // 获取 redirect url
 
 	router := engine.Group("/", filter.Auth)
 	{
