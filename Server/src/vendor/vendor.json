@@ -767,6 +767,10 @@
 			"revisionTime": "2018-11-08T00:44:42Z"
 		},
 		{
+			"path": "golang.org/x/oauth2",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "0lYy3rZu/WgPAXXLHPLN1YWEZmI=",
 			"path": "golang.org/x/sys/unix",
 			"revision": "66b7b1311ac80bbafcd2daeef9a5e6e2cd1e2399",
@@ -1067,5 +1071,5 @@
 			"revisionTime": "2015-07-21T03:42:11Z"
 		}
 	],
-	"rootPath": "/Users/miclle/project/room.cafe/Server/src"
+	"rootPath": "/Users/wentx/room.cafe/Server/src"
 }
