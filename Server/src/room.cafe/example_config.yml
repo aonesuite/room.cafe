@@ -19,3 +19,16 @@ qiniu:
 herewhite:
   mini_token:
   host: https://cloudcapiv3.herewhite.com
+oauth:
+  google:
+    client_id:
+    client_secret:
+    auth_url:
+    token_url:
+    scopes: []
+  github:
+    client_id:
+    client_secret:
+    auth_url:
+    token_url:
+
