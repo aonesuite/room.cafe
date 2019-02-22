@@ -87,3 +87,5 @@ temp_coverage_test.go
 # deploy
 package
 config.yaml
+room.cafe.tar.gz
+
