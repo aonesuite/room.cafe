@@ -19,7 +19,11 @@
         </li>
 
         <li class="nav-item" v-if="signedIn">
-          <a class="nav-link" href="">{{ user.name }}</a>
+          <b-button id="profilePopover" variant="link" class="">{{ user.name }}</b-button>
+          <b-popover target="profilePopover" triggers="click blur" placement="buttomright">
+            Embedding content <span class="text-danger">using slots</span> affords you
+            <em>greater <strong>control.</strong></em> and basic HTML support.
+          </b-popover>
         </li>
       </b-navbar-nav>
     </b-collapse>
