@@ -12,6 +12,7 @@ import (
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"github.com/jinzhu/now"
 )
 
@@ -61,8 +62,13 @@ func Create(c *gin.Context) {
 		return
 	}
 
+	createToken(log, c, tx, user)
+}
+
+func createToken(xl *log.Logger, c *gin.Context, tx *gorm.DB, user models.User) {
 	var (
-		expire = now.New(timeNow.Add(time.Hour*24*7)).EndOfDay().Unix() - timeNow.Unix()
+		timeNow = timestamp.Now()
+		expire  = now.New(timeNow.Add(time.Hour*24*7)).EndOfDay().Unix() - timeNow.Unix()
 	)
 
 	userToken := models.UserToken{
@@ -75,7 +81,7 @@ func Create(c *gin.Context) {
 
 	// 创建 token
 	if err := tx.Create(&userToken).Error; err != nil {
-		log.Error("create user token failed", err.Error())
+		xl.Error("create user token failed", err.Error())
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create user failed", "code": "INTERNAL_SERVER_ERROR"})
 		tx.Rollback()
 		return
@@ -89,7 +95,7 @@ func Create(c *gin.Context) {
 
 	signed, err := token.SignedString([]byte(secret))
 	if err != nil {
-		log.Error("sign user token failed", err.Error())
+		xl.Error("sign user token failed", err.Error())
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create user failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
