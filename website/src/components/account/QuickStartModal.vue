@@ -25,7 +25,7 @@
       <h6>Or sign in with your community account</h6>
 
       <div class="providers">
-        <b-btn variant="link">
+        <b-btn variant="link" @click="signin('google')">
           <Icon type="google" height="36" />
           <span>Google</span>
         </b-btn>
