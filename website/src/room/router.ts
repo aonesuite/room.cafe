@@ -6,6 +6,9 @@ import OAuthCallback from '@/components/account/OAuthCallback.vue';
 import Room from '@/components/room/Room.vue';
 
 let loginAuth = async (to: Route, from: Route, next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void) => {
+  if (window.localStorage.getItem("redirect") === to.path) {
+    window.localStorage.setItem("redirect", "")
+  }
   next()
 }
 

@@ -6,6 +6,13 @@
 
 import * as QNRTC from 'pili-rtc-web';
 
+export interface OAuthSignInArgs {
+  provider: string
+  state: string;
+  code?: string;
+}
+
+
 export interface UserArgs {
   name: string;
   email?: string;
