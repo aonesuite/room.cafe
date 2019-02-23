@@ -42,7 +42,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
-import uuid from 'uuid';
 
 import * as UserAPI from '../../api/user';
 
