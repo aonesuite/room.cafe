@@ -94,11 +94,9 @@ export default Vue.extend({
     },
 
     signin(provider: string) {
+      window.localStorage.setItem("redirect", this.$route.path)
       UserAPI.Authorize(provider).then((resp) => {
-        // eslint-disable-next-line
-        console.log(resp.data.auth_url)
-        /* eslint-disable */
-        // window.location.href = resp.data.auth_url
+        window.location.href = resp.data.auth_url
       })
     }
   },

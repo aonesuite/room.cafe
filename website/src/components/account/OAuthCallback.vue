@@ -7,7 +7,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
-import * as UserAPI from '../../api/user';
 
 export default Vue.extend({
 
@@ -32,20 +31,28 @@ export default Vue.extend({
   methods: {
     ...mapActions("user", [
       'fetchState',
-      'autoCreateUser'
+      'OAuthSignIn'
     ])
   },
 
   created () {
     this.provider = this.$route.params.provider
+    this.state = this.$route.query.state as string
+    this.code = this.$route.query.code as string
 
-    // eslint-disable-next-line
-    console.log(this.provider)
-    /* eslint-disable */
+    const redirect = window.localStorage.getItem("redirect")
 
-    // if () {
-    //   // UserAPI
-    // }
+    this.OAuthSignIn({
+      provider: this.provider,
+      state: this.$route.query.state,
+      code: this.$route.query.code,
+    }).then(() => {
+      if (redirect) {
+        window.location.href = redirect
+      } else {
+        this.$router.replace({ name: 'home' })
+      }
+    })
   }
 })
 </script>
