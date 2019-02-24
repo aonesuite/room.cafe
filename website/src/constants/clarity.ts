@@ -7,13 +7,13 @@ export const clarities = {
   },
 
     // 高清 540p
-  "HD": {
-    width: 960, height: 540, bitrate: 1000, label: "540p (HD)"
+  "SD": {
+    width: 960, height: 540, bitrate: 1000, label: "540p (SD)"
   },
 
     // 超清 720p
-  "SD": {
-    width: 1280, height: 720, bitrate: 1200, label: "720p (SD)"
+  "HD": {
+    width: 1280, height: 720, bitrate: 1200, label: "720p (HD)"
   },
 
     // 1080p
