@@ -21,8 +21,14 @@
         <li class="nav-item" v-if="signedIn">
           <b-button id="profilePopover" variant="link" class="">{{ user.name }}</b-button>
           <b-popover target="profilePopover" triggers="click blur" placement="buttomright">
-            Embedding content <span class="text-danger">using slots</span> affords you
-            <em>greater <strong>control.</strong></em> and basic HTML support.
+            <b-media>
+              <b-img slot="aside" blank blank-color="#ccc" width="64" alt="placeholder" class="rounded-circle" />
+
+              <h5 class="mt-0">{{ user.name }}</h5>
+              <p class="text-muted">
+                {{ user.email }}
+              </p>
+            </b-media>
           </b-popover>
         </li>
       </b-navbar-nav>

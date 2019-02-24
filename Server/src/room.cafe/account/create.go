@@ -114,6 +114,7 @@ func createToken(xl *log.Logger, c *gin.Context, tx *gorm.DB, user models.User) 
 		"name":   user.Name,
 		"email":  user.Email,
 		"gender": user.Gender,
+		"avatar": user.Avatar,
 		"token":  signed,
 	})
 }
