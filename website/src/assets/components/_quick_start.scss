@@ -33,3 +33,46 @@ form.session{
     }
   }
 }
+
+.oauth-signin{
+  height: 100vh;
+  min-width: 960px;
+  min-height: 540px;
+  position: relative;
+  background: #000;
+
+  .loading{
+    width: 8rem;
+    height: 8rem;
+    // margin: 15px auto;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+
+    .icon{
+      width: 90%;
+      height: 90%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: rgba($color: #FFF, $alpha: 0.85)
+    }
+    .spinner{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: rgba($color: #FFF, $alpha: 0.25)
+    }
+  }
+}
+
+.modal-oauth{
+  .oauth-actions{
+    margin-top: 25px;
+    border: none;
+  }
+}
