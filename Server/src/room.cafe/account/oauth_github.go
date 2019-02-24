@@ -81,8 +81,9 @@ func (gitOAuth *GithubOAuth) AuthUserInfo(xl *log.Logger, token *oauth2.Token) (
 	}
 
 	user = models.User{
-		Email: githubUser.Email,
-		Name:  githubUser.Name,
+		Email:  githubUser.Email,
+		Name:   githubUser.Name,
+		Avatar: githubUser.AvatarURL,
 	}
 
 	return
