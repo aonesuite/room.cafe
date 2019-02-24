@@ -121,8 +121,8 @@ export default Vue.extend({
     })
 
     const videoInputDevices = this.deviceInfoList.filter((info) => info && info.kind === 'videoinput')
-    if (videoInputDevices.length === 1) {
-      this.settings.currentVideoInputDeviceID = this.videoInputDevices[0].deviceId
+    if (videoInputDevices.length === 1 && videoInputDevices[0].deviceId) {
+      this.settings.currentVideoInputDeviceID = videoInputDevices[0].deviceId
     }
 
     this.clarities = Clarity.clarities;
