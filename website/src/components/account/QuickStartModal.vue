@@ -16,7 +16,7 @@
       </b-form-group>
 
       <div class="actions">
-        <b-btn variant="link" class="px-0 text-success">Create account</b-btn>
+        <!-- <b-btn variant="link" class="px-0 text-success">Create account</b-btn> -->
         <b-btn class="float-right" type="submit" variant="outline-success" :disabled="login === ''">{{ submitBtnText }}</b-btn>
       </div>
     </form>
