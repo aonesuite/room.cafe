@@ -4,7 +4,7 @@ import { GetterTree, ActionTree, MutationTree  } from 'vuex'
 import axios, { AxiosPromise } from 'axios'
 
 import * as UserAPI from '@/api/user'
-import { UserArgs, User } from '@/types/user';
+import { OAuthSignInArgs, UserArgs, User } from '@/types/user';
 
 export interface UserState {
   signedIn: boolean
@@ -55,6 +55,16 @@ const actions: ActionTree<UserState, RootState> = {
 
   autoCreateUser({ commit }, args: UserArgs): AxiosPromise<UserState> {
     return UserAPI.AutoCreate(args).then((res) => {
+      commit('setUserSignedIn', true);
+      commit('setUserToken', res.data.token);
+      let info = new User(res.data)
+      commit('setUserInfo', info);
+      return res;
+    })
+  },
+
+  OAuthSignIn({ commit }, args: OAuthSignInArgs): AxiosPromise<UserState> {
+    return UserAPI.AuthorizeCallback(args.provider, args).then((res) => {
       commit('setUserSignedIn', true);
       commit('setUserToken', res.data.token);
       let info = new User(res.data)

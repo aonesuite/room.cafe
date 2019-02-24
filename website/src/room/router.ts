@@ -2,9 +2,13 @@ import Vue from 'vue'
 import Router, { Route, RawLocation } from 'vue-router'
 
 import Home from '@/components/Home.vue';
+import OAuthCallback from '@/components/account/OAuthCallback.vue';
 import Room from '@/components/room/Room.vue';
 
 let loginAuth = async (to: Route, from: Route, next: (to?: RawLocation | false | ((vm: Vue) => any) | void) => void) => {
+  if (window.localStorage.getItem("redirect") === to.path) {
+    window.localStorage.setItem("redirect", "")
+  }
   next()
 }
 
@@ -17,6 +21,11 @@ let router = new Router({
       name: 'home',
       path: '/',
       component: Home
+    },
+    {
+      name: 'oauth_callback',
+      path: '/oauth/:provider/callback',
+      component: OAuthCallback
     },
     {
       name: 'room',

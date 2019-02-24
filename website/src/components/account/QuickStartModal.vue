@@ -10,23 +10,40 @@
     :no-close-on-esc="noCloseOnEsc"
     :hide-header-close="hideHeaderClose">
 
-    <form @submit.prevent="submit">
-      <b-input-group>
-        <b-form-input v-model.trim="login" id="login" placeholder="Enter a name or email"></b-form-input>
-        <b-input-group-append>
-          <b-btn type="submit" variant="outline-success" :disabled="login === ''">{{ submitBtnText }}</b-btn>
-        </b-input-group-append>
-      </b-input-group>
+    <form class="session" @submit.prevent="submit">
+      <b-form-group>
+        <b-form-input v-model.trim="login" id="login" placeholder="Enter a name and start quickly"></b-form-input>
+      </b-form-group>
+
+      <div class="actions">
+        <b-btn variant="link" class="px-0 text-success">Create account</b-btn>
+        <b-btn class="float-right" type="submit" variant="outline-success" :disabled="login === ''">{{ submitBtnText }}</b-btn>
+      </div>
     </form>
 
-    <!-- TODO: OAuth logic begin -->
-    <!-- TODO: OAuth logic end -->
+    <div class="oauth-actions">
+      <h6>Or sign in with your community account</h6>
+
+      <div class="providers">
+        <!-- <b-btn variant="link" @click="signin('google')">
+          <Icon type="google" height="36" />
+          <span>Google</span>
+        </b-btn> -->
+
+        <b-btn variant="link" @click="signin('github')">
+          <Icon type="github" height="36" />
+          <span>GitHub</span>
+        </b-btn>
+      </div>
+    </div>
   </b-modal>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
+
+import * as UserAPI from '../../api/user';
 
 export default Vue.extend({
 
@@ -36,7 +53,7 @@ export default Vue.extend({
       noCloseOnBackdrop: false,
       noCloseOnEsc: false,
       hideHeaderClose: false,
-      submitBtnText: "Starting",
+      submitBtnText: "Quick Start",
       login: ''
     }
   },
@@ -72,6 +89,13 @@ export default Vue.extend({
         }
 
         this.$root.$emit('bv::hide::modal', 'QuickStartModal');
+      })
+    },
+
+    signin(provider: string) {
+      window.localStorage.setItem("redirect", this.$route.path)
+      UserAPI.Authorize(provider).then((resp) => {
+        window.location.href = resp.data.auth_url
       })
     }
   },
