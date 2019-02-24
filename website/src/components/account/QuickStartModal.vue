@@ -25,10 +25,10 @@
       <h6>Or sign in with your community account</h6>
 
       <div class="providers">
-        <b-btn variant="link" @click="signin('google')">
+        <!-- <b-btn variant="link" @click="signin('google')">
           <Icon type="google" height="36" />
           <span>Google</span>
-        </b-btn>
+        </b-btn> -->
 
         <b-btn variant="link" @click="signin('github')">
           <Icon type="github" height="36" />
