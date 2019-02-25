@@ -20,8 +20,7 @@
 
         <li class="nav-item" v-if="signedIn">
           <b-button id="profilePopover" variant="link" class="">{{ user.name }}</b-button>
-          <!-- blur -->
-          <b-popover target="profilePopover" triggers="click" placement="buttomright">
+          <b-popover target="profilePopover" triggers="click blur" placement="buttomright">
             <b-media class="profile-popover-card">
               <b-img
                 slot="aside"
