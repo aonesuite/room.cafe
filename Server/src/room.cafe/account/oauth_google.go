@@ -56,8 +56,10 @@ func (googleOAuth *GoogleOAuth) AuthUserInfo(xl *log.Logger, token *oauth2.Token
 	}
 
 	user = models.User{
-		Name:  googleUser.Name,
-		Email: googleUser.Email,
+		Name:   googleUser.Name,
+		Email:  googleUser.Email,
+		Avatar: googleUser.Picture,
+		Gender: googleUser.Gender,
 	}
 
 	return

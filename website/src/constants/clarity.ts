@@ -1,19 +1,15 @@
-export declare type ClarityType = "Normal" | "HD" | "SD" | "FHD";
+export declare type ClarityType = "HD" | "SD" | "FHD";
 
+// https://support.google.com/youtube/answer/6375112?co=GENIE.Platform%3DDesktop&hl=zh-Hans
 export const clarities = {
   // 标清 480p
-  "Normal": {
-    width: 854, height: 480, bitrate: 800, label: "480p (Normal)"
-  },
-
-    // 高清 540p
-  "HD": {
-    width: 960, height: 540, bitrate: 1000, label: "540p (HD)"
+  "SD": {
+    width: 854, height: 480, bitrate: 800, label: "480p (SD)"
   },
 
     // 超清 720p
-  "SD": {
-    width: 1280, height: 720, bitrate: 1200, label: "720p (SD)"
+  "HD": {
+    width: 1280, height: 720, bitrate: 1200, label: "720p (HD)"
   },
 
     // 1080p

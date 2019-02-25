@@ -67,5 +67,6 @@ func State(c *gin.Context) {
 		"name":      user.Name,
 		"email":     user.Email,
 		"gender":    user.Gender,
+		"avatar":    user.Avatar,
 	})
 }

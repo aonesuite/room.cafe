@@ -86,7 +86,9 @@ export default Vue.extend({
       case 'github':
         this.icon = 'github'
         break;
-
+      case 'google':
+        this.icon = 'google'
+        break;
       default:
         break;
     }
