@@ -8,7 +8,7 @@
     <svg role="img" viewBox="0 0 16 9" xmlns="http://www.w3.org/2000/svg"></svg>
 
     <div class="cover">
-      <img class="avatar" :src="`${stream.user.avatar}?imageView2/1/w/352/h/198/q/100`" v-if="stream.user.avatar">
+      <img class="avatar" :src="`${stream.user.avatar}`" v-if="stream.user.avatar">
     </div>
 
     <div
