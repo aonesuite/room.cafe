@@ -57,12 +57,18 @@
       float: left;
       width: 32px;
       height: 32px;
+      overflow: hidden;
       margin-right: 10px;
       border-radius: 3px;
       background: url(../assets/images/default-avatar.jpg);
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
+      img{
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 3px;
+      }
     }
 
     .body {

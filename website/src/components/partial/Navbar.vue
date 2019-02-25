@@ -20,14 +20,20 @@
 
         <li class="nav-item" v-if="signedIn">
           <b-button id="profilePopover" variant="link" class="">{{ user.name }}</b-button>
-          <b-popover target="profilePopover" triggers="click blur" placement="buttomright">
-            <b-media>
-              <b-img slot="aside" blank blank-color="#ccc" width="64" alt="placeholder" class="rounded-circle" />
+          <!-- blur -->
+          <b-popover target="profilePopover" triggers="click" placement="buttomright">
+            <b-media class="profile-popover-card">
+              <b-img
+                slot="aside"
+                :src="user.avatar"
+                :blank="user.avatar == ''"
+                blank-color="#CCC"
+                width="64"
+                height="64"
+                class="rounded-circle avatar" />
 
               <h5 class="mt-0">{{ user.name }}</h5>
-              <p class="text-muted">
-                {{ user.email }}
-              </p>
+              <div class="text-muted">{{ user.email }}</div>
             </b-media>
           </b-popover>
         </li>
