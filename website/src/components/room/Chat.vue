@@ -12,7 +12,7 @@
     <ul class="message-list" ref="messageList">
       <li :class="{self: message.userId === RTC.userId}" v-for="(message, index) in chatMessages" :key="`${message.timestamp}-${message.userId}-${index}`">
         <div class="avatar">
-          <img :src="`${message.user.avatar}?imageView2/1/w/64/h/64/q/100`" v-if="message.user.avatar">
+          <img :src="`${message.user.avatar}`" width="64" height="64" v-if="message.user.avatar">
         </div>
 
         <div class="body">
