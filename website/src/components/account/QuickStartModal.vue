@@ -16,7 +16,7 @@
       </b-form-group>
 
       <div class="actions">
-        <b-btn variant="link" class="px-0 text-success">Create account</b-btn>
+        <!-- <b-btn variant="link" class="px-0 text-success">Create account</b-btn> -->
         <b-btn class="float-right" type="submit" variant="outline-success" :disabled="login === ''">{{ submitBtnText }}</b-btn>
       </div>
     </form>
@@ -25,10 +25,10 @@
       <h6>Or sign in with your community account</h6>
 
       <div class="providers">
-        <!-- <b-btn variant="link" @click="signin('google')">
+        <b-btn variant="link" @click="signin('google')">
           <Icon type="google" height="36" />
           <span>Google</span>
-        </b-btn> -->
+        </b-btn>
 
         <b-btn variant="link" @click="signin('github')">
           <Icon type="github" height="36" />
