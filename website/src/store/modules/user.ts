@@ -30,7 +30,7 @@ const mutations: MutationTree<UserState> = {
 
   setUserToken(state, token: string) {
     state.token = token
-    localStorage.token = token
+    localStorage.setItem("token", token)
   },
 
   setUserInfo(state, info: User) {
@@ -69,6 +69,14 @@ const actions: ActionTree<UserState, RootState> = {
       commit('setUserToken', res.data.token);
       let info = new User(res.data)
       commit('setUserInfo', info);
+      return res;
+    })
+  },
+
+  Logout({ commit }) {
+    return UserAPI.Logout().then((res) => {
+      localStorage.removeItem("token");
+      commit('setUserSignedIn', false);
       return res;
     })
   }

@@ -32,8 +32,9 @@ Vue.config.productionTip = false;
 axios.defaults.baseURL = process.env.VUE_APP_API_BASE_URL;
 
 axios.interceptors.request.use((config) =>{
-  if (localStorage.token) {
-    config.headers['Authorization'] = 'Bearer ' + localStorage.token;
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers['Authorization'] = 'Bearer ' + token;
   }
   return config;
 });

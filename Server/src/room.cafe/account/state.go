@@ -13,6 +13,30 @@ import (
 	"components/log"
 )
 
+// Logout 退出登录
+// DELETE /logout
+func Logout(c *gin.Context) {
+	var (
+		log       = log.New(c)
+		database  = db.Get(log.ReqID())
+		userToken = c.MustGet("currentUserToken").(*models.UserToken)
+	)
+
+	var (
+		host   = config.GetString("app.host")
+		secure = config.GetBool("app.secure")
+	)
+	c.SetCookie("ROOMCAFE", "", 0, "/", host, secure, true)
+
+	if err := database.Delete(userToken, "id = ?", userToken.ID).Error; err != nil {
+		log.Error(err.Error())
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error(), "code": "BAD_REQUEST"})
+		return
+	}
+
+	c.Status(http.StatusOK)
+}
+
 // State 用户信息
 func State(c *gin.Context) {
 	var (
