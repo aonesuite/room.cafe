@@ -15,4 +15,32 @@
       color: #FFF;
     }
   }
+
+
+  .profile-popover-card{
+    margin: 8px 2px;
+    .avatar{
+      max-width: 64px;
+      max-height: 64px;
+    }
+  }
+
+  .popover{
+
+    .actions{
+      margin-top: $popover-header-padding-y * 1.5;
+      margin-left: -$popover-header-padding-x;
+      margin-right: -$popover-header-padding-x;
+      margin-bottom: -$popover-header-padding-y;
+      padding: $popover-header-padding-y;
+      background: #f5f5f5;
+      border-top: 1px solid #ccc;
+      border-color: rgba(0,0,0,.2);
+      &::after {
+        display: block;
+        clear: both;
+        content: "";
+      }
+    }
+  }
 }
