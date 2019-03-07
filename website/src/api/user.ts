@@ -11,6 +11,11 @@ export function AutoCreate (args: UserArgs) {
   return axios.post('/user', args)
 }
 
+// 用户退出
+export function Logout () {
+  return axios.delete('/user/logout')
+}
+
 // OAuth get redirect url
 export function Authorize (provider: string) {
   return axios.get('/authorize/' + provider)

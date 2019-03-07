@@ -18,9 +18,9 @@
           <b-button size="sm" variant="success" type="button" @click="quickStart">Sign in</b-button>
         </li>
 
-        <li class="nav-item" v-if="signedIn">
+        <li class="nav-item" id="nav-item-profile" v-if="signedIn">
           <b-button id="profilePopover" variant="link" class="">{{ user.name }}</b-button>
-          <b-popover target="profilePopover" triggers="click blur" placement="buttomright">
+          <b-popover target="profilePopover" triggers="click blur" placement="buttomright" container="nav-item-profile">
             <b-media class="profile-popover-card">
               <b-img
                 slot="aside"
@@ -34,6 +34,9 @@
               <h5 class="mt-0">{{ user.name }}</h5>
               <div class="text-muted">{{ user.email }}</div>
             </b-media>
+            <div class="actions">
+              <b-btn size="sm" variant="outline-secondary" class="float-right" @click="signOut">Sign out</b-btn>
+            </div>
           </b-popover>
         </li>
       </b-navbar-nav>
@@ -66,7 +69,8 @@ export default Vue.extend({
 
   methods: {
     ...mapActions("user", [
-      'fetchState'
+      'fetchState',
+      'Logout'
     ]),
 
     ...mapActions("room", [
@@ -82,6 +86,13 @@ export default Vue.extend({
       } else {
         this.$root.$emit('bv::show::modal', 'QuickStartModal');
       }
+    },
+
+    signOut() {
+      this.Logout().then(() => {
+        localStorage.removeItem("token");
+        this.$router.push({ name: "home" });
+      })
     }
   },
 
