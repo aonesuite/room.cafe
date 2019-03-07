@@ -10,7 +10,7 @@
 
     <div class="hint">
       <div class="hint-init" v-if="RTC.roomState === 1">
-        <b-spinner variant="light" label="Loading..." />
+        <b-spinner variant="light" label="Loading..." style="width: 5rem; height: 5rem;" />
       </div>
 
       <div class="hint-exited" v-if="RTC.exited && RTC.roomState === 0">
