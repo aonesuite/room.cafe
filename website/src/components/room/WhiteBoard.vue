@@ -78,6 +78,8 @@
 import { mapState, mapGetters } from 'vuex'
 import { colors } from '@/utils/color'
 
+import { WhiteWebSdk } from 'white-web-sdk';
+
 const whiteboardSdk = new WhiteWebSdk();
 
 export default {

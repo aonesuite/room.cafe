@@ -17,6 +17,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "*" : [
+        "node_modules/white-web-sdk/types/*"
       ]
     },
     "lib": [
