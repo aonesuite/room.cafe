@@ -59,13 +59,15 @@ export default Vue.extend({
     ...mapState("room", [
       "roomInfo",
       "RTC",
-      "ChatPopUp"
+      "ChatPopUp",
+      "UnreadCount"
     ])
   },
 
   methods: {
     ...mapMutations("room", [
-      "setChatPopUp"
+      "setChatPopUp",
+      "setUnreadCount"
     ]),
 
     closeChat() {
@@ -95,11 +97,21 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    ChatPopUp: function (isOpen: boolean) {
+      if (isOpen) {
+        this.setUnreadCount(0)
+      }
+    }
+  },
+
   created () {
     this.RTC.on('messages-received', (messages: CustomMessage[]) => {
       for (const message of messages) {
         const chatMessage = this.RTC.parseChatMessage(message);
         this.appendMessage(chatMessage);
+
+        if (!this.ChatPopUp) this.setUnreadCount(this.UnreadCount + 1)
       }
     })
   },

@@ -41,6 +41,7 @@
         <li class="nav-item">
           <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" id="chatBtn" @click="switchChat(); $refs.chatTooltip.$emit('close')">
             <Icon type="comment-alt-lines" height="22" />
+            <span class="badge" v-if="UnreadCount > 0">{{ UnreadCount }}</span>
           </b-btn>
           <b-tooltip id="chatTooltip" ref="chatTooltip" target="chatBtn" placement="bottom">{{ ChatPopUp ? 'Close chat' : 'Open chat' }}</b-tooltip>
         </li>
@@ -124,7 +125,8 @@ export default Vue.extend({
     ...mapState("room", [
       "roomInfo",
       "RTC",
-      "ChatPopUp"
+      "ChatPopUp",
+      "UnreadCount"
     ])
   },
 
