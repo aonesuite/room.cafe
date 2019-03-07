@@ -85,8 +85,9 @@ func main() {
 
 	router := engine.Group("/", filter.Auth)
 	{
-		router.POST("/room", room.Create)    // 创建房间
-		router.GET("/room/:uuid", room.Info) // 房间信息
+		router.DELETE("/user/logout", account.Logout) // 退出登录
+		router.POST("/room", room.Create)             // 创建房间
+		router.GET("/room/:uuid", room.Info)          // 房间信息
 	}
 
 	// engine.Run(":" + config.GetString("app.port"))
