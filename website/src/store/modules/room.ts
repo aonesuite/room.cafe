@@ -15,6 +15,7 @@ export interface RoomState {
   RTCUsers: RTCUser[],
   StageStreamId: string,
   ChatPopUp: boolean,
+  UnreadCount: number,
 }
 
 const state: RoomState = {
@@ -23,6 +24,7 @@ const state: RoomState = {
   RTCUsers: [] as RTCUser[],
   StageStreamId: "",
   ChatPopUp: false,
+  UnreadCount: 0,
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -48,6 +50,10 @@ const mutations: MutationTree<RoomState> = {
 
   setChatPopUp(stage, popUp: boolean) {
     stage.ChatPopUp = popUp;
+  },
+
+  setUnreadCount (state, count) {
+    state.UnreadCount = count
   },
 }
 

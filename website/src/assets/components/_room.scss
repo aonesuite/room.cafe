@@ -30,6 +30,21 @@
 
   .nav-item > .btn{
     margin: 0.25rem !important;
+    position: relative;
+
+    .badge{
+      min-width: 12px;
+      padding: 0.2em 0.45em;
+      position: absolute !important;
+      right: 0 !important;
+      top: -10px !important;
+      z-index: 9;
+      font-size: 12px;
+      font-weight: 500;
+      transform: scale(0.75) translateX(55%);
+      border-radius: 10rem;
+      border: 2px solid #FFF;
+    }
   }
 
   .navbar-nav{
