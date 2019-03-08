@@ -69,6 +69,12 @@
             <Icon type="eraser" width="22" height="22" />
           </b-btn>
         </li>
+
+        <li class="nav-item">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Insert Images" @click="insertImages">
+            <Icon type="images" width="22" height="22" />
+          </b-btn>
+        </li>
       </ul>
     </div>
   </div>
@@ -141,6 +147,10 @@ export default {
 
     setStrokeColor(color) {
       this.strokeColor = color;
+    },
+
+    insertImages() {
+
     }
   },
 
