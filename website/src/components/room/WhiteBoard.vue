@@ -72,11 +72,10 @@
 
         <li class="nav-item">
           <el-upload
-            class="upload-demo"
+            class="image-uploader"
             action="https://up.qiniup.com"
             accept="image/png,image/jpeg,image/gif"
             multiple
-            :limit="5"
             :data="uploadData"
             :show-file-list="false"
             :before-upload="beforeUpload"
@@ -101,19 +100,7 @@ import { colors } from '@/utils/color'
 
 import * as UploaderAPI from '@/api/uploader';
 
-const whiteboardSdk = new WhiteWebSdk({
-  urlInterrupter: (url) => {
-    // eslint-disable-next-line
-    console.log('urlInterrupter', url)
-    /* eslint-disable */
-
-    UploaderAPI.getURL(url).then((resp) => {
-      return resp.data.url
-    });
-
-    return "";
-  }
-});
+const whiteboardSdk = new WhiteWebSdk();
 
 export default {
 
@@ -207,10 +194,6 @@ export default {
     },
 
     handleSuccess(resp, file) {
-      // eslint-disable-next-line
-      console.log(resp, file)
-      /* eslint-disable */
-
       var _uuid = uuid()
 
       this.whiteboard.insertImage({
@@ -220,7 +203,10 @@ export default {
         width: file.response.imageInfo.width,
         height: file.response.imageInfo.height,
       });
-      this.whiteboard.completeImageUpload(_uuid, `${this.domain}/${file.response.key}`);
+
+      UploaderAPI.getURL(file.response.key).then((resp) => {
+        this.whiteboard.completeImageUpload(_uuid, resp.data.url);
+      });
     }
   },
 
