@@ -4,6 +4,7 @@ import Vuex, { StoreOptions } from 'vuex'
 import { RootState } from './modules/types'
 import { user } from './modules/user'
 import { room } from './modules/room'
+import { uploader } from './modules/uploader'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ const store: StoreOptions<RootState> = {
   },
   modules: {
     user,
-    room
+    room,
+    uploader
   }
 }
 

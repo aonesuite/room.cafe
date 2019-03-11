@@ -16,6 +16,7 @@
     "fscreen": "^1.0.2",
     "lodash": "^4.17.11",
     "pili-rtc-web": "^2.1.0-patch.0",
+    "uuid": "^3.3.2",
     "vue": "^2.6.3",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
