@@ -61,7 +61,7 @@ func MakeUploadToken(c *gin.Context) {
 func MakeDownloadToken(c *gin.Context) {
 	var (
 		key       = c.Param("key")
-		cdnDomain = config.GetString("qiniu.private_domain")
+		cdnDomain = config.GetString("qiniu.domain")
 		mac       = qbox.NewMac(config.GetString("qiniu.access_key"), config.GetString("qiniu.secret_key"))
 		duration  = 365 * 24 * 3600
 		expiry    = time.Now().Add(time.Duration(duration) * time.Second).Unix()

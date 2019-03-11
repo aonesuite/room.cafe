@@ -7,5 +7,5 @@ export function getToken () {
 
 // 获取下载 URL
 export function getURL (key: string) {
-  return axios.get(`/uploader/${key}/url`)
+  return axios.get(`/uploader/url/${key}`)
 }

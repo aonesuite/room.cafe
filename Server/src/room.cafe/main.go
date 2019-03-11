@@ -88,8 +88,8 @@ func main() {
 	{
 		router.DELETE("/user/logout", account.Logout) // 退出登录
 
-		router.GET("/uploader/token", uploader.MakeUploadToken)    // 上传 token
-		router.GET("/uploader/:key/url", uploader.MakeUploadToken) // 下载 url
+		router.GET("/uploader/token", uploader.MakeUploadToken)      // 上传 token
+		router.GET("/uploader/url/:key", uploader.MakeDownloadToken) // 下载 url
 
 		router.POST("/room", room.Create)    // 创建房间
 		router.GET("/room/:uuid", room.Info) // 房间信息
