@@ -69,14 +69,36 @@
             <Icon type="eraser" width="22" height="22" />
           </b-btn>
         </li>
+
+        <li class="nav-item">
+          <el-upload
+            class="image-uploader"
+            action="https://up.qiniup.com"
+            accept="image/png,image/jpeg,image/gif"
+            multiple
+            :data="uploadData"
+            :show-file-list="false"
+            :before-upload="beforeUpload"
+            :on-progress="handleProgress"
+            :on-success="handleSuccess">
+
+            <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Insert Images">
+              <Icon type="images" width="22" height="22" />
+            </b-btn>
+          </el-upload>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import uuid from 'uuid/v4'
+import { mapState, mapGetters, mapActions } from 'vuex';
+import { WhiteWebSdk } from 'white-web-sdk';
 import { colors } from '@/utils/color'
+
+import * as UploaderAPI from '@/api/uploader';
 
 const whiteboardSdk = new WhiteWebSdk();
 
@@ -87,7 +109,8 @@ export default {
       whiteboard: undefined,
       currentApplianceName: 'pencil',
       color: '#dc3545',
-      predefineColors: colors
+      predefineColors: colors,
+      intervalTimer: 0,
     }
   },
 
@@ -95,6 +118,11 @@ export default {
     ...mapState("user", [
       "signedIn",
       "user"
+    ]),
+
+    ...mapState("uploader", [
+      "token",
+      "domain",
     ]),
 
     ...mapState("room", [
@@ -107,6 +135,7 @@ export default {
       get: function () { return this.whiteboard && this.whiteboard.state.memberState.currentApplianceName },
       set: function (name) { this.whiteboard.setMemberState({ currentApplianceName: name }) }
     },
+
     strokeColor: {
       get: function () {
         if (this.whiteboard === undefined) return colors[0];
@@ -121,17 +150,29 @@ export default {
         this.whiteboard.setMemberState({ strokeColor: color.rgb })
       }
     },
+
     strokeWidth: {
       get: function () { return this.whiteboard && this.whiteboard.state.memberState.strokeWidth },
       set: function (width) { this.whiteboard.setMemberState({ strokeWidth: width }) }
     },
+
     textSize: {
       get: function () { return this.whiteboard && this.whiteboard.state.memberState.textSize },
       set: function (size) { this.whiteboard.setMemberState({ textSize: size }) }
+    },
+
+    uploadData() {
+      return {
+        token: this.token
+      }
     }
   },
 
   methods: {
+    ...mapActions('uploader', [
+      'getToken'
+    ]),
+
     setAppliance(appliance) {
       this.whiteboard.setMemberState({ currentApplianceName: appliance })
       this.currentApplianceName = this.whiteboard.state.memberState.currentApplianceName
@@ -139,6 +180,33 @@ export default {
 
     setStrokeColor(color) {
       this.strokeColor = color;
+    },
+
+    beforeUpload(file) {
+      if (file.size > 1024 * 1024 * 2) {
+        this.$message.error("Please upload pictures less than 2M.");
+        return false
+      }
+    },
+
+    handleProgress() {
+
+    },
+
+    handleSuccess(resp, file) {
+      var _uuid = uuid()
+
+      this.whiteboard.insertImage({
+        uuid: _uuid,
+        centerX: 0,
+        centerY: 0,
+        width: file.response.imageInfo.width,
+        height: file.response.imageInfo.height,
+      });
+
+      UploaderAPI.getURL(file.response.key).then((resp) => {
+        this.whiteboard.completeImageUpload(_uuid, resp.data.url);
+      });
     }
   },
 
@@ -151,6 +219,11 @@ export default {
   },
 
   created () {
+    this.getToken();
+    this.intervalTimer = setInterval(() => {
+      this.getToken()
+    }, 1000 * 60 * 15)
+
     window.addEventListener('resize', () => {
       if (this.whiteboard) this.whiteboard.refreshViewSize();
     });
@@ -177,6 +250,7 @@ export default {
   },
 
   destroyed() {
+    clearInterval(this.intervalTimer)
     this.whiteboard.disconnect()
   }
 }

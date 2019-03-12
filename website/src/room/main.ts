@@ -3,7 +3,7 @@ import '@/assets/main.scss';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import BootstrapVue from 'bootstrap-vue';
-import { Select, Option, OptionGroup, Tabs, TabPane, Message } from 'element-ui';
+import { Select, Option, OptionGroup, Tabs, TabPane, Message, Upload } from 'element-ui';
 import axios from 'axios';
 import { detect } from 'detect-browser';
 import lodash from 'lodash'
@@ -21,6 +21,7 @@ Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component(OptionGroup.name, OptionGroup);
 Vue.component(Message.name, Message);
+Vue.component(Upload.name, Upload)
 
 Vue.use(Tabs);
 Vue.use(TabPane);

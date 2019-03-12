@@ -11,14 +11,21 @@ app:
   port: 8080
   secure: false
   secret: secret
+  cors:
+    origins:
+      - http://localhost:3000
+      - http://dev.room.cafe:3000
+      - https://dev.room.cafe:3000
 qiniu:
   access_key: access_key
   secret_key: secret_key
   rtn_appid:
   rtn_addr: https://rtc.qiniuapi.com
+  bucket:
+  domain:
 herewhite:
   mini_token:
-  host: https://cloudcapiv3.herewhite.com
+  host: https://cloudcapiv4.herewhite.com
 oauth:
   google:
     client_id:
@@ -31,4 +38,3 @@ oauth:
     client_secret:
     auth_url:
     token_url:
-

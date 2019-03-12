@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "skipLibCheck": true,
     "module": "es2015",
     "strict": true,
     "jsx": "preserve",
@@ -17,6 +18,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "*" : [
+        "node_modules/white-web-sdk/types/*"
       ]
     },
     "lib": [
