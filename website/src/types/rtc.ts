@@ -150,6 +150,8 @@ export class RTC extends QNRTC.TrackModeSession {
 
     super.leaveRoom();
     this.exited = true;
+
+    this.emit("leaveRoom")
   }
 
   public encodeChatMessage(content: string): ChatMessage {
