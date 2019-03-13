@@ -4,7 +4,9 @@ import { RTCUser } from '@/types/user';
 import { ChatMessage } from './message';
 import { CustomMessage } from 'pili-rtc-web';
 
-// QNRTC.log.level = "disable";
+if (process.env.NODE_ENV === "production") {
+  QNRTC.log.level = "disable";
+}
 
 export class RTC extends QNRTC.TrackModeSession {
 
@@ -150,6 +152,8 @@ export class RTC extends QNRTC.TrackModeSession {
 
     super.leaveRoom();
     this.exited = true;
+
+    this.emit("leaveRoom")
   }
 
   public encodeChatMessage(content: string): ChatMessage {

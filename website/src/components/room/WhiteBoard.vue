@@ -207,13 +207,19 @@ export default {
       UploaderAPI.getURL(file.response.key).then((resp) => {
         this.whiteboard.completeImageUpload(_uuid, resp.data.url);
       });
+    },
+
+    disconnect() {
+      if (this.whiteboard.state.phase !== "disconnecting"){
+        this.whiteboard.disconnect()
+      }
     }
   },
 
   watch: {
     'RTC.roomState': function (state) {
       if (state !== 2) {
-        this.whiteboard.disconnect();
+        this.disconnect();
       }
     }
   },
@@ -228,8 +234,12 @@ export default {
       if (this.whiteboard) this.whiteboard.refreshViewSize();
     });
 
-    document.addEventListener('beforeunload', () => this.whiteboard.disconnect());
-    window.addEventListener('beforeunload', () => this.whiteboard.disconnect());
+    this.RTC.on("leaveRoom", () => {
+      this.disconnect();
+    })
+
+    document.addEventListener('beforeunload', () => this.disconnect());
+    window.addEventListener('beforeunload', () => this.disconnect());
   },
 
   mounted () {
@@ -251,7 +261,7 @@ export default {
 
   destroyed() {
     clearInterval(this.intervalTimer)
-    this.whiteboard.disconnect()
+    this.disconnect()
   }
 }
 </script>
