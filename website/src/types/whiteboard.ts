@@ -120,18 +120,11 @@ export class Whiteboard extends EventEmitter {
 
   public async disconnect(){
     if (this.room === undefined) return;
-
-    // eslint-disable-next-line
-    console.log("disconnect before", this.room.phase);
-    /* eslint-disable */
-
     if (this.room.phase === SDK.RoomPhase.Connected) {
+      // disconnect has a bug: cannot disconnect
       await this.room.disconnect();
+      this.room = undefined;
     }
-
-    // eslint-disable-next-line
-    console.log("disconnect after", this.room.phase);
-    /* eslint-disable */
   }
 
   public setGlobalState(modifyState: Partial<SDK.GlobalState>) {
