@@ -99,9 +99,9 @@ export default Vue.extend({
     leaveRoom() {
       this.RTC.leaveRoom();
 
-      if (this.Whiteboard) {
-        this.Whiteboard.disconnect();
-      }
+      // if (this.Whiteboard) {
+      //   this.Whiteboard.disconnect();
+      // }
     }
   },
 

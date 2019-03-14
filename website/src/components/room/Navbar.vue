@@ -126,7 +126,8 @@ export default Vue.extend({
       "roomInfo",
       "RTC",
       "ChatPopUp",
-      "UnreadCount"
+      "UnreadCount",
+      "Whiteboard"
     ])
   },
 
@@ -189,6 +190,8 @@ export default Vue.extend({
         await track.release();
       }
       this.RTC.leaveRoom()
+
+      this.Whiteboard.disconnect();
     }
   },
 
