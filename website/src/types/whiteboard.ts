@@ -118,10 +118,20 @@ export class Whiteboard extends EventEmitter {
 
   // room interface methods
 
-  public disconnect(){
-    if (this.room && this.room.phase !== SDK.RoomPhase.Disconnecting) {
-      this.room.disconnect();
+  public async disconnect(){
+    if (this.room === undefined) return;
+
+    // eslint-disable-next-line
+    console.log("disconnect before", this.room.phase);
+    /* eslint-disable */
+
+    if (this.room.phase === SDK.RoomPhase.Connected) {
+      await this.room.disconnect();
     }
+
+    // eslint-disable-next-line
+    console.log("disconnect after", this.room.phase);
+    /* eslint-disable */
   }
 
   public setGlobalState(modifyState: Partial<SDK.GlobalState>) {

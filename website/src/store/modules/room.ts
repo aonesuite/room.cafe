@@ -82,7 +82,7 @@ const actions: ActionTree<RoomState, RootState> = {
     commit('setRTCUsers', users);
   },
 
-  joinWhiteboardRoom({ state, commit }, params: Whiteboard.JoinRoomParams, callbacks?: Whiteboard.RoomCallbacks): Promise<Whiteboard.Whiteboard> {
+  joinWhiteboardRoom({ state }, params: Whiteboard.JoinRoomParams, callbacks?: Whiteboard.RoomCallbacks): Promise<Whiteboard.Whiteboard> {
     return state.Whiteboard.joinRoom(params, callbacks).then((whiteboard) => {
       return whiteboard;
     })

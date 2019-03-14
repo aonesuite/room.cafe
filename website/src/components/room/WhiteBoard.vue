@@ -5,31 +5,31 @@
     <div class="toolbar">
       <ul class="nav">
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Selector" @click="setAppliance('selector')" :class="{active: applianceName === 'selector'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Selector" @click="setAppliance('selector')" :class="{active: Whiteboard.memberState.currentApplianceName === 'selector'}">
             <Icon type="mouse-pointer" width="22" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Pencil" @click="setAppliance('pencil')" :class="{active: applianceName === 'pencil'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Pencil" @click="setAppliance('pencil')" :class="{active: Whiteboard.memberState.currentApplianceName === 'pencil'}">
             <Icon type="pencil-alt" width="20" height="20" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Text" @click="setAppliance('text')" :class="{active: applianceName === 'text'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Text" @click="setAppliance('text')" :class="{active: Whiteboard.memberState.currentApplianceName === 'text'}">
             <Icon type="text" width="20" height="20" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Rectangle" @click="setAppliance('rectangle')" :class="{active: applianceName === 'rectangle'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Rectangle" @click="setAppliance('rectangle')" :class="{active: Whiteboard.memberState.currentApplianceName === 'rectangle'}">
             <Icon type="square" width="22" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Circle" @click="setAppliance('ellipse')" :class="{active: applianceName === 'ellipse'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Circle" @click="setAppliance('ellipse')" :class="{active: Whiteboard.memberState.currentApplianceName === 'ellipse'}">
             <Icon type="circle" width="22" height="22" />
           </b-btn>
         </li>
@@ -65,7 +65,7 @@
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Eraser" @click="setAppliance('eraser')" :class="{active: applianceName === 'eraser'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Eraser" @click="setAppliance('eraser')" :class="{active: Whiteboard.memberState.currentApplianceName === 'eraser'}">
             <Icon type="eraser" width="22" height="22" />
           </b-btn>
         </li>
@@ -92,22 +92,18 @@
   </div>
 </template>
 
-<script>
-import uuid from 'uuid/v4'
+<script lang="ts">
+import uuid from 'uuid/v4';
+import Vue from 'vue';
 import { mapState, mapGetters, mapActions } from 'vuex';
-import { WhiteWebSdk } from 'white-web-sdk';
-import { colors } from '@/utils/color'
+import { colors } from '../../utils/color';
 
-import * as UploaderAPI from '@/api/uploader';
+import * as UploaderAPI from '../../api/uploader';
 
-const whiteboardSdk = new WhiteWebSdk();
+export default Vue.extend({
 
-export default {
-
-  data () {
+  data (): any {
     return {
-      whiteboard: undefined,
-      currentApplianceName: 'pencil',
       color: '#dc3545',
       predefineColors: colors,
       intervalTimer: 0,
@@ -128,40 +124,30 @@ export default {
     ...mapState("room", [
       "roomInfo",
       "RTC",
-      "RTCUsers"
+      "RTCUsers",
+      "Whiteboard"
     ]),
-
-    applianceName: {
-      get: function () { return this.whiteboard && this.whiteboard.state.memberState.currentApplianceName },
-      set: function (name) { this.whiteboard.setMemberState({ currentApplianceName: name }) }
-    },
 
     strokeColor: {
       get: function () {
-        if (this.whiteboard === undefined) return colors[0];
-
         for (const color of colors) {
-          if (this.$lodash.isEqual(color.rgb, this.whiteboard.state.memberState.strokeColor)) return color
+          if (this.Whiteboard.memberState && this.$lodash.isEqual(color.rgb, this.Whiteboard.memberState.strokeColor))
+            return color
         }
 
         return colors[0]
       },
-      set: function (color) {
-        this.whiteboard.setMemberState({ strokeColor: color.rgb })
+      set: function (color: { name: string, hex: string, rgb: number[]}) {
+        this.Whiteboard.setMemberState({ strokeColor: color.rgb })
       }
     },
 
     strokeWidth: {
-      get: function () { return this.whiteboard && this.whiteboard.state.memberState.strokeWidth },
-      set: function (width) { this.whiteboard.setMemberState({ strokeWidth: width }) }
+      get: function (): number { return this.Whiteboard.memberState.strokeWidth },
+      set: function (width: number) { this.Whiteboard.setMemberState({ strokeWidth: width }) }
     },
 
-    textSize: {
-      get: function () { return this.whiteboard && this.whiteboard.state.memberState.textSize },
-      set: function (size) { this.whiteboard.setMemberState({ textSize: size }) }
-    },
-
-    uploadData() {
+    uploadData(): any {
       return {
         token: this.token
       }
@@ -173,16 +159,19 @@ export default {
       'getToken'
     ]),
 
-    setAppliance(appliance) {
-      this.whiteboard.setMemberState({ currentApplianceName: appliance })
-      this.currentApplianceName = this.whiteboard.state.memberState.currentApplianceName
+    ...mapActions("room", [
+      "joinWhiteboardRoom"
+    ]),
+
+    setAppliance(appliance: string) {
+      this.Whiteboard.setMemberState({ currentApplianceName: appliance });
     },
 
-    setStrokeColor(color) {
+    setStrokeColor(color: { name: string, hex: string, rgb: number[]}) {
       this.strokeColor = color;
     },
 
-    beforeUpload(file) {
+    beforeUpload(file: any) {
       if (file.size > 1024 * 1024 * 2) {
         this.$message.error("Please upload pictures less than 2M.");
         return false
@@ -193,10 +182,10 @@ export default {
 
     },
 
-    handleSuccess(resp, file) {
+    handleSuccess(resp: any, file: any) {
       var _uuid = uuid()
 
-      this.whiteboard.insertImage({
+      this.Whiteboard.insertImage({
         uuid: _uuid,
         centerX: 0,
         centerY: 0,
@@ -205,22 +194,8 @@ export default {
       });
 
       UploaderAPI.getURL(file.response.key).then((resp) => {
-        this.whiteboard.completeImageUpload(_uuid, resp.data.url);
+        this.Whiteboard.completeImageUpload(_uuid, resp.data.url);
       });
-    },
-
-    disconnect() {
-      if (this.whiteboard.state.phase !== "disconnecting"){
-        this.whiteboard.disconnect()
-      }
-    }
-  },
-
-  watch: {
-    'RTC.roomState': function (state) {
-      if (state !== 2) {
-        this.disconnect();
-      }
     }
   },
 
@@ -228,40 +203,24 @@ export default {
     this.getToken();
     this.intervalTimer = setInterval(() => {
       this.getToken()
-    }, 1000 * 60 * 15)
+    }, 1000 * 60 * 15);
 
     window.addEventListener('resize', () => {
-      if (this.whiteboard) this.whiteboard.refreshViewSize();
+      this.Whiteboard.refreshViewSize();
     });
-
-    this.RTC.on("leaveRoom", () => {
-      this.disconnect();
-    })
-
-    document.addEventListener('beforeunload', () => this.disconnect());
-    window.addEventListener('beforeunload', () => this.disconnect());
   },
 
   mounted () {
-    whiteboardSdk.joinRoom({ uuid: this.roomInfo.whiteboard_id, roomToken: this.roomInfo.whiteboard_token })
-      .then((room) => {
-
-        this.whiteboard = room
-        this.whiteboard.setViewMode("broadcaster")
-        this.whiteboard.setMemberState({
-          currentApplianceName: 'pencil',
-          strokeColor: this.strokeColor.rgb,
-          strokeWidth: 4,
-          textSize: 14
-        })
-        this.whiteboard.bindHtmlElement(document.getElementById('whiteboard-main'))
+    this.joinWhiteboardRoom({ uuid: this.roomInfo.whiteboard_id, roomToken: this.roomInfo.whiteboard_token })
+      .then(() => {
+        this.Whiteboard.setViewMode("broadcaster");
+        this.Whiteboard.bindHtmlElement(document.getElementById('whiteboard-main'));
       })
-
   },
 
   destroyed() {
-    clearInterval(this.intervalTimer)
-    this.disconnect()
+    clearInterval(this.intervalTimer);
+    // this.Whiteboard.disconnect();
   }
-}
+})
 </script>
