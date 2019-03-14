@@ -83,3 +83,26 @@
     }
   }
 }
+
+.features{
+  background: #FFF;
+  position: relative;
+  z-index: 2;
+  font-size: 1.5rem;
+
+  .media{
+    padding: 5rem;
+
+    &:nth-of-type(even) {
+      background-color: rgba(0,0,0,.035);
+    }
+
+    h2 {
+      color: #0f9d58;
+      font-size: 34px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+  }
+
+}

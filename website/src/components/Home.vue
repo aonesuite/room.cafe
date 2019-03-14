@@ -39,6 +39,40 @@
         </div>
       </div>
     </div>
+
+    <div class="features">
+      <div class="media">
+        <Icon type="video" width="80" class="mt-2 mr-5" />
+        <div class="media-body">
+          <h2>Video Call</h2>
+          <ul class="list-unstyled">
+            <li>Dramatically increase user engagement with Video calling.</li>
+            <li>High quality, low-latency makes you as in a real meeting room.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="media">
+        <Icon type="chalkboard" width="80" class="mt-2 mr-5" />
+        <div class="media-body">
+          <h2>Board</h2>
+          <ul class="list-unstyled">
+            <li>Real-time whiteboards is the easiest way to share inspirations with your team.</li>
+            <li>Provide a variety of tools like images, texts, brushes, documents, screen sharing to express your ideas.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="media">
+        <Icon type="comment-alt-lines" width="80" class="mt-2 mr-5" />
+        <div class="media-body">
+          <h2>Messaging</h2>
+          <ul class="list-unstyled">
+            <li>Have a group chat to immediately diss your throughts.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
