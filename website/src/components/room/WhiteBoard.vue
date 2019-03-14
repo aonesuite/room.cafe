@@ -220,7 +220,6 @@ export default Vue.extend({
 
   destroyed() {
     clearInterval(this.intervalTimer);
-    // this.Whiteboard.disconnect();
   }
 })
 </script>

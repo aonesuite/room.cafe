@@ -16,7 +16,7 @@
       <div class="hint-exited" v-if="RTC.exited && RTC.roomState === 0">
         <p>You left the interact room.</p>
         <b-btn variant="success" class="mx-1" @click="joinRoom">Reenter the room</b-btn>
-        <router-link class="btn btn-success mx-1" :to="{ name: 'home' }">Go home</router-link>
+        <b-btn variant="success" class="mx-1" @click="goHome">Go home</b-btn>
       </div>
     </div>
 
@@ -76,8 +76,7 @@ export default Vue.extend({
       "roomInfo",
       "RTC",
       "RTCUsers",
-      "ChatPopUp",
-      "Whiteboard"
+      "ChatPopUp"
     ])
   },
 
@@ -96,12 +95,12 @@ export default Vue.extend({
       await this.joinRTCRoom({token: this.roomInfo.rtc_token, user: this.user});
     },
 
+    goHome() {
+      window.location.href = "/";
+    },
+
     leaveRoom() {
       this.RTC.leaveRoom();
-
-      // if (this.Whiteboard) {
-      //   this.Whiteboard.disconnect();
-      // }
     }
   },
 
@@ -127,9 +126,6 @@ export default Vue.extend({
     }
     if (this.RTC.roomState === 2) {
       await this.RTC.leaveRoom();
-    }
-    if (this.Whiteboard) {
-      this.Whiteboard.disconnect();
     }
   }
 
