@@ -3,15 +3,13 @@ import { GetterTree, ActionTree, MutationTree  } from 'vuex';
 import axios, { AxiosPromise } from 'axios';
 import * as QNRTC from 'pili-rtc-web';
 
-import * as WhiteBoardSdk from 'white-web-sdk';
-
 import { RootState } from './types';
 import * as RoomAPI from '@/api/room';
 import { RoomArgs, RoomInfo } from '@/types/room';
 import { RTCUser } from '@/types/user';
 import { RTC } from '../../types/rtc';
 
-const whiteboardSdk = new WhiteBoardSdk.WhiteWebSdk();
+import * as Whiteboard from '../../types/whiteboard';
 
 export interface RoomState {
   roomInfo: RoomInfo,
@@ -20,7 +18,7 @@ export interface RoomState {
   StageStreamId: string,
   ChatPopUp: boolean,
   UnreadCount: number,
-  Whiteboard: WhiteBoardSdk.Room,
+  Whiteboard: Whiteboard.Whiteboard,
 }
 
 const state: RoomState = {
@@ -30,7 +28,7 @@ const state: RoomState = {
   StageStreamId: "",
   ChatPopUp: false,
   UnreadCount: 0,
-  Whiteboard: {} as WhiteBoardSdk.Room,
+  Whiteboard: new Whiteboard.Whiteboard(),
 }
 
 const getters: GetterTree<RoomState, RootState> = {
@@ -60,10 +58,6 @@ const mutations: MutationTree<RoomState> = {
 
   setUnreadCount(state, count) {
     state.UnreadCount = count
-  },
-
-  setWhiteBoard(state, room: WhiteBoardSdk.Room) {
-    state.Whiteboard = room
   }
 }
 
@@ -88,10 +82,9 @@ const actions: ActionTree<RoomState, RootState> = {
     commit('setRTCUsers', users);
   },
 
-  joinWhiteBoardRoom({ state, commit }, params: WhiteBoardSdk.JoinRoomParams, callbacks?: WhiteBoardSdk.RoomCallbacks): Promise<WhiteBoardSdk.Room> {
-    return whiteboardSdk.joinRoom(params, callbacks).then((room) => {
-      commit('setWhiteBoard', room);
-      return room;
+  joinWhiteboardRoom({ state }, params: Whiteboard.JoinRoomParams, callbacks?: Whiteboard.RoomCallbacks): Promise<Whiteboard.Whiteboard> {
+    return state.Whiteboard.joinRoom(params, callbacks).then((whiteboard) => {
+      return whiteboard;
     })
   },
 }
