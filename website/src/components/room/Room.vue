@@ -76,7 +76,8 @@ export default Vue.extend({
       "roomInfo",
       "RTC",
       "RTCUsers",
-      "ChatPopUp"
+      "ChatPopUp",
+      "Whiteboard"
     ])
   },
 
@@ -93,8 +94,15 @@ export default Vue.extend({
     async joinRoom() {
       await this.getRoom(this.$route.params.id);
       await this.joinRTCRoom({token: this.roomInfo.rtc_token, user: this.user});
-    }
+    },
 
+    leaveRoom() {
+      this.RTC.leaveRoom();
+
+      if (this.Whiteboard) {
+        this.Whiteboard.disconnect();
+      }
+    }
   },
 
   async created () {
@@ -106,10 +114,12 @@ export default Vue.extend({
       this.$root.$emit('bv::show::modal', 'QuickStartModal');
     }
   },
+
   mounted () {
-    document.addEventListener('beforeunload', () => this.RTC.leaveRoom());
-    window.addEventListener('beforeunload', () => this.RTC.leaveRoom());
+    document.addEventListener('beforeunload', () => this.leaveRoom());
+    window.addEventListener('beforeunload', () => this.leaveRoom());
   },
+
   async destroyed() {
     // 释放本地采集
     for (const track of this.RTC.publishedTracks) {
@@ -117,6 +127,9 @@ export default Vue.extend({
     }
     if (this.RTC.roomState === 2) {
       await this.RTC.leaveRoom();
+    }
+    if (this.Whiteboard) {
+      this.Whiteboard.disconnect();
     }
   }
 
