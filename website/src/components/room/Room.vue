@@ -16,7 +16,7 @@
       <div class="hint-exited" v-if="RTC.exited && RTC.roomState === 0">
         <p>You left the interact room.</p>
         <b-btn variant="success" class="mx-1" @click="joinRoom">Reenter the room</b-btn>
-        <router-link class="btn btn-success mx-1" :to="{ name: 'home' }">Go home</router-link>
+        <b-btn variant="success" class="mx-1" @click="goHome">Go home</b-btn>
       </div>
     </div>
 
@@ -93,8 +93,15 @@ export default Vue.extend({
     async joinRoom() {
       await this.getRoom(this.$route.params.id);
       await this.joinRTCRoom({token: this.roomInfo.rtc_token, user: this.user});
-    }
+    },
 
+    goHome() {
+      window.location.href = "/";
+    },
+
+    leaveRoom() {
+      this.RTC.leaveRoom();
+    }
   },
 
   async created () {
@@ -106,10 +113,12 @@ export default Vue.extend({
       this.$root.$emit('bv::show::modal', 'QuickStartModal');
     }
   },
+
   mounted () {
-    document.addEventListener('beforeunload', () => this.RTC.leaveRoom());
-    window.addEventListener('beforeunload', () => this.RTC.leaveRoom());
+    document.addEventListener('beforeunload', () => this.leaveRoom());
+    window.addEventListener('beforeunload', () => this.leaveRoom());
   },
+
   async destroyed() {
     // 释放本地采集
     for (const track of this.RTC.publishedTracks) {

@@ -13,10 +13,10 @@ export const colors = [
   { name: 'dark',   hex: '#343a40', rgb: [ 52,  58,  64] },
 ]
 
-export function hexToRgb(hex) {
+export function hexToRgb(hex: string): {r: number, g: number, b: number} | null {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+  hex = hex.replace(shorthandRegex, function(m: string, r: string, g: string, b: string) {
       return r + r + g + g + b + b;
   });
 

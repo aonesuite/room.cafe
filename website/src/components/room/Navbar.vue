@@ -126,7 +126,8 @@ export default Vue.extend({
       "roomInfo",
       "RTC",
       "ChatPopUp",
-      "UnreadCount"
+      "UnreadCount",
+      "Whiteboard"
     ])
   },
 
@@ -188,12 +189,12 @@ export default Vue.extend({
       for (const track of this.RTC.publishedTracks) {
         await track.release();
       }
-      this.RTC.leaveRoom()
+      this.RTC.leaveRoom();
+      // this.Whiteboard.disconnect();
     }
   },
 
   created () {
-
     const routeData = this.$router.resolve({name: 'room', params: {id: this.$route.params.id} });
     this.shareLink = `https://room.cafe${routeData.href}`
 
@@ -201,7 +202,6 @@ export default Vue.extend({
       this.fullscreenEnabled = fscreen.fullscreenEnabled;
       fscreen.addEventListener('fullscreenchange', () => { this.isFullscreen = fscreen.fullscreenElement !== null; }, false);
     }
-
   },
 
   mounted () {
