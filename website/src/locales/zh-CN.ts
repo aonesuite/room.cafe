@@ -26,6 +26,13 @@ const zhCN: Message = {
 
   quick_start: "快速开始",
   sign_in: "登录",
+
+  login_quickly_placeholder: "输入您的名字然后快速开始",
+
+  join: "加入",
+  join_the_room: "加入房间",
+
+  oauth_signin_title: "使用第三方账户登录",
 }
 
 export default zhCN;
