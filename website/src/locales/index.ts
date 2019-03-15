@@ -71,6 +71,23 @@ export declare type Message = {
     HD: string;
     FHD: string;
   },
+
+  whiteboard_tool: {
+    selector: string;
+    pencil: string;
+    text: string;
+    rectangle: string;
+    circle: string;
+    stroke_settings: string;
+    stroke_settings_color: string;
+    stroke_settings_thickness: string;
+    eraser: string;
+    insert_images: string;
+  },
+
+  uploader: {
+    image_size_limit_hint: string;
+  },
 }
 
 // Ready translated locale messages
