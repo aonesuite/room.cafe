@@ -25,6 +25,7 @@ import PaperPlane from "./PaperPlane.vue";           // 发送
 import Times from "./Times.vue";                     // 叉，关闭
 import Layer from "./Layer.vue";                     // 图层
 import Images from "./Images.vue";                   // 图层
+import Globe from "./Globe.vue";                     // 地球
 
 import MousePointer from "./MousePointer.vue"; // 默认鼠标， 选择工具
 import PencilAlt from "./PencilAlt.vue";       // 铅笔
@@ -58,6 +59,7 @@ const icons: any = {
   "times":             Times,
   "layer":             Layer,
   "images":            Images,
+  "globe":             Globe,
 
   "mouse-pointer":     MousePointer,
   "pencil-alt":        PencilAlt,
