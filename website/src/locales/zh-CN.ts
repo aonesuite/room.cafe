@@ -34,6 +34,47 @@ const zhCN: Message = {
 
   oauth_signin_title: "使用第三方账户登录",
   oauth_signin_failed_hint: "登录失败，请您重新尝试。",
+
+  // Room
+  invite_people: "邀请",
+  whiteboard: "白板",
+  copy_link_to_share: "拷贝分享链接",
+  close_chat: "关闭聊天",
+  open_chat: "打开聊天",
+  share_screen: "分享屏幕",
+  stop_share_screen: "停止屏幕分享",
+  microphone_open: "打开麦克风",
+  microphone_mute: "麦克风静音",
+  video_open: "开启摄像头",
+  video_mute: "关闭摄像头",
+  fullscreen: "全屏",
+  fullscreen_exit: "退出全屏",
+  settings: "设置",
+  exit: "离开房间",
+
+  // Room setting modal
+  room_settings: {
+    general: "常规",
+    bandwidth: "带宽",
+
+    placeholder_select_camera: "选择摄像头",
+    placeholder_select_microphone: "选择麦克风",
+    placeholder_select_speaker: "选择扬声器",
+    placeholder_select_resolution: "选择分辨率",
+
+    camera: "摄像头",
+    microphone: "麦克风",
+    speakers: "扬声器",
+    incoming_video: "输入分辨率",
+    cancel: "取消",
+    done: "完成",
+  },
+
+  clarity: {
+    SD: "最高 480p (标清)",
+    HD: "最高 720p (高清)",
+    FHD: "最高 1080p (超清)",
+  },
 }
 
 export default zhCN;

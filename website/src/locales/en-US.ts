@@ -34,6 +34,46 @@ const enUS: Message = {
 
   oauth_signin_title: "Or sign in with your community account",
   oauth_signin_failed_hint: "OAuth sign failed, please try again.",
+
+  // Room
+  invite_people: "Invite People",
+  whiteboard: "Whiteboard",
+  copy_link_to_share: "Copy link to share",
+  close_chat: "Close chat",
+  open_chat: "Open chat",
+  share_screen: "Share screen",
+  stop_share_screen: "Stop Sharescreen",
+  microphone_open: "Open microphone",
+  microphone_mute: "Mute microphone",
+  video_open: "Open video",
+  video_mute: "Mute video",
+  fullscreen: "Fullscreen",
+  fullscreen_exit: "Exit Fullscreen",
+  settings: "Settings",
+  exit: "Exit",
+
+  room_settings: {
+    general: "General",
+    bandwidth: "Bandwidth",
+
+    placeholder_select_camera: "Select camera",
+    placeholder_select_microphone: "Select microphone",
+    placeholder_select_speaker: "Select speaker",
+    placeholder_select_resolution: "Select resolution",
+
+    camera: "Camera",
+    microphone: "Microphone",
+    speakers: "Speakers",
+    incoming_video: "Incoming video",
+    cancel: "Cancel",
+    done: "Done",
+  },
+
+  clarity: {
+    SD: "Up to 480p (SD)",
+    HD: "Up to 720p (HD)",
+    FHD: "Up to 1080p (FHD)",
+  },
 }
 
 export default enUS;

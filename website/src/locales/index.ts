@@ -31,6 +31,46 @@ export declare type Message = {
 
   oauth_signin_title: string;
   oauth_signin_failed_hint: string;
+
+  // Room
+  invite_people: string;
+  whiteboard: string;
+  copy_link_to_share: string;
+  close_chat: string;
+  open_chat: string;
+  share_screen: string;
+  stop_share_screen: string;
+  microphone_open: string;
+  microphone_mute: string;
+  video_open: string;
+  video_mute: string;
+  fullscreen: string;
+  fullscreen_exit: string;
+  settings: string;
+  exit: string;
+
+  room_settings: {
+    general: string;
+    bandwidth: string;
+
+    placeholder_select_camera: string;
+    placeholder_select_microphone: string;
+    placeholder_select_speaker: string;
+    placeholder_select_resolution: string;
+
+    camera: string;
+    microphone: string;
+    speakers: string;
+    incoming_video: string;
+    cancel: string;
+    done: string;
+  };
+
+  clarity: {
+    SD: string;
+    HD: string;
+    FHD: string;
+  },
 }
 
 // Ready translated locale messages
