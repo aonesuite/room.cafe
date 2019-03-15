@@ -3,41 +3,41 @@
     <form v-on:submit.prevent="onSubmit">
 
       <el-tabs class="tabs" :stretch="true" v-model="tabActive">
-        <el-tab-pane label="General" name="general">
+        <el-tab-pane :label="$t('room_settings.general')" name="general">
           <div class="form-group">
-            <label for="video-device">Video</label>
-            <el-select class="d-block" id="video-device" placeholder="Select camera" v-model="settings.currentVideoInputDeviceID">
+            <label for="video-device">{{ $t('room_settings.camera') }}</label>
+            <el-select class="d-block" id="video-device" :placeholder="$t('room_settings.placeholder_select_camera')" v-model="settings.currentVideoInputDeviceID">
               <el-option v-for="device in deviceInfoList.filter((info) => info && info.kind === 'videoinput')" :key="device.deviceId" :label="device.label" :value="device.deviceId"></el-option>
             </el-select>
           </div>
 
           <div class="form-group">
-            <label for="microphone-device">Microphone</label>
-            <el-select class="d-block" id="microphone-device" placeholder="Select microphone" v-model="settings.currentAudioInputDeviceID">
+            <label for="microphone-device">{{ $t('room_settings.microphone') }}</label>
+            <el-select class="d-block" id="microphone-device" :placeholder="$t('room_settings.placeholder_select_microphone')" v-model="settings.currentAudioInputDeviceID">
               <el-option v-for="device in deviceInfoList.filter((info) => info && info.kind === 'audioinput')" :key="device.deviceId" :label="device.label" :value="device.deviceId"></el-option>
             </el-select>
           </div>
 
           <div class="form-group">
-            <label for="speaker-device">Speakers</label>
-            <el-select disabled class="d-block" id="speaker-device" placeholder="Select speaker" v-model="settings.currentAudioOutputDevice">
+            <label for="speaker-device">{{ $t('room_settings.speakers') }}</label>
+            <el-select disabled class="d-block" id="speaker-device" :placeholder="$t('room_settings.placeholder_select_speaker')" v-model="settings.currentAudioOutputDevice">
               <el-option v-for="device in deviceInfoList.filter((info) => info && info.kind === 'audiooutput')" :key="device.deviceId" :label="device.label" :value="device.deviceId"></el-option>
             </el-select>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Bandwidth" name="bandwidth">
+        <el-tab-pane :label="$t('room_settings.bandwidth')" name="bandwidth">
           <div class="form-group">
-            <label for="incoming-video">Incoming video</label>
-            <el-select class="d-block" id="incoming-video" placeholder="Select resolution" v-model="settings.clarity">
-              <el-option v-for="(clarity, key) in clarities" :key="key" :label="`Up to ${clarity.label}`" :value="key"></el-option>
+            <label for="incoming-video">{{ $t('room_settings.incoming_video') }}</label>
+            <el-select class="d-block" id="incoming-video" :placeholder="$t('room_settings.placeholder_select_resolution')" v-model="settings.clarity">
+              <el-option v-for="(clarity, key) in clarities" :key="key" :label="$t(`clarity.${key}`)" :value="key"></el-option>
             </el-select>
           </div>
         </el-tab-pane>
       </el-tabs>
 
       <div class="clearfix text-right">
-        <b-btn size="sm" variant="outline-secondary" class="mr-2" @click="$root.$emit('bv::hide::modal', 'RoomSettingsModal')">Cancel</b-btn>
-        <b-btn type="submit" size="sm" variant="outline-primary" :disabled="isSubmitting">Done</b-btn>
+        <b-btn size="sm" variant="outline-secondary" class="mr-2" @click="$root.$emit('bv::hide::modal', 'RoomSettingsModal')">{{ $t('room_settings.cancel') }}</b-btn>
+        <b-btn type="submit" size="sm" variant="outline-primary" :disabled="isSubmitting">{{ $t('room_settings.done') }}</b-btn>
       </div>
     </form>
   </b-modal>
