@@ -15,7 +15,7 @@
       hide-header
       class="modal-oauth">
       <div class="hint-allow">
-        <h5>OAuth sign failed, please try again.</h5>
+        <h5 class="text-center">{{ $t("oauth_signin_failed_hint") }}</h5>
 
         <div class="oauth-actions">
           <div class="providers">

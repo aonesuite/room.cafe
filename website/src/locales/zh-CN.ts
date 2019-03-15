@@ -33,6 +33,7 @@ const zhCN: Message = {
   join_the_room: "加入房间",
 
   oauth_signin_title: "使用第三方账户登录",
+  oauth_signin_failed_hint: "登录失败，请您重新尝试。",
 }
 
 export default zhCN;

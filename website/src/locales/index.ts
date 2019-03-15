@@ -30,6 +30,7 @@ export declare type Message = {
   join_the_room: string;
 
   oauth_signin_title: string;
+  oauth_signin_failed_hint: string;
 }
 
 // Ready translated locale messages
