@@ -5,7 +5,7 @@ const zhCN: Message = {
   slogan: "与你的家人、朋友和同事互动",
   welcome: "在 Room Cafe，你可以召开视频会议，使用白板分享你的想法，与你喜欢的人发信息聊天。",
   sloganSignedIn: "嗨，{name}",
-  welcomeSignedIn: "开始视频会议，想法分享和给下面的人发信息。",
+  welcomeSignedIn: "开始视频会议，分享创意和群聊吧。",
 
   video_call: "实时视频",
   video_call_features: [
