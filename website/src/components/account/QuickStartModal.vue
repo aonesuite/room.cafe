@@ -5,24 +5,26 @@
     centered
     :lazy="true"
     hide-footer
-    :title="modalTitle"
+    :title="$route.name === 'room' ? $t('join_the_room') : $t('quick_start')"
     :no-close-on-backdrop="noCloseOnBackdrop"
     :no-close-on-esc="noCloseOnEsc"
     :hide-header-close="hideHeaderClose">
 
     <form class="session" @submit.prevent="submit">
       <b-form-group>
-        <b-form-input v-model.trim="login" id="login" placeholder="Enter a name and start quickly"></b-form-input>
+        <b-form-input v-model.trim="login" id="login" :placeholder="$t('login_quickly_placeholder')"></b-form-input>
       </b-form-group>
 
       <div class="actions">
         <!-- <b-btn variant="link" class="px-0 text-success">Create account</b-btn> -->
-        <b-btn class="float-right" type="submit" variant="outline-success" :disabled="login === ''">{{ submitBtnText }}</b-btn>
+        <b-btn class="float-right" type="submit" variant="outline-success" :disabled="login === ''">
+          {{ $route.name === 'room' ? $t("join") : $t("quick_start") }}
+        </b-btn>
       </div>
     </form>
 
     <div class="oauth-actions">
-      <h6>Or sign in with your community account</h6>
+      <h6>{{ $t("oauth_signin_title") }}</h6>
 
       <div class="providers">
         <b-btn variant="link" @click="signin('google')">
@@ -49,11 +51,9 @@ export default Vue.extend({
 
   data() {
     return {
-      modalTitle: "Quick start",
       noCloseOnBackdrop: false,
       noCloseOnEsc: false,
       hideHeaderClose: false,
-      submitBtnText: "Quick Start",
       login: ''
     }
   },
@@ -102,11 +102,9 @@ export default Vue.extend({
 
   created () {
     if (this.$route.name === "room") {
-      this.modalTitle = "Join the room";
       this.noCloseOnBackdrop = true;
       this.noCloseOnEsc = true;
       this.hideHeaderClose = true;
-      this.submitBtnText = "Join";
     }
   }
 })

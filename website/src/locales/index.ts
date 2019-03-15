@@ -23,6 +23,13 @@ export declare type Message = {
 
   quick_start: string;
   sign_in: string;
+
+  login_quickly_placeholder: string,
+
+  join: string;
+  join_the_room: string;
+
+  oauth_signin_title: string;
 }
 
 // Ready translated locale messages
