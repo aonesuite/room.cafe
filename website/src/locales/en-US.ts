@@ -38,9 +38,16 @@ const enUS: Message = {
   // Room
   invite_people: "Invite People",
   whiteboard: "Whiteboard",
+
   copy_link_to_share: "Copy link to share",
+  copy_link_success: "Link copied to clipboard.",
+  copy_link_error: "Copy failed. Please copy the url in the input box.",
+
   close_chat: "Close chat",
   open_chat: "Open chat",
+  chat: "Chat",
+  placeholder_send_message: "Send a message to everyone in the room",
+
   share_screen: "Share screen",
   stop_share_screen: "Stop Sharescreen",
   microphone_open: "Open microphone",

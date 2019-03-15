@@ -21,7 +21,7 @@
             ref="InvitePeopleModal"
             centered
             hide-footer
-            title="Invite People"
+            :title="$t('invite_people')"
             modal-class="modal-invite-people">
 
             <b-form-input id="InvitePeopleLink" readonly="readonly" v-model="shareLink"></b-form-input>
@@ -157,11 +157,11 @@ export default Vue.extend({
       if (!clipboard) return;
 
       clipboard.on("success", () => {
-        this.$message.success("Link copied to clipboard.");
+        this.$message.success(this.$t('copy_link_success') as string);
       });
 
       clipboard.on("error", () => {
-        this.$message.error("Copy failed. Please copy the url in the input box.");
+        this.$message.error(this.$t('copy_link_error') as string);
       });
     },
 

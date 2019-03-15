@@ -36,11 +36,18 @@ const zhCN: Message = {
   oauth_signin_failed_hint: "登录失败，请您重新尝试。",
 
   // Room
-  invite_people: "邀请",
+  invite_people: "邀请他人",
   whiteboard: "白板",
+
   copy_link_to_share: "拷贝分享链接",
+  copy_link_success: "链接复制到剪贴板。",
+  copy_link_error: "复制失败。请复制输入框中的链接。",
+
   close_chat: "关闭聊天",
   open_chat: "打开聊天",
+  chat: "聊天",
+  placeholder_send_message: "给房间里的每个人发个信息",
+
   share_screen: "分享屏幕",
   stop_share_screen: "停止屏幕分享",
   microphone_open: "打开麦克风",
