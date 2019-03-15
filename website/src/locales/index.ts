@@ -35,9 +35,16 @@ export declare type Message = {
   // Room
   invite_people: string;
   whiteboard: string;
+
   copy_link_to_share: string;
+  copy_link_success: string;
+  copy_link_error: string;
+
   close_chat: string;
   open_chat: string;
+  chat: string;
+  placeholder_send_message: string;
+
   share_screen: string;
   stop_share_screen: string;
   microphone_open: string;
