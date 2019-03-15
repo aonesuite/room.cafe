@@ -33,6 +33,7 @@ const enUS: Message = {
   join_the_room: "Join the room",
 
   oauth_signin_title: "Or sign in with your community account",
+  oauth_signin_failed_hint: "OAuth sign failed, please try again.",
 }
 
 export default enUS;
