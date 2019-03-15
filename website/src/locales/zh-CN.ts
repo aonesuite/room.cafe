@@ -75,6 +75,23 @@ const zhCN: Message = {
     HD: "最高 720p (高清)",
     FHD: "最高 1080p (超清)",
   },
+
+  whiteboard_tool: {
+    selector: "选择",
+    pencil: "铅笔",
+    text: "文字",
+    rectangle: "矩形",
+    circle: "椭圆",
+    stroke_settings: "画笔、颜色",
+    stroke_settings_color: "颜色",
+    stroke_settings_thickness: "画笔粗细",
+    eraser: "橡皮擦",
+    insert_images: "插入图片",
+  },
+
+  uploader: {
+    image_size_limit_hint: "请上传不超过 2M 的图片",
+  },
 }
 
 export default zhCN;

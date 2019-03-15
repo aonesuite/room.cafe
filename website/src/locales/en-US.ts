@@ -74,6 +74,23 @@ const enUS: Message = {
     HD: "Up to 720p (HD)",
     FHD: "Up to 1080p (FHD)",
   },
+
+  whiteboard_tool: {
+    selector: "Selector",
+    pencil: "Pencil",
+    text: "Text",
+    rectangle: "Rectangle",
+    circle: "Circle",
+    stroke_settings: "Stroke settings",
+    stroke_settings_color: "Color",
+    stroke_settings_thickness: "Thickness",
+    eraser: "Eraser",
+    insert_images: "Insert Images",
+  },
+
+  uploader: {
+    image_size_limit_hint: "Please upload pictures less than 2M.",
+  },
 }
 
 export default enUS;
