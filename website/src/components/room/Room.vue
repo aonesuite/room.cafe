@@ -14,9 +14,9 @@
       </div>
 
       <div class="hint-exited" v-if="RTC.exited && RTC.roomState === 0">
-        <p>You left the interact room.</p>
-        <b-btn variant="success" class="mx-1" @click="joinRoom">Reenter the room</b-btn>
-        <b-btn variant="success" class="mx-1" @click="goHome">Go home</b-btn>
+        <p>{{ $t('exited_hint') }}</p>
+        <b-btn variant="success" class="mx-1" @click="joinRoom">{{ $t('reenter_room') }}</b-btn>
+        <b-btn variant="success" class="mx-1" @click="goHome">{{ $t('go_home') }}</b-btn>
       </div>
     </div>
 
@@ -39,8 +39,8 @@
       hide-header
       class="modal-allow-devices">
       <div class="hint-allow">
-        <h5>Allow Room Cafe to use your camera and microphone</h5>
-        <p>Room Cafe needs access to your camera and microphone so that other participants can see and hear you. Room Cafe will ask you to confirm this decision on each browser and computer you use.</p>
+        <h5>{{ $t('devices_allow_hint_title') }}</h5>
+        <p>{{ $t('devices_allow_hint_desc') }}</p>
       </div>
     </b-modal>
   </div>
