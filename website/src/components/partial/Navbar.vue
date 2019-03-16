@@ -10,6 +10,24 @@
     <b-collapse is-nav id="nav_collapse">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
+
+        <li class="nav-item" id="nav-item-lang">
+          <b-button id="lang-switch" variant="link">
+            <Icon type="globe" height="18" />
+          </b-button>
+
+          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
+            <div class="list-group">
+              <button
+                v-for="(label, lang) in langs" :key="lang"
+                type="button"
+                class="list-group-item list-group-item-action"
+                :class="{ active: $i18n.locale === lang}"
+                @click="changeLang(lang)">{{label}}</button>
+            </div>
+          </b-popover>
+        </li>
+
         <li class="nav-item">
           <b-button size="sm" variant="success" type="button" @click="quickStart">{{ $t("quick_start") }}</b-button>
         </li>
@@ -40,22 +58,6 @@
           </b-popover>
         </li>
 
-        <li class="nav-item" id="nav-item-lang">
-          <b-button id="lang-switch" variant="link">
-            <Icon type="globe" height="18" />
-          </b-button>
-
-          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
-            <div class="list-group">
-              <button
-                v-for="(label, lang) in langs" :key="lang"
-                type="button"
-                class="list-group-item list-group-item-action"
-                :class="{ active: $i18n.locale === lang}"
-                @click="changeLang(lang)">{{label}}</button>
-            </div>
-          </b-popover>
-        </li>
       </b-navbar-nav>
     </b-collapse>
 
