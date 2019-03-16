@@ -2,7 +2,7 @@
   <div id="chat" :class="{open: ChatPopUp}">
     <header>
       <Icon type="comment-alt-lines" height="16" />
-      <span class="ml-1">Chat</span>
+      <span class="ml-1">{{ $t('chat') }}</span>
 
       <b-btn class="float-right" variant="link" size="sm" @click="closeChat()">
         <Icon type="times" height="20" />
@@ -25,7 +25,7 @@
     </ul>
 
     <form class="intercom" @submit.prevent="sendMessage">
-      <input type="text" class="form-control" ref="msgContentBox" v-model.trim="msgContent" placeholder="Send a message to everyone in the room">
+      <input type="text" class="form-control" ref="msgContentBox" v-model.trim="msgContent" :placeholder="$t('placeholder_send_message')">
       <b-button-group class="actions">
         <b-btn variant="link" type="submit" :disabled="msgContent === ''">
           <Icon type="paper-plane" height="22" />
