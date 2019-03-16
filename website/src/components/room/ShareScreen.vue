@@ -1,6 +1,6 @@
 <template>
   <component :is="tag">
-    <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" v-b-tooltip.hover :title="screenTrackReadyState === 'live' ? 'Stop Sharescreen' : 'Share screen'" @click="switchScreenSharing">
+    <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" v-b-tooltip.hover :title="screenTrackReadyState === 'live' ? $t('stop_share_screen') : $t('share_screen')" @click="switchScreenSharing">
       <Icon type="screen-share" height="22" />
     </b-btn>
 

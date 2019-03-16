@@ -6,11 +6,11 @@
       <div class="photograph"></div>
       <div class="hero">
         <div class="section">
-          <h1 v-if="!signedIn">Interact with your family, friends and colleagues</h1>
-          <h3 v-if="!signedIn">In the Room Cafe, you can make video meeting calls, share your ideas and send messages to people you love.</h3>
+          <h1 v-if="!signedIn">{{ $t("slogan") }}</h1>
+          <h3 v-if="!signedIn">{{ $t("welcome") }}</h3>
 
-          <h1 v-if="signedIn">Hi, {{ user.name }}</h1>
-          <h3 v-if="signedIn">Get started by video meeting, idea sharing and messaging peoples below.</h3>
+          <h1 v-if="signedIn">{{ $t("sloganSignedIn", { name: user.name }) }}</h1>
+          <h3 v-if="signedIn">{{ $t("welcomeSignedIn") }}</h3>
 
           <div class="feature-actions">
             <ul class="list-inline">
@@ -18,21 +18,21 @@
                 <button class="btn btn-outline-primary rounded-circle" @click="quickStart('f2f')">
                   <Icon type="video" width="24" height="24" />
                 </button>
-                <span>Video Call</span>
+                <span>{{ $t("video_call") }}</span>
               </li>
 
               <li class="list-inline-item">
                 <button class="btn btn-outline-primary rounded-circle" @click="quickStart('board')">
                   <Icon type="chalkboard" width="24" height="24" />
                 </button>
-                <span>Board</span>
+                <span>{{ $t("board") }}</span>
               </li>
 
               <li class="list-inline-item">
                 <button class="btn btn-outline-primary rounded-circle" @click="quickStart('im')">
                   <Icon type="comment-alt-lines" width="24" height="24" />
                 </button>
-                <span>Message</span>
+                <span>{{ $tc("message") }}</span>
               </li>
             </ul>
           </div>
@@ -44,10 +44,9 @@
       <div class="media">
         <Icon type="video" width="80" class="mt-2 mr-5" />
         <div class="media-body">
-          <h2>Video Call</h2>
+          <h2>{{ $t("video_call") }}</h2>
           <ul class="list-unstyled">
-            <li>Dramatically increase user engagement with Video calling.</li>
-            <li>High quality, low-latency makes you as in a real meeting room.</li>
+            <li v-for="(text, index) in $t('video_call_features')" :key="index">{{ text }}</li>
           </ul>
         </div>
       </div>
@@ -55,10 +54,9 @@
       <div class="media">
         <Icon type="chalkboard" width="80" class="mt-2 mr-5" />
         <div class="media-body">
-          <h2>Board</h2>
+          <h2>{{ $t("board") }}</h2>
           <ul class="list-unstyled">
-            <li>Real-time whiteboards is the easiest way to share inspirations with your team.</li>
-            <li>Provide a variety of tools like images, texts, brushes, documents, screen sharing to express your ideas.</li>
+            <li v-for="(text, index) in $t('board_features')" :key="index">{{ text }}</li>
           </ul>
         </div>
       </div>
@@ -66,9 +64,9 @@
       <div class="media">
         <Icon type="comment-alt-lines" width="80" class="mt-2 mr-5" />
         <div class="media-body">
-          <h2>Messaging</h2>
+          <h2>{{ $tc("message", 2) }}</h2>
           <ul class="list-unstyled">
-            <li>Have a group chat to immediately diss your throughts.</li>
+            <li v-for="(text, index) in $t('message_features')" :key="index">{{ text }}</li>
           </ul>
         </div>
       </div>

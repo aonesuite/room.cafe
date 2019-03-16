@@ -11,15 +11,15 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <li class="nav-item">
-          <b-button size="sm" variant="success" type="button" @click="quickStart">Quick start</b-button>
+          <b-button size="sm" variant="success" type="button" @click="quickStart">{{ $t("quick_start") }}</b-button>
         </li>
 
         <li class="nav-item" v-if="!signedIn">
-          <b-button size="sm" variant="success" type="button" @click="quickStart">Sign in</b-button>
+          <b-button size="sm" variant="success" type="button" @click="quickStart">{{ $t("sign_in") }}</b-button>
         </li>
 
         <li class="nav-item" id="nav-item-profile" v-if="signedIn">
-          <b-button id="profilePopover" variant="link" class="">{{ user.name }}</b-button>
+          <b-button id="profilePopover" variant="link">{{ user.name }}</b-button>
           <b-popover target="profilePopover" triggers="click blur" placement="buttomright" container="nav-item-profile">
             <b-media class="profile-popover-card">
               <b-img
@@ -39,6 +39,23 @@
             </div>
           </b-popover>
         </li>
+
+        <li class="nav-item" id="nav-item-lang">
+          <b-button id="lang-switch" variant="link">
+            <Icon type="globe" height="18" />
+          </b-button>
+
+          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
+            <div class="list-group">
+              <button
+                v-for="(label, lang) in langs" :key="lang"
+                type="button"
+                class="list-group-item list-group-item-action"
+                :class="{ active: $i18n.locale === lang}"
+                @click="changeLang(lang)">{{label}}</button>
+            </div>
+          </b-popover>
+        </li>
       </b-navbar-nav>
     </b-collapse>
 
@@ -49,11 +66,18 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
+import { langs } from '../../locales';
 import QuickStartModal from '@/components/account/QuickStartModal.vue';
 
 export default Vue.extend({
   components: {
     QuickStartModal
+  },
+
+  data() {
+    return {
+      langs: langs
+    }
   },
 
   computed: {
@@ -86,6 +110,14 @@ export default Vue.extend({
       } else {
         this.$root.$emit('bv::show::modal', 'QuickStartModal');
       }
+    },
+
+    changeLang(lang: string) {
+      this.$i18n.locale = lang;
+      localStorage.setItem("locale", lang);
+      if (this.$refs.langSwitchPopover === undefined) return;
+      const langSwitchPopover = this.$refs.langSwitchPopover as any;
+      langSwitchPopover.$emit('close');
     },
 
     signOut() {

@@ -12,7 +12,7 @@
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="ml-auto">
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="$refs.InvitePeopleModal.show()" v-b-tooltip.hover title="Invite People">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="$refs.InvitePeopleModal.show()" v-b-tooltip.hover :title="$t('invite_people')">
             <Icon type="user-plus" height="22" class="flip-horizontal" />
           </b-btn>
 
@@ -21,19 +21,19 @@
             ref="InvitePeopleModal"
             centered
             hide-footer
-            title="Invite People"
+            :title="$t('invite_people')"
             modal-class="modal-invite-people">
 
             <b-form-input id="InvitePeopleLink" readonly="readonly" v-model="shareLink"></b-form-input>
             <b-btn variant="outline-primary" class="float-right mt-2" id="CopyShareLinkBtn" ref="CopyShareLinkBtn" @click="copyLink" data-clipboard-target="#InvitePeopleLink">
               <Icon type="link" height="22" rotate="45" class="mr-2" />
-              Copy link to share
+              {{ $t('copy_link_to_share') }}
             </b-btn>
           </b-modal>
         </li>
 
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="switchWhiteBoard" v-b-tooltip.hover title="WhiteBoard">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="switchWhiteBoard" v-b-tooltip.hover :title="$t('whiteboard')">
             <Icon type="chalkboard" height="22" />
           </b-btn>
         </li>
@@ -43,7 +43,7 @@
             <Icon type="comment-alt-lines" height="22" />
             <span class="badge" v-if="UnreadCount > 0">{{ UnreadCount }}</span>
           </b-btn>
-          <b-tooltip id="chatTooltip" ref="chatTooltip" target="chatBtn" placement="bottom">{{ ChatPopUp ? 'Close chat' : 'Open chat' }}</b-tooltip>
+          <b-tooltip id="chatTooltip" ref="chatTooltip" target="chatBtn" placement="bottom">{{ ChatPopUp ? $t('close_chat') : $t('open_chat') }}</b-tooltip>
         </li>
 
         <!-- 屏幕共享 -->
@@ -51,31 +51,48 @@
 
         <!-- 音频开关 -->
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-microphone" v-b-tooltip.hover :title="microphoneMuted ? 'Open microphone' : 'Mute microphone'" @click="switchMicrophone">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-microphone" v-b-tooltip.hover :title="microphoneMuted ? $t('microphone_open') : $t('microphone_mute')" @click="switchMicrophone">
             <Icon :type="microphoneMuted ? 'microphone-slash' : 'microphone'" height="22" />
           </b-btn>
         </li>
 
         <!-- 视频开关 -->
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-video" v-b-tooltip.hover :title="videoMuted ? 'Open video' : 'Mute video'" @click="switchVideo">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" class="btn-video" v-b-tooltip.hover :title="videoMuted ? $t('video_open') : $t('video_mute')" @click="switchVideo">
             <Icon :type="videoMuted ? 'video-slash' : 'video'" height="22" />
           </b-btn>
         </li>
 
         <!-- 全屏 -->
         <li class="nav-item" v-if="fullscreenEnabled">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'" @click="switchFullscreen">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" v-b-tooltip.hover :title="isFullscreen ? $t('fullscreen_exit') : $t('fullscreen')" @click="switchFullscreen">
             <Icon :type="isFullscreen ? 'screen-normal' : 'screen-full'" height="22" />
           </b-btn>
         </li>
 
         <!-- 设置 -->
         <li class="nav-item">
-          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="settings" v-b-tooltip.hover title="Settings">
+          <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" @click="settings" v-b-tooltip.hover :title="$t('settings')">
             <Icon type="cog" height="22" />
           </b-btn>
           <Settings />
+        </li>
+
+        <li class="nav-item" id="nav-item-lang">
+          <b-button id="lang-switch" variant="link">
+            <Icon type="globe" height="22" />
+          </b-button>
+
+          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
+            <div class="list-group">
+              <button
+                v-for="(label, lang) in langs" :key="lang"
+                type="button"
+                class="list-group-item list-group-item-action"
+                :class="{ active: $i18n.locale === lang}"
+                @click="changeLang(lang)">{{label}}</button>
+            </div>
+          </b-popover>
         </li>
 
         <!-- 退出 -->
@@ -83,7 +100,7 @@
           <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" id="exitBtn" @click="exit(); $refs.exitTooltip.$emit('close')">
             <Icon type="sign-out-alt" height="22" />
           </b-btn>
-          <b-tooltip id="exitTooltip" ref="exitTooltip" target="exitBtn" placement="bottom">Exit</b-tooltip>
+          <b-tooltip id="exitTooltip" ref="exitTooltip" target="exitBtn" placement="bottom">{{ $t('exit') }}</b-tooltip>
         </li>
       </b-navbar-nav>
     </b-collapse>
@@ -96,6 +113,7 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import fscreen from 'fscreen';
 import Clipboard from 'clipboard';
 import { openWindow } from '../../utils/window';
+import { langs } from '../../locales';
 import ShareScreen from './ShareScreen.vue';
 import Settings from './Settings.vue';
 
@@ -107,6 +125,7 @@ export default Vue.extend({
 
   data () {
     return {
+      langs: langs,
       copyBtn: {} as ClipboardJS, //存储初始化复制按钮事件
       shareLink: "",
       fullscreenEnabled: false,
@@ -157,11 +176,11 @@ export default Vue.extend({
       if (!clipboard) return;
 
       clipboard.on("success", () => {
-        this.$message.success("Link copied to clipboard.");
+        this.$message.success(this.$t('copy_link_success') as string);
       });
 
       clipboard.on("error", () => {
-        this.$message.error("Copy failed. Please copy the url in the input box.");
+        this.$message.error(this.$t('copy_link_error') as string);
       });
     },
 
@@ -182,6 +201,14 @@ export default Vue.extend({
     switchVideo() {
       this.RTC.muteStream("master", "video", !this.videoMuted);
       this.videoMuted = !this.videoMuted;
+    },
+
+    changeLang(lang: string) {
+      this.$i18n.locale = lang;
+      localStorage.setItem("locale", lang);
+      if (this.$refs.langSwitchPopover === undefined) return;
+      const langSwitchPopover = this.$refs.langSwitchPopover as any;
+      langSwitchPopover.$emit('close');
     },
 
     async exit() {

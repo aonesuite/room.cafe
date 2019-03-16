@@ -12,6 +12,8 @@ import App from './App.vue';
 import store from '@/store';
 import router from './router';
 
+import { i18n } from '@/locales';
+
 import Icon from "@/components/icons/Icon.vue";
 
 Vue.use(Vuex);
@@ -45,7 +47,10 @@ Vue.prototype.$browser = detect();
 Vue.prototype.$lodash = lodash
 Vue.prototype.$message = Message;
 
+i18n.locale = localStorage.getItem("locale") || "en-US";
+
 new Vue({
+  i18n,
   store,
   router,
   render: h => h(App),

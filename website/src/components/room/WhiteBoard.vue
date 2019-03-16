@@ -5,46 +5,46 @@
     <div class="toolbar">
       <ul class="nav">
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Selector" @click="setAppliance('selector')" :class="{active: Whiteboard.memberState.currentApplianceName === 'selector'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.selector')" @click="setAppliance('selector')" :class="{active: Whiteboard.memberState.currentApplianceName === 'selector'}">
             <Icon type="mouse-pointer" width="22" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Pencil" @click="setAppliance('pencil')" :class="{active: Whiteboard.memberState.currentApplianceName === 'pencil'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.pencil')" @click="setAppliance('pencil')" :class="{active: Whiteboard.memberState.currentApplianceName === 'pencil'}">
             <Icon type="pencil-alt" width="20" height="20" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Text" @click="setAppliance('text')" :class="{active: Whiteboard.memberState.currentApplianceName === 'text'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.text')" @click="setAppliance('text')" :class="{active: Whiteboard.memberState.currentApplianceName === 'text'}">
             <Icon type="text" width="20" height="20" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Rectangle" @click="setAppliance('rectangle')" :class="{active: Whiteboard.memberState.currentApplianceName === 'rectangle'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.rectangle')" @click="setAppliance('rectangle')" :class="{active: Whiteboard.memberState.currentApplianceName === 'rectangle'}">
             <Icon type="square" width="22" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Circle" @click="setAppliance('ellipse')" :class="{active: Whiteboard.memberState.currentApplianceName === 'ellipse'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.circle')" @click="setAppliance('ellipse')" :class="{active: Whiteboard.memberState.currentApplianceName === 'ellipse'}">
             <Icon type="circle" width="22" height="22" />
           </b-btn>
         </li>
 
         <li class="nav-item" id="whiteboard-stroke-settings">
-          <b-btn size="sm" variant="link" id="whiteboard-stroke" title="Stroke settings" @click="$refs.colorTooltip.$emit('close')">
+          <b-btn size="sm" variant="link" id="whiteboard-stroke" @click="$refs.colorTooltip.$emit('close')">
             <span :style="`border-color:${strokeColor.hex}`">
               <span :style="`background-color:${strokeColor.hex}; width:${strokeWidth}px; height:${strokeWidth}px;`"></span>
             </span>
           </b-btn>
 
-          <b-tooltip ref="colorTooltip" target="whiteboard-stroke" placement="right">Stroke settings</b-tooltip>
+          <b-tooltip ref="colorTooltip" target="whiteboard-stroke" placement="right">{{ $t('whiteboard_tool.stroke_settings') }}</b-tooltip>
 
           <b-popover target="whiteboard-stroke" container="whiteboard-stroke-settings" triggers="click blur">
-            <h6>Color</h6>
+            <h6>{{ $t('whiteboard_tool.stroke_settings_color') }}</h6>
             <div class="option-colors">
               <button
                 v-for="(color, name) in predefineColors" :key="name"
@@ -54,7 +54,7 @@
                 @click="setStrokeColor(color)"></button>
             </div>
 
-            <h6>Thickness</h6>
+            <h6>{{ $t('whiteboard_tool.stroke_settings_thickness') }}</h6>
             <div class="option-width">
               <svg width="100%" height="32" viewBox="0 0 269 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path :fill="strokeColor.hex" stroke="#CCC" fill-rule="evenodd" clip-rule="evenodd" d="M252 31.9693V32L0 16V15L252 0V0.030742C252.331 0.0103478 252.664 0 253 0C261.837 0 269 7.16344 269 16C269 24.8366 261.837 32 253 32C252.664 32 252.331 31.9897 252 31.9693Z"></path>
@@ -65,7 +65,7 @@
         </li>
 
         <li class="nav-item">
-          <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Eraser" @click="setAppliance('eraser')" :class="{active: Whiteboard.memberState.currentApplianceName === 'eraser'}">
+          <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.eraser')" @click="setAppliance('eraser')" :class="{active: Whiteboard.memberState.currentApplianceName === 'eraser'}">
             <Icon type="eraser" width="22" height="22" />
           </b-btn>
         </li>
@@ -82,7 +82,7 @@
             :on-progress="handleProgress"
             :on-success="handleSuccess">
 
-            <b-btn size="sm" variant="link" v-b-tooltip.hover.right title="Insert Images">
+            <b-btn size="sm" variant="link" v-b-tooltip.hover.right :title="$t('whiteboard_tool.insert_images')">
               <Icon type="images" width="22" height="22" />
             </b-btn>
           </el-upload>
@@ -173,7 +173,7 @@ export default Vue.extend({
 
     beforeUpload(file: any) {
       if (file.size > 1024 * 1024 * 2) {
-        this.$message.error("Please upload pictures less than 2M.");
+        this.$message.error(this.$t('uploader.image_size_limit_hint'));
         return false
       }
     },
