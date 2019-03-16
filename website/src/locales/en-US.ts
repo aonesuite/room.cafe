@@ -74,11 +74,13 @@ const enUS: Message = {
     placeholder_select_microphone: "Select microphone",
     placeholder_select_speaker: "Select speaker",
     placeholder_select_resolution: "Select resolution",
+    placeholder_select_langs: "Select language",
 
     camera: "Camera",
     microphone: "Microphone",
     speakers: "Speakers",
     incoming_video: "Incoming video",
+    langs: "Language settings",
     cancel: "Cancel",
     done: "Done",
   },
