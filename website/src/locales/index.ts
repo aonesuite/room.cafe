@@ -56,6 +56,13 @@ export declare type Message = {
   settings: string;
   exit: string;
 
+  exited_hint: string;
+  reenter_room: string;
+  go_home: string;
+
+  devices_allow_hint_title: string;
+  devices_allow_hint_desc: string;
+
   room_settings: {
     general: string;
     bandwidth: string;
