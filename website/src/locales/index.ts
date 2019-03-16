@@ -71,11 +71,13 @@ export declare type Message = {
     placeholder_select_microphone: string;
     placeholder_select_speaker: string;
     placeholder_select_resolution: string;
+    placeholder_select_langs: string;
 
     camera: string;
     microphone: string;
     speakers: string;
     incoming_video: string;
+    langs: string;
     cancel: string;
     done: string;
   };

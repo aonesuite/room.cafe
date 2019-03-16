@@ -75,11 +75,13 @@ const zhCN: Message = {
     placeholder_select_microphone: "选择麦克风",
     placeholder_select_speaker: "选择扬声器",
     placeholder_select_resolution: "选择分辨率",
+    placeholder_select_langs: "选择语言",
 
     camera: "摄像头",
     microphone: "麦克风",
     speakers: "扬声器",
     incoming_video: "输入分辨率",
+    langs: "语言设置",
     cancel: "取消",
     done: "完成",
   },
