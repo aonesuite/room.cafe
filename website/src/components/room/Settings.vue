@@ -35,7 +35,7 @@
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="语言设置" name="langs">
+        <el-tab-pane :label="$t('room_settings.langs')" name="langs">
           <div class="form-group">
             <label for="lang">{{ $t('room_settings.langs') }}</label>
             <el-select class="d-block" id="lang" :placeholder="$t('room_settings.placeholder_select_langs')" v-model="$i18n.locale" @click="changeLang($i18n.locale)">

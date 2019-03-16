@@ -69,6 +69,7 @@ const enUS: Message = {
   room_settings: {
     general: "General",
     bandwidth: "Bandwidth",
+    langs: "Language",
 
     placeholder_select_camera: "Select camera",
     placeholder_select_microphone: "Select microphone",
@@ -80,7 +81,6 @@ const enUS: Message = {
     microphone: "Microphone",
     speakers: "Speakers",
     incoming_video: "Incoming video",
-    langs: "Language settings",
     cancel: "Cancel",
     done: "Done",
   },
