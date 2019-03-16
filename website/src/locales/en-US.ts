@@ -59,6 +59,13 @@ const enUS: Message = {
   settings: "Settings",
   exit: "Exit",
 
+  exited_hint: "You left the interact room.",
+  reenter_room: "Reenter the room",
+  go_home: "Go home",
+
+  devices_allow_hint_title: "Allow Room Cafe to use your camera and microphone",
+  devices_allow_hint_desc: "Room Cafe needs access to your camera and microphone so that other participants can see and hear you. Room Cafe will ask you to confirm this decision on each browser and computer you use",
+
   room_settings: {
     general: "General",
     bandwidth: "Bandwidth",

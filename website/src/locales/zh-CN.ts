@@ -4,8 +4,8 @@ const zhCN: Message = {
   // Home page
   slogan: "与你的家人、朋友和同事互动",
   welcome: "在 Room Cafe，你可以召开视频会议，使用白板分享你的想法，与你喜欢的人发信息聊天。",
-  sloganSignedIn: "嗨，{name}",
-  welcomeSignedIn: "开始视频会议，分享创意和群聊吧。",
+  sloganSignedIn: "嗨，{name}！",
+  welcomeSignedIn: "选用以下方式与朋友开始视频会议，分享创意和群聊吧。",
 
   video_call: "实时视频",
   video_call_features: [
@@ -58,6 +58,13 @@ const zhCN: Message = {
   fullscreen_exit: "退出全屏",
   settings: "设置",
   exit: "离开房间",
+
+  exited_hint: "你已经离开了房间。",
+  reenter_room: "重新进入房间",
+  go_home: "返回主页",
+
+  devices_allow_hint_title: "允许 Room Cafe 使用摄像头和麦克风",
+  devices_allow_hint_desc: "你必须授予 Room Cafe 使用摄像头和麦克风的权限，其他参与者才能看到你和听到你的声音。在你使用的所有浏览器和计算机上，Room Cafe 都会要求你进行确认。",
 
   // Room setting modal
   room_settings: {
