@@ -70,6 +70,7 @@ const zhCN: Message = {
   room_settings: {
     general: "常规",
     bandwidth: "带宽",
+    langs: "语言",
 
     placeholder_select_camera: "选择摄像头",
     placeholder_select_microphone: "选择麦克风",
@@ -81,7 +82,6 @@ const zhCN: Message = {
     microphone: "麦克风",
     speakers: "扬声器",
     incoming_video: "输入分辨率",
-    langs: "语言设置",
     cancel: "取消",
     done: "完成",
   },
