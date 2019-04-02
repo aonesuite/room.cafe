@@ -2,6 +2,8 @@
 var fs = require('fs')
 
 module.exports = {
+  productionSourceMap: false,
+
   devServer: {
     open: process.platform === 'darwin',
     host: 'dev.room.cafe',
