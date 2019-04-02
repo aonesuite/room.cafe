@@ -78,23 +78,6 @@
           <Settings />
         </li>
 
-        <li class="nav-item" id="nav-item-lang">
-          <b-button id="lang-switch" variant="link">
-            <Icon type="globe" height="22" />
-          </b-button>
-
-          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
-            <div class="list-group">
-              <button
-                v-for="(label, lang) in langs" :key="lang"
-                type="button"
-                class="list-group-item list-group-item-action"
-                :class="{ active: $i18n.locale === lang}"
-                @click="changeLang(lang)">{{label}}</button>
-            </div>
-          </b-popover>
-        </li>
-
         <!-- 退出 -->
         <li class="nav-item">
           <b-btn :disabled="RTC.roomState !== 2" size="sm" variant="link" id="exitBtn" @click="exit(); $refs.exitTooltip.$emit('close')">
@@ -113,7 +96,6 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 import fscreen from 'fscreen';
 import Clipboard from 'clipboard';
 import { openWindow } from '../../utils/window';
-import { langs } from '../../locales';
 import ShareScreen from './ShareScreen.vue';
 import Settings from './Settings.vue';
 
@@ -125,7 +107,6 @@ export default Vue.extend({
 
   data () {
     return {
-      langs: langs,
       copyBtn: {} as ClipboardJS, //存储初始化复制按钮事件
       shareLink: "",
       fullscreenEnabled: false,
@@ -201,14 +182,6 @@ export default Vue.extend({
     switchVideo() {
       this.RTC.muteStream("master", "video", !this.videoMuted);
       this.videoMuted = !this.videoMuted;
-    },
-
-    changeLang(lang: string) {
-      this.$i18n.locale = lang;
-      localStorage.setItem("locale", lang);
-      if (this.$refs.langSwitchPopover === undefined) return;
-      const langSwitchPopover = this.$refs.langSwitchPopover as any;
-      langSwitchPopover.$emit('close');
     },
 
     async exit() {

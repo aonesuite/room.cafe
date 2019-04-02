@@ -59,14 +59,23 @@ const enUS: Message = {
   settings: "Settings",
   exit: "Exit",
 
+  exited_hint: "You left the interact room.",
+  reenter_room: "Reenter the room",
+  go_home: "Go home",
+
+  devices_allow_hint_title: "Allow Room Cafe to use your camera and microphone",
+  devices_allow_hint_desc: "Room Cafe needs access to your camera and microphone so that other participants can see and hear you. Room Cafe will ask you to confirm this decision on each browser and computer you use",
+
   room_settings: {
     general: "General",
     bandwidth: "Bandwidth",
+    langs: "Language",
 
     placeholder_select_camera: "Select camera",
     placeholder_select_microphone: "Select microphone",
     placeholder_select_speaker: "Select speaker",
     placeholder_select_resolution: "Select resolution",
+    placeholder_select_langs: "Select language",
 
     camera: "Camera",
     microphone: "Microphone",

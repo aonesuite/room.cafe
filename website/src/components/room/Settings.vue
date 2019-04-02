@@ -25,11 +25,21 @@
             </el-select>
           </div>
         </el-tab-pane>
+
         <el-tab-pane :label="$t('room_settings.bandwidth')" name="bandwidth">
           <div class="form-group">
             <label for="incoming-video">{{ $t('room_settings.incoming_video') }}</label>
             <el-select class="d-block" id="incoming-video" :placeholder="$t('room_settings.placeholder_select_resolution')" v-model="settings.clarity">
               <el-option v-for="(clarity, key) in clarities" :key="key" :label="$t(`clarity.${key}`)" :value="key"></el-option>
+            </el-select>
+          </div>
+        </el-tab-pane>
+
+        <el-tab-pane :label="$t('room_settings.langs')" name="langs">
+          <div class="form-group">
+            <label for="lang">{{ $t('room_settings.langs') }}</label>
+            <el-select class="d-block" id="lang" :placeholder="$t('room_settings.placeholder_select_langs')" v-model="$i18n.locale" @click="changeLang($i18n.locale)">
+              <el-option v-for="(label, lang) in langs" :key="lang" :label="label" :value="lang"></el-option>
             </el-select>
           </div>
         </el-tab-pane>
@@ -48,12 +58,14 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import * as QNRTC from 'pili-rtc-web';
 import * as Clarity from '../../constants/clarity';
+import { langs } from '../../locales';
 
 export default Vue.extend({
 
   data() {
     return {
       tabActive: "general",
+      langs: langs,
       deviceInfoList: [] as MediaDeviceInfo[],
       settings: {
         currentAudioOutputDevice: 'default',
@@ -110,6 +122,14 @@ export default Vue.extend({
       this.isSubmitting = true
       await this.publish()
       this.isSubmitting = false
+    },
+
+    changeLang(lang: string) {
+      this.$i18n.locale = lang;
+      localStorage.setItem("locale", lang);
+      if (this.$refs.langSwitchPopover === undefined) return;
+      const langSwitchPopover = this.$refs.langSwitchPopover as any;
+      langSwitchPopover.$emit('close');
     }
   },
 
