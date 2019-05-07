@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es5",
     "skipLibCheck": true,
-    "module": "esnext",
+    "module": "es2015",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
