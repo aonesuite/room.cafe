@@ -27,6 +27,8 @@ const zhCN: Message = {
   quick_start: "快速开始",
   sign_in: "登录",
 
+  contact: "联系我们",
+
   login_quickly_placeholder: "输入您的名字然后快速开始",
 
   join: "加入",
