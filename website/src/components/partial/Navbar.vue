@@ -5,6 +5,7 @@
     <b-navbar-brand href="/">
       <span>ROOM CAFE</span>
       <img src="@/assets/images/logo.svg" alt="ROOM CAFE" width="24">
+      <sup>Beta</sup>
     </b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
