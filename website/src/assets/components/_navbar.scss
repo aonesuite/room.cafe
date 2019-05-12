@@ -3,8 +3,17 @@
 
   .navbar-brand{
     font-weight: 600;
+    position: relative;
     span{
       margin-right: 5px;
+    }
+    sup{
+      font-weight: 300;
+      font-size: 12px;
+      position: absolute;
+      right: 0;
+      top: 8px;
+      transform: translate(100%,100%)
     }
   }
 
