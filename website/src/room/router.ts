@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router, { Route, RawLocation } from 'vue-router'
 
+import Layout from '@/components/partial/Layout.vue';
 import Home from '@/components/Home.vue';
+import LandingContact from '@/components/landing/Contact.vue';
 import OAuthCallback from '@/components/account/OAuthCallback.vue';
 import Room from '@/components/room/Room.vue';
 
@@ -18,21 +20,17 @@ let router = new Router({
   mode: 'history',
   routes: [
     {
-      name: 'home',
-      path: '/',
-      component: Home
+      name: '',
+      path: '',
+      component: Layout,
+      children: [
+        { path: '/',        name: 'home',    component: Home },
+        { path: '/contact', name: 'contact', component: LandingContact },
+      ]
     },
-    {
-      name: 'oauth_callback',
-      path: '/oauth/:provider/callback',
-      component: OAuthCallback
-    },
-    {
-      name: 'room',
-      path: '/room/:id',
-      component: Room
-    },
-    { path: '*', name: 'redirect', redirect: '/' }
+    { path: '/oauth/:provider/callback', name: 'oauth_callback', component: OAuthCallback },
+    { path: '/room/:id',                 name: 'room',           component: Room },
+    { path: '*',                         name: 'redirect',       redirect: '/' }
   ]
 })
 

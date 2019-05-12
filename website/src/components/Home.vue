@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Navbar />
-
     <div class="welcome">
       <div class="photograph"></div>
       <div class="hero">
@@ -77,14 +75,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
-import Navbar from '../components/partial/Navbar.vue';
 import * as RoomAPI from '../api/room';
 import { openWindow } from '../utils/window';
 
 export default Vue.extend({
 
   components: {
-    Navbar
+
   },
 
   data() {
