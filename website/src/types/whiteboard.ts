@@ -48,7 +48,6 @@ export class Whiteboard extends EventEmitter {
 
     this.uuid = params.uuid;
     this.roomToken = params.roomToken;
-    this.userToken = params.userToken;
     this.disableOperations = params.disableOperations;
 
     if (callbacks) {
@@ -196,7 +195,7 @@ export class Whiteboard extends EventEmitter {
     }
   }
 
-  public bindHtmlElement(element: HTMLElement | null): void {
+  public bindHtmlElement(element: HTMLDivElement | null): void {
     if (this.room) {
       this.room.bindHtmlElement(element);
     }
@@ -206,13 +205,6 @@ export class Whiteboard extends EventEmitter {
     if (this.room) {
       this.room.refreshViewSize();
     }
-  }
-
-  public screenshot(params: SDK.ScreenshotParam): Promise<Blob> | null {
-    if (this.room) {
-      return this.room.screenshot(params);
-    }
-    return null;
   }
 
 }
