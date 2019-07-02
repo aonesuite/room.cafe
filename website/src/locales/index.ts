@@ -24,6 +24,8 @@ export declare type Message = {
   quick_start: string;
   sign_in: string;
 
+  contact: string;
+
   login_quickly_placeholder: string,
 
   join: string;

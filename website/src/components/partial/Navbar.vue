@@ -2,31 +2,17 @@
   <b-navbar toggleable="md" fixed="top" type="dark" id="navbar">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-    <b-navbar-brand href="/">
+    <b-navbar-brand to="home">
       <span>ROOM CAFE</span>
       <img src="@/assets/images/logo.svg" alt="ROOM CAFE" width="24">
+      <sup>Beta</sup>
     </b-navbar-brand>
 
     <b-collapse is-nav id="nav_collapse">
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
 
-        <li class="nav-item" id="nav-item-lang">
-          <b-button id="lang-switch" variant="link">
-            <Icon type="globe" height="18" />
-          </b-button>
-
-          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
-            <div class="list-group">
-              <button
-                v-for="(label, lang) in langs" :key="lang"
-                type="button"
-                class="list-group-item list-group-item-action"
-                :class="{ active: $i18n.locale === lang}"
-                @click="changeLang(lang)">{{label}}</button>
-            </div>
-          </b-popover>
-        </li>
+        <b-nav-item active-class="active" href="https://jinshuju.net/f/2UlDEj" target="_blank">{{ $t("contact") }}</b-nav-item>
 
         <li class="nav-item">
           <b-button size="sm" variant="success" type="button" @click="quickStart">{{ $t("quick_start") }}</b-button>
@@ -58,6 +44,23 @@
           </b-popover>
         </li>
 
+        <li class="nav-item" id="nav-item-lang">
+          <b-button id="lang-switch" variant="link">
+            <Icon type="globe" height="18" />
+          </b-button>
+
+          <b-popover ref="langSwitchPopover" target="lang-switch" triggers="click blur" placement="buttomright" container="nav-item-lang">
+            <div class="list-group">
+              <button
+                v-for="(label, lang) in langs" :key="lang"
+                type="button"
+                class="list-group-item list-group-item-action"
+                :class="{ active: $i18n.locale === lang}"
+                @click="changeLang(lang)">{{label}}</button>
+            </div>
+          </b-popover>
+        </li>
+
       </b-navbar-nav>
     </b-collapse>
 
@@ -69,7 +72,7 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import { langs } from '../../locales';
-import QuickStartModal from '@/components/account/QuickStartModal.vue';
+import QuickStartModal from '../account/QuickStartModal.vue';
 
 export default Vue.extend({
   components: {
