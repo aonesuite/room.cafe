@@ -5,13 +5,12 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"github.com/qiniu/api.v7/rtc"
 
 	"components/config"
 	"components/db"
 	"components/log"
 
+	"providers/agora"
 	"providers/white"
 
 	"room.cafe/models"
@@ -39,21 +38,12 @@ func Info(c *gin.Context) {
 		return
 	}
 
-	// 获取 RTN token
-	rtcMgr := rtc.NewManager(&qbox.Mac{
-		AccessKey: config.GetString("qiniu.access_key"),
-		SecretKey: []byte(config.GetString("qiniu.secret_key")),
-	})
+	var (
+		err      error
+		expireAt = time.Now().Unix() + 600
+	)
 
-	var err error
-	room.RTCToken, err = rtcMgr.GetRoomToken(rtc.RoomAccess{
-		AppID:      config.GetString("qiniu.rtn_appid"),
-		RoomName:   room.UUID,
-		UserID:     currentUser.RoomUserID(),
-		ExpireAt:   time.Now().Unix() + 60*60*12,
-		Permission: "admin",
-	})
-
+	room.RTCToken, err = agora.GenJoinChannelToken(config.GetString("agora.app_id"), config.GetString("agora.app_certificate"), uuid, currentUser.RoomUserID(), expireAt)
 	if err != nil {
 		log.Error("get rtn room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
