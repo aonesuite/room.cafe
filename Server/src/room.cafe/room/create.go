@@ -6,12 +6,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/globalsign/mgo/bson"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/rtc"
 
 	"components/config"
 	"components/db"
 	"components/log"
 
-	"providers/agora"
 	"providers/white"
 
 	"room.cafe/models"
@@ -40,10 +41,23 @@ func Create(c *gin.Context) {
 
 	uuid := bson.NewObjectId().Hex()
 
-	expireAt := time.Now().Unix() + 600
-	roomToken, err := agora.GenJoinChannelToken(config.GetString("agora.app_id"), config.GetString("agora.app_certificate"), uuid, currentUser.RoomUserID(), expireAt)
+	// 获取 RTN token
+	rtcMgr := rtc.NewManager(&qbox.Mac{
+		AccessKey: config.GetString("qiniu.access_key"),
+		SecretKey: []byte(config.GetString("qiniu.secret_key")),
+	})
+
+	roomAccess := rtc.RoomAccess{
+		AppID:      config.GetString("qiniu.rtn_appid"),
+		RoomName:   uuid,
+		UserID:     currentUser.RoomUserID(),
+		ExpireAt:   time.Now().Unix() + 60*60*12,
+		Permission: "admin",
+	}
+
+	roomToken, err := rtcMgr.GetRoomToken(roomAccess)
 	if err != nil {
-		log.Error("gen agora token failed ", err)
+		log.Error("get rtn room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
@@ -66,6 +80,7 @@ func Create(c *gin.Context) {
 		Name:            args.Name,
 		Private:         args.Private,
 		Owner:           currentUser.ID,
+		RTC:             roomAccess.RoomName,
 		RTCToken:        roomToken,
 		Whiteboard:      whiteRet.Room.UUID,
 		WhiteboardToken: whiteRet.RoomToken,
@@ -94,4 +109,5 @@ func Create(c *gin.Context) {
 	database.Commit()
 
 	c.JSON(http.StatusCreated, room)
+
 }
