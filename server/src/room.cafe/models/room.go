@@ -14,6 +14,7 @@ type Room struct {
 	Owner           uint                 `json:"owner"            gorm:"index"`                // 管理员
 	RTC             string               `json:"-"                gorm:"size:128"`             // RTC RoomName: 房间名称，保持跟 UUID 一致
 	RTCToken        string               `json:"rtc_token"        gorm:"-"`                    // RTC RoomToken
+	RTMToken        string               `json:"rtm_token"        gorm:"-"`                    // RTM RoomToken
 	Whiteboard      string               `json:"whiteboard_id"    gorm:"size:128"`             // 白板房间 ID
 	WhiteboardToken string               `json:"whiteboard_token" gorm:"-"`                    // 白板房间 token
 	CreatedAt       timestamp.Timestamp  `json:"created_at"`

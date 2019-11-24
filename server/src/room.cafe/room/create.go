@@ -6,13 +6,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/globalsign/mgo/bson"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"github.com/qiniu/api.v7/rtc"
 
 	"components/config"
 	"components/db"
 	"components/log"
 
+	"providers/agora"
 	"providers/white"
 
 	"room.cafe/models"
@@ -39,25 +38,23 @@ func Create(c *gin.Context) {
 		}
 	}
 
-	uuid := bson.NewObjectId().Hex()
+	var (
+		uuid     = bson.NewObjectId().Hex()
+		appID    = config.GetString("agora.app_id")
+		appCert  = config.GetString("agora.app_certificate")
+		expireAt = time.Now().Unix() + 600
+	)
 
-	// 获取 RTN token
-	rtcMgr := rtc.NewManager(&qbox.Mac{
-		AccessKey: config.GetString("qiniu.access_key"),
-		SecretKey: []byte(config.GetString("qiniu.secret_key")),
-	})
-
-	roomAccess := rtc.RoomAccess{
-		AppID:      config.GetString("qiniu.rtn_appid"),
-		RoomName:   uuid,
-		UserID:     currentUser.RoomUserID(),
-		ExpireAt:   time.Now().Unix() + 60*60*12,
-		Permission: "admin",
+	roomToken, err := agora.GenRTCJoinChannelToken(appID, appCert, uuid, currentUser.RoomUserID(), expireAt)
+	if err != nil {
+		log.Error("get rtc room token failed", err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		return
 	}
 
-	roomToken, err := rtcMgr.GetRoomToken(roomAccess)
+	rtmToken, err := agora.GenRTMJoinChannelToken(appID, appCert, currentUser.RoomUserID(), expireAt)
 	if err != nil {
-		log.Error("get rtn room token failed", err)
+		log.Error("get rtc room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
@@ -76,12 +73,13 @@ func Create(c *gin.Context) {
 	database = database.Begin()
 
 	room := models.Room{
-		UUID:            uuid,
-		Name:            args.Name,
-		Private:         args.Private,
-		Owner:           currentUser.ID,
-		RTC:             roomAccess.RoomName,
+		UUID:    uuid,
+		Name:    args.Name,
+		Private: args.Private,
+		Owner:   currentUser.ID,
+		//		RTC:             roomAccess.RoomName,
 		RTCToken:        roomToken,
+		RTMToken:        rtmToken,
 		Whiteboard:      whiteRet.Room.UUID,
 		WhiteboardToken: whiteRet.RoomToken,
 	}
