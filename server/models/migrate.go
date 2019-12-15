@@ -1,8 +1,8 @@
 package models
 
 import (
-	"components/db"
-	"components/log"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
 )
 
 // AutoMigrate 自动迁移数据库

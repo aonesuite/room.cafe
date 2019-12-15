@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"components/testhelper"
+	"room.cafe/components/testhelper"
 
 	"room.cafe/uploader"
 )

@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"components/log"
+	"room.cafe/components/log"
 	"time"
 )
 

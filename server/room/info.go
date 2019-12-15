@@ -6,12 +6,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"components/config"
-	"components/db"
-	"components/log"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
 
-	"providers/agora"
-	"providers/white"
+	"room.cafe/providers/agora"
+	"room.cafe/providers/white"
 
 	"room.cafe/models"
 )

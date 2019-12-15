@@ -8,9 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"room.cafe/models"
 
-	"components/config"
-	"components/db"
-	"components/log"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
 )
 
 // Logout 退出登录

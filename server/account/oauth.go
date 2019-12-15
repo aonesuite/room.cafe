@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"components/config"
-	"components/db"
-	"components/log"
-	"components/utils"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
+	"room.cafe/components/utils"
 
 	"room.cafe/models"
 

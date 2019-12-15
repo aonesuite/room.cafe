@@ -1,7 +1,7 @@
 package testhelper
 
 import (
-	"components/log"
+	"room.cafe/components/log"
 
 	"github.com/gin-gonic/gin"
 )

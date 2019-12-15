@@ -10,10 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 
-	"components/config"
-	"components/db"
-	"components/log"
-	"components/middleware"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
+	"room.cafe/components/middleware"
 
 	"room.cafe/account"
 	"room.cafe/filter"

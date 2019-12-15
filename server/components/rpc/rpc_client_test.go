@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"components/utils/httputil"
+	"room.cafe/components/utils/httputil"
 )
 
 var userAgentTst string

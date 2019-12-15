@@ -9,8 +9,8 @@ import (
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/storage"
 
-	"components/config"
-	"components/log"
+	"room.cafe/components/config"
+	"room.cafe/components/log"
 )
 
 // QiniuConfig qiniu service config

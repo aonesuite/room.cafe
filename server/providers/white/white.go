@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"components/log"
-	"components/rpc"
+	"room.cafe/components/log"
+	"room.cafe/components/rpc"
 )
 
 // Client herewhite client

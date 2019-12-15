@@ -7,7 +7,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/stretchr/testify/assert"
 
-	"components/timestamp"
+	"room.cafe/components/timestamp"
 )
 
 func TestTimestamp(t *testing.T) {

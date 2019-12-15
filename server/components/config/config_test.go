@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"components/config"
+	"room.cafe/components/config"
 )
 
 func TestLoadConfig(t *testing.T) {

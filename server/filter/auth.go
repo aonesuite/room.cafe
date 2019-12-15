@@ -8,9 +8,9 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 
-	"components/config"
-	"components/db"
-	"components/log"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
 
 	"room.cafe/models"
 )

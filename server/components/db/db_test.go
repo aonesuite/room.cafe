@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 
-	"components/db"
+	"room.cafe/components/db"
 )
 
 func TestInit(t *testing.T) {

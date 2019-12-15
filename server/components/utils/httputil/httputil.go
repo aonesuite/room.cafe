@@ -9,7 +9,7 @@ import (
 	"strings"
 	"syscall"
 
-	"components/log"
+	"room.cafe/components/log"
 )
 
 // HandleFunc return handle func width http status code and response data

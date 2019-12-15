@@ -3,7 +3,7 @@ package utils_test
 import (
 	"testing"
 
-	"components/utils"
+	"room.cafe/components/utils"
 
 	"github.com/stretchr/testify/assert"
 )

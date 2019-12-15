@@ -1,7 +1,7 @@
 package models
 
 import (
-	"components/timestamp"
+	"room.cafe/components/timestamp"
 )
 
 // Room 房间

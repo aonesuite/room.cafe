@@ -10,10 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 
-	"components/config"
-	"components/db"
-	"components/log"
-	"components/testhelper"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
+	"room.cafe/components/testhelper"
 
 	"room.cafe/account"
 	"room.cafe/models"

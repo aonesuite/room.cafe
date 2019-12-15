@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"components/log"
-	"components/rpc"
+	"room.cafe/components/log"
+	"room.cafe/components/rpc"
 
 	"room.cafe/models"
 

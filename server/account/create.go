@@ -1,10 +1,10 @@
 package account
 
 import (
-	"components/config"
-	"components/db"
-	"components/log"
-	"components/timestamp"
+	"room.cafe/components/config"
+	"room.cafe/components/db"
+	"room.cafe/components/log"
+	"room.cafe/components/timestamp"
 	"net/http"
 	"time"
 

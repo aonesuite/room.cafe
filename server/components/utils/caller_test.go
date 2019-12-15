@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"components/utils"
+	"room.cafe/components/utils"
 )
 
 func TestCaller(t *testing.T) {

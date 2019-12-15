@@ -1,6 +1,6 @@
 package testhelper
 
-import "components/db"
+import "room.cafe/components/db"
 
 // InitTestDatabase init test env database
 func InitTestDatabase() {
