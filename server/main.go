@@ -104,13 +104,15 @@ func main() {
 
 	if config.GetString("app.mode") == gin.DebugMode {
 		fmt.Printf("Listening and serving HTTP on %s\n", srv.Addr)
-		if err := srv.ListenAndServeTLS("../../certificate/dev.room.cafe.crt", "../../certificate/dev.room.cafe.key"); err != nil {
+		if err := srv.ListenAndServeTLS("../certificate/dev.room.cafe.crt", "../certificate/dev.room.cafe.key"); err != nil {
+			fmt.Printf("Failed to listen and serve %v", err)
 			os.Exit(1)
 		}
 
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 		if err := srv.ListenAndServe(); err != nil {
+			fmt.Printf("Failed to listen and serve %v", err)
 			os.Exit(1)
 		}
 	}
