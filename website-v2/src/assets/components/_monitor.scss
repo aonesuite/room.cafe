@@ -1,0 +1,114 @@
+.monitor{
+  position: relative;
+  font-size: 12px;
+  vertical-align: top;
+  overflow: hidden;
+  border: 3px solid transparent;
+  border-radius: 1.5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.26);
+
+  .cover{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+    background: url(../images/default-avatar.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    img{
+      max-width: 100%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .player {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transition: all .5s ease;
+
+    video{
+      display: flex;
+      background: #000000;
+      object-fit: cover !important;
+    }
+    &.video-mute{
+      video{ visibility: hidden; }
+    }
+  }
+
+  .info{
+    padding: 0px 2px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #FFF;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.8);
+    background: rgba($color: #000000, $alpha: 0.35);
+    background: linear-gradient(transparent, rgba($color: #000000, $alpha: 0.35));
+
+    .audio-status{
+      padding: 0px 2px;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      text-align: right;
+
+      .audio-wave{ width: 38px; height: 10px; }
+      .audio-mute{ display: none; height: 15px; color: #CCC }
+      &.mute {
+        .audio-wave{ display: none; }
+        .audio-mute{ display: inline; }
+      }
+    }
+  }
+
+  .actions{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    background-color: rgba($color: #000, $alpha: 0.5);
+    text-align: center;
+    visibility: hidden;
+
+    &::before{
+      content: '';
+      display: block;
+      height: 50%;
+    }
+
+    button{
+      color: rgba($color: #FFF, $alpha: 0.75);
+      transform: translateY(-50%);
+
+      &:hover{
+        color: rgba($color: #FFF, $alpha: 1);
+      }
+    }
+  }
+  &:hover .actions{
+    visibility: visible;
+  }
+}

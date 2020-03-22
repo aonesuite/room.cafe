@@ -1,0 +1,32 @@
+html:lang(zh_CN) body {
+  font-family: "Lato","Microsoft Yahei","微软雅黑","STXihei","Meiryo UI","Meiryo","メイリオ","ＭＳ Ｐゴシック","MS PGothic","Hiragino Kaku Gothic Pro","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+
+body, html {
+  font-family: Arial, sans-serif, 'PingFangSC-Light', 'helvetica neue', 'hiragino sans gb', 'microsoft yahei ui', 'microsoft yahei', simsun;
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+img {
+  max-width: 100%;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+a, .btn{
+  cursor: pointer;
+}
+
+a:not([href]):not([tabindex]) {
+  color: #007bff;
+  &:hover{
+    color: #0056b3;
+  }
+}

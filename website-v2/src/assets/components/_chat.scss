@@ -1,0 +1,153 @@
+.chat-open{
+
+}
+
+#chat{
+  display: none;
+  overflow: hidden;
+  width: 350px;
+  background: #FFF;
+  box-shadow: 0 5px 40px rgba(0,0,0,.16);
+  position: absolute;
+  right: 15px;
+  bottom: 135px;
+  z-index: 12;
+  transition: all 0.5s ease 0s;
+  border-radius: $border-radius-lg;
+  opacity: 0;
+
+  &.open{
+    display: block;
+    opacity: 1;
+  }
+
+  header{
+    height: 36px;
+    padding: 5px 5px 5px 10px;
+    background-color: #404040;
+    color: #FFF;
+
+    .btn{
+      line-height: 1.2;
+      padding: 0.2rem 0.5rem;
+      color: rgba($color: #FFF, $alpha: 0.75);
+      &:hover{
+        color: rgba($color: #FFF, $alpha: 1);
+        background-color: rgba($color: #FFF, $alpha: 0.2)
+      }
+    }
+  }
+
+
+  .message-list{
+    min-height: 500px;
+    max-height: 700px;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 56px 0;
+
+    li{
+      padding: 2px 15px;
+      &:first-child{ margin-top: 10px; }
+      &:last-child { margin-bottom: 10px; }
+    }
+
+    .avatar{
+      float: left;
+      width: 32px;
+      height: 32px;
+      overflow: hidden;
+      margin-right: 10px;
+      border-radius: 3px;
+      background: url(../images/default-avatar.jpg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      img{
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 3px;
+      }
+    }
+
+    .body {
+      margin-left: 42px;
+      .userinfo{
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 3px;
+        color: #858B90;
+
+        .badge{
+          margin-left: 3px;
+          padding: 2px 3px;
+          font-size: 12px;
+          font-weight: 300;
+        }
+      }
+      p {
+        display: inline-block;
+        line-height: 1.25rem;
+        background-color: #f5f5f5;
+        border-radius: 3px;
+        padding: 3px 5px;
+        margin-bottom: 5px;
+        text-align: left;
+      }
+    }
+
+    li.self{
+      text-align: right;
+      .avatar {
+        float: right;
+        margin-right: 0;
+        margin-left: 10px;
+      }
+      .body {
+        margin-left: 0;
+        margin-right: 42px;
+        p { background-color: #C6E5FF; }
+      }
+    }
+  }
+
+  .intercom{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+
+    input{
+      height: 56px;
+      padding: 0.75rem 3rem 0.75rem 1rem;
+      border: none;
+      border-top: 1px solid #e6e6e6;
+      border-radius: 0;
+      position: relative;
+      z-index: 1;
+
+      &::placeholder {
+        color: #999;
+        font-size: 0.8rem;
+        font-style: italic;
+      }
+      &:focus {
+        background-color: #fff;
+        -webkit-box-shadow: 0 0 100px 0 rgba(0,0,0,.1);
+        box-shadow: 0 0 100px 0 rgba(0,0,0,.1);
+      }
+    }
+
+    .actions{
+      position: absolute;
+      bottom: 8px;
+      right: 2px;
+      z-index: 2;
+      .btn{
+        color: #666;
+        &:hover{ color: #333; }
+      }
+    }
+  }
+}
+

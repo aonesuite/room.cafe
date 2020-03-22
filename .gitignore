@@ -48,6 +48,7 @@ config.yml
 .jshintrc
 node_modules/
 website/dist/
+website-v2/build
 
 # Log files
 npm-debug.log*

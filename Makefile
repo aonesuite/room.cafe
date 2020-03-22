@@ -1,6 +1,7 @@
 # 安装
 install:
-	go install -v github.com/cespare/reflex
+	go mod download
+	cd website-v2; yarn install
 
 # 代码风格检验
 fix:
@@ -9,8 +10,12 @@ fix:
 
 # 运行后端服务
 serve:
-	reflex -s -R '^website/' -R '_test.go$$'\
+	reflex -s -R '^website*' -R '_test.go$$'\
 		-- go run ./main.go
+
+# 运行前端站点
+site:
+	cd website-v2; yarn start
 
 # 测试
 test:
