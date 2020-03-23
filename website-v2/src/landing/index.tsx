@@ -3,6 +3,11 @@ import React from "react"
 import { BrowserRouter } from "react-router-dom"
 
 import { Layout, Button } from "antd"
+import Icon from "@ant-design/icons"
+
+import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
+import { ReactComponent as ChalkboardSVG } from "../assets/icons/Chalkboard.svg"
+import { ReactComponent as CommentAltLinesSVG } from "../assets/icons/CommentAltLines.svg"
 
 import { useTranslation } from "react-i18next"
 
@@ -37,21 +42,21 @@ export default function Landing() {
                   <ul className="list-inline">
                     <li className="list-inline-item">
                       <Button shape="circle" size="large">
-                        {/* <Icon type="video" width="24" height="24" /> */}
+                        <Icon component={VideoSVG} />
                       </Button>
                       <span>{ t("video_call") }</span>
                     </li>
 
                     <li className="list-inline-item">
                       <Button shape="circle" size="large">
-                        {/* <Icon type="chalkboard" width="24" height="24" /> */}
+                        <Icon component={ ChalkboardSVG } />
                       </Button>
                       <span>{ t("board") }</span>
                     </li>
 
                     <li className="list-inline-item">
                       <Button shape="circle" size="large">
-                        {/* <Icon type="comment-alt-lines" width="24" height="24" /> */}
+                        <Icon component={ CommentAltLinesSVG } />
                       </Button>
                       <span>{ t("message") }</span>
                     </li>
@@ -64,7 +69,7 @@ export default function Landing() {
 
           <div className="features">
             <div className="media">
-              {/* <Icon type="video" width="80" className="mt-2 mr-5" /> */}
+              <Icon component={VideoSVG} />
               <div className="media-body">
                 <h2>{ t("video_call") }</h2>
                 <ul className="list-unstyled">
@@ -77,7 +82,7 @@ export default function Landing() {
             </div>
 
             <div className="media">
-              {/* <Icon type="chalkboard" width="80" className="mt-2 mr-5" /> */}
+              <Icon component={ ChalkboardSVG } />
               <div className="media-body">
                 <h2>{ t("board") }</h2>
                 <ul className="list-unstyled">
@@ -90,7 +95,7 @@ export default function Landing() {
             </div>
 
             <div className="media">
-              {/* <Icon type="comment-alt-lines" width="80" className="mt-2 mr-5" /> */}
+              <Icon component={ CommentAltLinesSVG } />
               <div className="media-body">
                 <h2>{ t("messaging") }</h2>
                 <ul className="list-unstyled">
