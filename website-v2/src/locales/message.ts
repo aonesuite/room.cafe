@@ -1,6 +1,3 @@
-import enUS from "./en-US"
-import zhCN from "./zh-CN"
-
 export interface IMessage {
   slogan: string
   welcome: string
@@ -102,16 +99,4 @@ export interface IMessage {
   uploader: {
     image_size_limit_hint: string
   },
-}
-
-// Ready translated locale messages
-export const langs = {
-  "en-US": "English",
-  "zh-CN": "简体中文"
-}
-
-// Ready translated locale messages
-export const messages = {
-  "en-US": enUS,
-  "zh-CN": zhCN
 }

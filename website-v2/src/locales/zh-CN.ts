@@ -1,4 +1,4 @@
-import { IMessage } from "."
+import { IMessage } from "./message"
 
 const zhCN: IMessage = {
   // Home page

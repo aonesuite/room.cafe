@@ -1,4 +1,4 @@
-import { IMessage } from "."
+import { IMessage } from "./message"
 
 const enUS: IMessage = {
   // Home page

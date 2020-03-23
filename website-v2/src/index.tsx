@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 
 import axios from "axios"
 
+import "./locales/i18n"
 import App from "./App"
 
 import "./assets/main.scss"
