@@ -20,6 +20,7 @@ const zhCN: IMessage = {
   ],
 
   message: "收发消息",
+  messaging: "收发消息",
   message_features: [
     "群聊信息，及时沟通"
   ],

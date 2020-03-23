@@ -19,7 +19,8 @@ const enUS: IMessage = {
     "Provide a variety of tools like images, texts, brushes, documents, screen sharing to express your ideas."
   ],
 
-  message: "Message | Messaging",
+  message: "Message",
+  messaging: "Messaging",
   message_features: [
     "Have a group chat to immediately diss your throughts."
   ],

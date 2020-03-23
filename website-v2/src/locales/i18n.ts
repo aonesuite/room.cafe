@@ -11,24 +11,21 @@ export const langs = {
 }
 
 // Ready translated locale messages
-export const messages = {
-  "en-US": enUS,
-  "zh-CN": zhCN
+export const resources = {
+  "en-US": {
+    translation: enUS
+  },
+  "zh-CN": {
+    translation: zhCN
+  }
 }
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    resources: {
-      en: {
-        translation: enUS
-      },
-      zh: {
-        translation: zhCN
-      }
-    },
-    lng: "zh",
-    fallbackLng: "en",
+    resources,
+    lng: "en-US",
+    fallbackLng: "en-US",
 
     interpolation: {
       escapeValue: false

@@ -12,6 +12,7 @@ export interface IMessage {
   board_features: string[]
 
   message: string
+  messaging: string
   message_features: string[]
 
   quick_start: string
