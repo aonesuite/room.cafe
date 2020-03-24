@@ -1,17 +1,17 @@
 import React from "react"
 
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter, NavLink } from "react-router-dom"
 
-import { Layout, Button } from "antd"
+import { Layout, Button, Row, Col, Dropdown, Menu } from "antd"
+import { GlobalOutlined } from "@ant-design/icons"
 
 import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
 import { ReactComponent as ChalkboardSVG } from "../assets/icons/Chalkboard.svg"
 import { ReactComponent as CommentAltLinesSVG } from "../assets/icons/CommentAltLines.svg"
+import { ReactComponent as LogoSVG } from "../assets/icons/Logo.svg"
 
 import { useTranslation } from "react-i18next"
-
-import Navigation from "../common/components/Navbar"
-import MadeWithLove from "../common/components/MadeWithLove"
+import { langs, changeLanguage} from "../locales/i18n"
 
 import { useGlobalState } from "../common/contexts/GlobalContext"
 
@@ -23,11 +23,46 @@ export default function Landing() {
   const { t } = useTranslation()
   const { state } = useGlobalState()
 
+  const menu = (
+    <Menu>
+      {
+        Object.keys(langs).map((key: string) =>
+        <Menu.Item key={key}>
+          <Button type="link" onClick={ () => changeLanguage(key) }>{ langs[key] }</Button>
+        </Menu.Item>)
+      }
+    </Menu>
+  );
+
   return(
     <BrowserRouter>
       <Layout>
 
-        <Navigation />
+      <Layout.Header>
+        <Row>
+          <Col flex="auto">
+            <NavLink className="brand" to="/">
+              <span>ROOM CAFE</span>
+              <LogoSVG width={24} height={24} />
+              <sup>Beta</sup>
+            </NavLink>
+          </Col>
+
+          <Col className="navs">
+            <Dropdown overlay={menu} trigger={['click']}>
+              <Button className="nav-item" icon={<GlobalOutlined />} type="link" />
+            </Dropdown>
+
+            {
+              state.signedIn === false &&
+              <React.Fragment>
+                <Button className="nav-item btn-success">{ t("quick_start") }</Button>
+                <Button className="nav-item btn-success">{ t("sign_in") }</Button>
+              </React.Fragment>
+            }
+          </Col>
+        </Row>
+      </Layout.Header>
 
         <Content>
 
@@ -112,7 +147,22 @@ export default function Landing() {
         </Content>
 
         <Footer>
-          <MadeWithLove />
+          <p className="text-muted text-center">
+            {"Built with love by the "}
+            <a className="text-muted" href="https://room.cafe/">Room.Cafe</a>
+            {" team. "}
+
+            <a
+              className="text-muted"
+              href="https://jinshuju.net/f/2UlDEj"
+              target="_blank"
+              rel="noopener noreferrer">
+              { t("contact") }
+            </a>
+          </p>
+          <p className="text-muted text-center">
+            © Copyright 2020 5seconds.info Technologies, Inc. All rights reserved.
+          </p>
         </Footer>
       </Layout>
     </BrowserRouter>

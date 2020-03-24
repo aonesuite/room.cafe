@@ -1,3 +1,55 @@
+.app-layout-header {
+  width: 100%;
+  height: 58px;
+  line-height: 58px;
+  padding: 0 1rem;
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  background-color: rgba(0,0,0,.75);
+
+  .brand {
+    display: inline-block;
+    line-height: 40px;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    white-space: nowrap;
+    color: #FFF;
+    font-size: 1.25rem;
+    font-weight: 600;
+    position: relative;
+
+    span {
+      margin-right: 5px;
+    }
+
+    sup {
+      font-weight: 300;
+      font-size: 12px;
+      position: absolute;
+      right: 0;
+      top: 8px;
+      -webkit-transform: translate(100%,100%);
+      transform: translate(100%,100%);
+    }
+  }
+
+  .navs {
+    text-align: right;
+  }
+
+  .nav-item {
+    margin-right: 8px;
+    color: hsla(0,0%,100%,.85);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
 .welcome{
   position: relative;
 }
