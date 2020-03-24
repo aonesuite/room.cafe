@@ -20,6 +20,11 @@ export const resources = {
   }
 }
 
+export function changeLanguage(lang: string) {
+  localStorage.setItem("locale", lang);
+  i18n.changeLanguage(lang)
+}
+
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
@@ -31,3 +36,8 @@ i18n
       escapeValue: false
     }
   })
+
+const lang = localStorage.getItem("locale")
+if (lang) {
+  i18n.changeLanguage(lang)
+}

@@ -4,9 +4,8 @@ import { NavLink } from "react-router-dom"
 import { Layout, Row, Col, Button, Dropdown, Menu } from "antd"
 import { GlobalOutlined } from "@ant-design/icons"
 
-import i18n from "i18next"
 import { useTranslation } from "react-i18next"
-import { langs} from "../../../locales/i18n"
+import { langs, changeLanguage} from "../../../locales/i18n"
 
 import { useGlobalState } from "../../contexts/GlobalContext"
 
@@ -23,7 +22,7 @@ export default function Navigation() {
       {
         Object.keys(langs).map((key: string) =>
         <Menu.Item key={key}>
-          <Button type="link" onClick={ () => i18n.changeLanguage(key) }>{ langs[key] }</Button>
+          <Button type="link" onClick={ () => changeLanguage(key) }>{ langs[key] }</Button>
         </Menu.Item>)
       }
     </Menu>
