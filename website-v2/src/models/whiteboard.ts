@@ -1,5 +1,5 @@
 import EventEmitter from "wolfy87-eventemitter"
-import { Room, RoomPhase, RoomWhiteboard, WhiteWebSdk } from "white-react-sdk"
+import { Room, WhiteWebSdk } from "white-react-sdk"
 
 export class Whiteboard extends EventEmitter {
 
