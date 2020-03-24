@@ -28,7 +28,7 @@ const enUS: IMessage = {
   quick_start: "Quick start",
   sign_in: "Sign in",
 
-  contact: "Contact",
+  contact: "Contact us",
 
   login_quickly_placeholder: "Enter a name and start quickly",
 

@@ -36,21 +36,14 @@
     }
   }
 
-  .app-menu {
-    margin-top: 10px;
-
-    .app-menu-item,
-    .app-menu-submenu {
-      font-size: 16px;
-    }
-
-    .app-menu-item-selected {
-      background-color: transparent;
-    }
+  .navs {
+    text-align: right;
   }
 
   .nav-item {
-    margin-right: 16px;
+    margin-right: 8px;
+    color: hsla(0,0%,100%,.85);
+
     &:last-child {
       margin-right: 0;
     }

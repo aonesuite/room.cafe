@@ -5,7 +5,7 @@ import enUS from "./en-US"
 import zhCN from "./zh-CN"
 
 // Ready translated locale messages
-export const langs = {
+export const langs: {[key: string]: string} = {
   "en-US": "English",
   "zh-CN": "简体中文"
 }
