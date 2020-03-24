@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { BrowserRouter, NavLink } from "react-router-dom"
 
-import { Layout, Button, Row, Col, Dropdown, Menu } from "antd"
+import { Layout, Button, Row, Col, Dropdown, Menu, Modal } from "antd"
 import { GlobalOutlined } from "@ant-design/icons"
 
 import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
@@ -17,11 +17,12 @@ import { useGlobalState } from "../common/contexts/GlobalContext"
 
 import "./landing.scss"
 
-const { Content, Footer } = Layout
+const { Header, Content, Footer } = Layout
 
 export default function Landing() {
   const { t } = useTranslation()
   const { state } = useGlobalState()
+  const [modalVisible, setModalVisible] = useState(false)
 
   const menu = (
     <Menu>
@@ -32,40 +33,53 @@ export default function Landing() {
         </Menu.Item>)
       }
     </Menu>
-  );
+  )
+
+  const quickStart = (type?: string) => {
+    console.log("quickStart", type)
+    setModalVisible(true)
+  }
 
   return(
     <BrowserRouter>
+
+      <Modal
+        title={ t("quick_start") }
+        visible={modalVisible}
+        onCancel={ () => setModalVisible(false) }
+        footer={null}>
+        <p>TODO</p>
+      </Modal>
+
       <Layout>
 
-      <Layout.Header>
-        <Row>
-          <Col flex="auto">
-            <NavLink className="brand" to="/">
-              <span>ROOM CAFE</span>
-              <LogoSVG width={24} height={24} />
-              <sup>Beta</sup>
-            </NavLink>
-          </Col>
+        <Header>
+          <Row>
+            <Col flex="auto">
+              <NavLink className="brand" to="/">
+                <span>ROOM CAFE</span>
+                <LogoSVG width={24} height={24} />
+                <sup>Beta</sup>
+              </NavLink>
+            </Col>
 
-          <Col className="navs">
-            <Dropdown overlay={menu} trigger={['click']}>
-              <Button className="nav-item" icon={<GlobalOutlined />} type="link" />
-            </Dropdown>
+            <Col className="navs">
+              <Dropdown overlay={menu} trigger={["click"]}>
+                <Button className="nav-item" icon={<GlobalOutlined />} type="link" />
+              </Dropdown>
 
-            {
-              state.signedIn === false &&
-              <React.Fragment>
-                <Button className="nav-item btn-success">{ t("quick_start") }</Button>
-                <Button className="nav-item btn-success">{ t("sign_in") }</Button>
-              </React.Fragment>
-            }
-          </Col>
-        </Row>
-      </Layout.Header>
+              {
+                state.signedIn === false &&
+                <React.Fragment>
+                  <Button className="nav-item btn-success" onClick={ () => quickStart("quick_start") }>{ t("quick_start") }</Button>
+                  <Button className="nav-item btn-success" onClick={ () => quickStart("sign_in") }>{ t("sign_in") }</Button>
+                </React.Fragment>
+              }
+            </Col>
+          </Row>
+        </Header>
 
         <Content>
-
           <div className="welcome">
             <div className="photograph"></div>
             <div className="hero">
@@ -77,21 +91,21 @@ export default function Landing() {
                 <div className="feature-actions">
                   <ul className="list-inline">
                     <li className="list-inline-item">
-                      <Button shape="circle">
+                      <Button shape="circle" onClick={ () => quickStart("f2f") }>
                         <VideoSVG />
                       </Button>
                       <span>{ t("video_call") }</span>
                     </li>
 
                     <li className="list-inline-item">
-                      <Button shape="circle">
+                      <Button shape="circle" onClick={ () => quickStart("board") }>
                         <ChalkboardSVG />
                       </Button>
                       <span>{ t("board") }</span>
                     </li>
 
                     <li className="list-inline-item">
-                      <Button shape="circle">
+                      <Button shape="circle" onClick={ () => quickStart("im") }>
                         <CommentAltLinesSVG />
                       </Button>
                       <span>{ t("message") }</span>
@@ -143,7 +157,6 @@ export default function Landing() {
               </div>
             </div>
           </div>
-
         </Content>
 
         <Footer>
