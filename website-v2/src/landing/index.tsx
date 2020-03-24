@@ -3,7 +3,6 @@ import React from "react"
 import { BrowserRouter } from "react-router-dom"
 
 import { Layout, Button } from "antd"
-import Icon from "@ant-design/icons"
 
 import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
 import { ReactComponent as ChalkboardSVG } from "../assets/icons/Chalkboard.svg"
@@ -15,6 +14,8 @@ import Navigation from "../common/components/Navbar"
 import MadeWithLove from "../common/components/MadeWithLove"
 
 import { useGlobalState } from "../common/contexts/GlobalContext"
+
+import "./landing.scss"
 
 const { Content, Footer } = Layout
 
@@ -41,22 +42,22 @@ export default function Landing() {
                 <div className="feature-actions">
                   <ul className="list-inline">
                     <li className="list-inline-item">
-                      <Button shape="circle" size="large">
-                        <Icon component={VideoSVG} />
+                      <Button shape="circle">
+                        <VideoSVG />
                       </Button>
                       <span>{ t("video_call") }</span>
                     </li>
 
                     <li className="list-inline-item">
-                      <Button shape="circle" size="large">
-                        <Icon component={ ChalkboardSVG } />
+                      <Button shape="circle">
+                        <ChalkboardSVG />
                       </Button>
                       <span>{ t("board") }</span>
                     </li>
 
                     <li className="list-inline-item">
-                      <Button shape="circle" size="large">
-                        <Icon component={ CommentAltLinesSVG } />
+                      <Button shape="circle">
+                        <CommentAltLinesSVG />
                       </Button>
                       <span>{ t("message") }</span>
                     </li>
@@ -69,7 +70,7 @@ export default function Landing() {
 
           <div className="features">
             <div className="media">
-              <Icon component={VideoSVG} />
+              <VideoSVG />
               <div className="media-body">
                 <h2>{ t("video_call") }</h2>
                 <ul className="list-unstyled">
@@ -82,7 +83,7 @@ export default function Landing() {
             </div>
 
             <div className="media">
-              <Icon component={ ChalkboardSVG } />
+              <ChalkboardSVG />
               <div className="media-body">
                 <h2>{ t("board") }</h2>
                 <ul className="list-unstyled">
@@ -95,7 +96,7 @@ export default function Landing() {
             </div>
 
             <div className="media">
-              <Icon component={ CommentAltLinesSVG } />
+              <CommentAltLinesSVG />
               <div className="media-body">
                 <h2>{ t("messaging") }</h2>
                 <ul className="list-unstyled">

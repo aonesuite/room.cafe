@@ -1,31 +1,24 @@
 import React from "react"
 
 import { NavLink } from "react-router-dom"
-import { Layout, Row, Col, Menu } from "antd"
+import { Layout, Row, Col } from "antd"
 
 import { useGlobalState } from "../../contexts/GlobalContext"
+
+import { ReactComponent as LogoSVG } from "../../../assets/icons/Logo.svg"
 
 export default function Navigation() {
   const { state } = useGlobalState()
 
   return(
-    <Layout.Header style={{ position: "fixed", zIndex: 99, width: "100%" }}>
+    <Layout.Header>
       <Row>
-        <Col>
-          <NavLink className="logo" to="/" />
-        </Col>
-
         <Col flex="auto">
-          <Menu
-            selectedKeys={[window.location.pathname]}
-            theme="dark"
-            mode="horizontal">
-
-            <Menu.Item key="/">
-              <NavLink to="/">Home</NavLink>
-            </Menu.Item>
-
-          </Menu>
+          <NavLink className="brand" to="/">
+            <span>ROOM CAFE</span>
+            <LogoSVG width={24} height={24} />
+            <sup>Beta</sup>
+          </NavLink>
         </Col>
 
         <Col>

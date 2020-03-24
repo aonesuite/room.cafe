@@ -4,7 +4,6 @@
 @import "components/layout";
 
 @import "components/quick_start";
-@import "components/home";
 @import "components/room";
 @import "components/monitor";
 @import "components/whiteboard";
@@ -14,6 +13,14 @@
 body{
   -webkit-font-smoothing: antialiased;
   font-family: Roboto, Arial, "Noto Sans", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+}
+
+.h1, h1 {
+  font-size: 2.5rem;
+}
+.h3, h3 {
+  font-size: 1.75rem;
 }
 
 #root {
