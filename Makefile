@@ -11,7 +11,7 @@ fix:
 # 运行后端服务
 serve:
 	reflex -s -R '^website*' -R '_test.go$$'\
-		-- go run ./main.go
+		-- go run ./main.go -f config.yaml
 
 # 运行前端站点
 site:

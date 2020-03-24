@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 	"os"
@@ -22,21 +23,28 @@ import (
 	"room.cafe/uploader"
 )
 
-func init() {
+// InitConfig init application config
+func InitConfig() {
 	config.SetConfigType("yaml")
-	config.AddConfigPath(".")
-	config.AddConfigPath("$HOME/.room.cafe")
-	config.SetConfigName("config")
 
-	err := config.ReadInConfig()
+	var confPath string
+	flag.StringVar(&confPath, "f", "", "-f=/path/to/config")
+	flag.Parse()
+
+	file, err := os.Open(confPath)
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s", err))
+		return
+	}
+
+	defer file.Close()
+
+	if err = config.ReadConfig(file); err != nil {
+		panic(fmt.Errorf("Fatal error read config file: %s", err))
 	}
 
 	// 初始化数据库配置
 	driver := db.Driver{}
-	err = config.UnmarshalKey("database", &driver)
-	if err != nil {
+	if err = config.UnmarshalKey("database", &driver); err != nil {
 		panic(fmt.Errorf("Fatal error unmarsha config: %s", err))
 	}
 
@@ -46,6 +54,8 @@ func init() {
 
 func main() {
 	fmt.Println("room.cafe")
+
+	InitConfig()
 
 	// 自动迁移数据库
 	models.AutoMigrate()
