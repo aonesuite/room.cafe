@@ -9,7 +9,7 @@ export default function Navigation() {
   const { state } = useGlobalState()
 
   return(
-    <Layout.Header>
+    <Layout.Header style={{ position: "fixed", zIndex: 99, width: "100%" }}>
       <Row>
         <Col>
           <NavLink className="logo" to="/" />
