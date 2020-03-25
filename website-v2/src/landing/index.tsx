@@ -11,7 +11,7 @@ import { ReactComponent as CommentAltLinesSVG } from "../assets/icons/CommentAlt
 import { ReactComponent as LogoSVG } from "../assets/icons/Logo.svg"
 
 import { useTranslation } from "react-i18next"
-import { langs, changeLanguage} from "../locales/i18n"
+import { langs, changeLanguage } from "../locales/i18n"
 
 import { useGlobalState } from "../common/contexts/GlobalContext"
 
