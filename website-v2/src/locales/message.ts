@@ -20,7 +20,8 @@ export interface IMessage {
 
   contact: string
 
-  login_quickly_placeholder: string,
+  login_quickly_placeholder: string
+  name_is_required: string
 
   join: string
   join_the_room: string

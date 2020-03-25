@@ -2,8 +2,8 @@ import React, { useState } from "react"
 
 import { BrowserRouter, NavLink } from "react-router-dom"
 
-import { Layout, Button, Row, Col, Dropdown, Menu, Modal } from "antd"
-import { GlobalOutlined } from "@ant-design/icons"
+import { Layout, Button, Row, Col, Dropdown, Menu } from "antd"
+import { GlobalOutlined} from "@ant-design/icons"
 
 import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
 import { ReactComponent as ChalkboardSVG } from "../assets/icons/Chalkboard.svg"
@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next"
 import { langs, changeLanguage } from "../locales/i18n"
 
 import { useGlobalState } from "../common/contexts/GlobalContext"
+
+import QuickStart from "../quick-start"
 
 import "./landing.scss"
 
@@ -36,20 +38,13 @@ export default function Landing() {
   )
 
   const quickStart = (type?: string) => {
-    console.log("quickStart", type)
     setModalVisible(true)
   }
 
   return(
     <BrowserRouter>
 
-      <Modal
-        title={ t("quick_start") }
-        visible={modalVisible}
-        onCancel={ () => setModalVisible(false) }
-        footer={null}>
-        <p>TODO</p>
-      </Modal>
+      <QuickStart visible={modalVisible} onCancel={ () => setModalVisible(false) } />
 
       <Layout>
 

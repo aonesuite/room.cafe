@@ -31,6 +31,7 @@ const enUS: IMessage = {
   contact: "Contact us",
 
   login_quickly_placeholder: "Enter a name and start quickly",
+  name_is_required: "name is required",
 
   join: "Join",
   join_the_room: "Join the room",
