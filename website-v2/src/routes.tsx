@@ -2,7 +2,8 @@ import React, { Suspense } from "react"
 import { __RouterContext as RouterContext } from "react-router"
 import { RouteConfig } from "react-router-config"
 
-import Landing from "./landing/index"
+import Landing from "./landing"
+import OAuthCallback from "./oauth"
 
 /**
  * Component Waiting wrapper
@@ -27,7 +28,8 @@ export function useRouter() {
 }
 
 const routes: RouteConfig[] = [
-  { path: "/", component: Landing, exact: true } // 首页
+  { path: "/", component: Landing, exact: true }, // 首页
+  { path: '/oauth/:provider/callback', component: OAuthCallback }
 ]
 
 export default routes

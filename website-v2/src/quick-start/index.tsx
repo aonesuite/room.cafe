@@ -4,6 +4,7 @@ import { Button, Modal, Form, Input } from "antd"
 import { GoogleOutlined, GithubOutlined } from "@ant-design/icons"
 
 import { useTranslation } from "react-i18next"
+import { UserAPI } from "../api/user"
 
 export interface IQuickStartOptions {
   visible: boolean
@@ -21,6 +22,13 @@ export default function QuickStart(options: IQuickStartOptions) {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo)
+  }
+
+  const signin = (provider: string) => {
+    window.localStorage.setItem("redirect", window.location.href)
+    UserAPI.Authorize(provider).then((resp) => {
+      window.location.href = resp.data.auth_url
+    })
   }
 
   return (
@@ -63,23 +71,13 @@ export default function QuickStart(options: IQuickStartOptions) {
         <h6>{ t("oauth_signin_title") }</h6>
 
         <div className="providers">
-          <Button type="link" icon={ <GoogleOutlined /> }>
+          <Button type="link" icon={ <GoogleOutlined /> } onClick={ () => signin("google") }>
             <span>Google</span>
           </Button>
 
-          <Button type="link" icon={ <GithubOutlined /> }>
+          <Button type="link" icon={ <GithubOutlined /> } onClick={ () => signin("github") }>
             <span>GitHub</span>
           </Button>
-
-          {/* <b-btn variant="link" @click="signin('google')">
-            <Icon type="google" height="36" />
-            <span>Google</span>
-          </b-btn>
-
-          <b-btn variant="link" @click="signin('github')">
-            <Icon type="github" height="36" />
-            <span>GitHub</span>
-          </b-btn> */}
         </div>
       </div>
     </Modal>
