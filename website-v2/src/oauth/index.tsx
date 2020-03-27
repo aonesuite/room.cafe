@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 
 import { useParams, useLocation } from "react-router-dom"
 
@@ -13,9 +13,9 @@ function useQuery() {
 }
 
 export default function OAuthCallback() {
-  const { provider } = useParams()
   const { t } = useTranslation()
 
+  const { provider } = useParams()
   const query = useQuery()
   const code = query.get("code") || ""
   const state = query.get("state") || ""
@@ -28,21 +28,24 @@ export default function OAuthCallback() {
     })
   }
 
-  useEffect(() => {
-    const oauthCallback = () => {
+  const callbabck = useCallback(
+    () => {
       UserAPI.AuthorizeCallback({ provider: provider || "", code, state })
-      .then(() => {
-        setOauthSignedFailed(false)
-        const redirect = window.localStorage.getItem("redirect")
-        window.location.href = redirect === null ? "/" : redirect
-      })
-      .catch(() => {
-        setOauthSignedFailed(true)
-      })
-    }
+        .then(() => {
+          setOauthSignedFailed(false)
+          const redirect = window.localStorage.getItem("redirect")
+          window.location.href = redirect === null ? "/" : redirect
+        })
+        .catch(() => {
+          setOauthSignedFailed(true)
+        })
+    },
+    [provider, code, state]
+  )
 
-    oauthCallback()
-  }, [provider, code, state])
+  useEffect(() => {
+    callbabck()
+  }, [callbabck])
 
   return (
     <div className="oauth-signin">
