@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { BrowserRouter, NavLink } from "react-router-dom"
 
-import { Layout, Button, Row, Col, Dropdown, Menu } from "antd"
+import { Layout, Button, Row, Col, Dropdown, Menu, Popover, List} from "antd"
 import { GlobalOutlined} from "@ant-design/icons"
 
 import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
@@ -26,15 +26,23 @@ export default function Landing() {
   const { state } = useGlobalState()
   const [modalVisible, setModalVisible] = useState(false)
 
+  const content = (
+    <div>
+      <p>Content</p>
+      <p>Content</p>
+    </div>
+  )
+
   const menu = (
-    <Menu>
-      {
-        Object.keys(langs).map((key: string) =>
-        <Menu.Item key={key}>
+    <List
+      size="small"
+      dataSource={Object.keys(langs)}
+      renderItem={key => (
+        <List.Item style={{ padding: 0 }}>
           <Button type="link" onClick={ () => changeLanguage(key) }>{ langs[key] }</Button>
-        </Menu.Item>)
-      }
-    </Menu>
+        </List.Item>
+      )}
+    />
   )
 
   const quickStart = (type?: string) => {
@@ -59,14 +67,17 @@ export default function Landing() {
             </Col>
 
             <Col className="navs">
-              <Dropdown overlay={menu} trigger={["click"]}>
+              <span className="nav-item">{state.user?.name}</span>
+
+              <Popover content={menu} trigger={["click"]}>
                 <Button className="nav-item" icon={<GlobalOutlined />} type="link" />
-              </Dropdown>
+              </Popover>
+
+              <Button className="nav-item btn-success" onClick={ () => quickStart("quick_start") }>{ t("quick_start") }</Button>
 
               {
                 state.signedIn === false &&
                 <React.Fragment>
-                  <Button className="nav-item btn-success" onClick={ () => quickStart("quick_start") }>{ t("quick_start") }</Button>
                   <Button className="nav-item btn-success" onClick={ () => quickStart("sign_in") }>{ t("sign_in") }</Button>
                 </React.Fragment>
               }
@@ -80,7 +91,7 @@ export default function Landing() {
             <div className="hero">
               <div className="section">
 
-                <h1>{ state.signedIn === false ? t("slogan") : t("sloganSignedIn") }</h1>
+                <h1>{ state.signedIn === false ? t("slogan") : t("sloganSignedIn", {name: state.user?.name}) }</h1>
                 <h3>{ state.signedIn === false ? t("welcome") : t("welcomeSignedIn") }</h3>
 
                 <div className="feature-actions">
