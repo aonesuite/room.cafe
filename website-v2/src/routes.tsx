@@ -29,7 +29,7 @@ export function useRouter() {
 
 const routes: RouteConfig[] = [
   { path: "/", component: Landing, exact: true }, // 首页
-  { path: '/oauth/:provider/callback', component: OAuthCallback }
+  { path: "/oauth/:provider/callback", component: OAuthCallback }
 ]
 
 export default routes

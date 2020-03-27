@@ -4,7 +4,7 @@ const zhCN: IMessage = {
   // Home page
   slogan: "与你的家人、朋友和同事互动",
   welcome: "在 Room Cafe，你可以召开视频会议，使用白板分享你的想法，与你喜欢的人发信息聊天。",
-  sloganSignedIn: "嗨，{name}！",
+  sloganSignedIn: "嗨，{{name}}！",
   welcomeSignedIn: "选用以下方式与朋友开始视频会议，分享创意和群聊吧。",
 
   video_call: "实时视频",

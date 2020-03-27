@@ -1,23 +1,48 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+
+import { useParams, useLocation } from "react-router-dom"
 
 import { useTranslation } from "react-i18next"
 import { Button, Modal } from "antd"
-import { GoogleOutlined, GithubOutlined, LoadingOutlined } from "@ant-design/icons"
+import { GoogleOutlined, GithubOutlined } from "@ant-design/icons"
 
 import { UserAPI } from "../api/user"
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search)
+}
+
 export default function OAuthCallback() {
+  const { provider } = useParams()
   const { t } = useTranslation()
+
+  const query = useQuery()
+  const code = query.get("code") || ""
+  const state = query.get("state") || ""
+
   const [oauthSignedFailed, setOauthSignedFailed] = useState(false)
 
-  const redirect = window.localStorage.getItem("redirect")
-
-  const signin = (provider: string) => {
-    window.localStorage.setItem("redirect", window.location.href)
-    UserAPI.Authorize(provider).then((resp) => {
+  const signin = (_provider: string) => {
+    UserAPI.Authorize(_provider).then((resp) => {
       window.location.href = resp.data.auth_url
     })
   }
+
+  useEffect(() => {
+    const oauthCallback = () => {
+      UserAPI.AuthorizeCallback({ provider: provider || "", code, state })
+      .then(() => {
+        setOauthSignedFailed(false)
+        const redirect = window.localStorage.getItem("redirect")
+        window.location.href = redirect === null ? "/" : redirect
+      })
+      .catch(() => {
+        setOauthSignedFailed(true)
+      })
+    }
+
+    oauthCallback()
+  }, [provider, code, state])
 
   return (
     <div className="oauth-signin">
@@ -25,14 +50,16 @@ export default function OAuthCallback() {
       {
         oauthSignedFailed === false &&
         <div className="loading">
-          <LoadingOutlined />
+          <div className="spinner spinner-border" />
+          { provider === "google" && <GoogleOutlined className="icon" /> }
+          { provider === "github" && <GithubOutlined className="icon" /> }
         </div>
       }
 
       <Modal
         title={ t("quick_start") }
         className="modal-oauth"
-        visible={ true }
+        visible={ oauthSignedFailed }
         centered={true}
         footer={null}>
 

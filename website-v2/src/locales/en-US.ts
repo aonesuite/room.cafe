@@ -4,7 +4,7 @@ const enUS: IMessage = {
   // Home page
   slogan: "Interact with your family, friends and colleagues",
   welcome: "In the Room Cafe, you can make video meeting calls, share your ideas and send messages to people you love.",
-  sloganSignedIn: "Hi, {name}",
+  sloganSignedIn: "Hi, {{name}}",
   welcomeSignedIn: "Get started by video meeting, idea sharing and messaging peoples below.",
 
   video_call: "Video call",

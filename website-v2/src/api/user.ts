@@ -25,8 +25,8 @@ export class UserAPI {
   }
 
   // OAuth callback
-  static AuthorizeCallback(provider: string, args: IOAuthSignInArgs) {
-    return axios.get(`/authorize/${provider}/callback`, {params: args})
+  static AuthorizeCallback(args: IOAuthSignInArgs) {
+    return axios.get(`/authorize/${args.provider}/callback`, {params: args})
   }
 
 }
