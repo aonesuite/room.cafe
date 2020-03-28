@@ -2,18 +2,20 @@ import React, { useState } from "react"
 
 import { BrowserRouter, NavLink } from "react-router-dom"
 
-import { Layout, Button, Row, Col, Dropdown, Menu, Popover, List} from "antd"
-import { GlobalOutlined} from "@ant-design/icons"
+import { useTranslation } from "react-i18next"
+import { langs, changeLanguage } from "../locales/i18n"
+
+import { Layout, Button, Row, Col, Popover, List } from "antd"
+import { GlobalOutlined } from "@ant-design/icons"
 
 import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
 import { ReactComponent as ChalkboardSVG } from "../assets/icons/Chalkboard.svg"
 import { ReactComponent as CommentAltLinesSVG } from "../assets/icons/CommentAltLines.svg"
 import { ReactComponent as LogoSVG } from "../assets/icons/Logo.svg"
 
-import { useTranslation } from "react-i18next"
-import { langs, changeLanguage } from "../locales/i18n"
-
 import { useGlobalState } from "../common/contexts/GlobalContext"
+
+import { RoomAPI } from "../api/room"
 
 import QuickStart from "../quick-start"
 
@@ -25,13 +27,6 @@ export default function Landing() {
   const { t } = useTranslation()
   const { state } = useGlobalState()
   const [modalVisible, setModalVisible] = useState(false)
-
-  const content = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
-    </div>
-  )
 
   const menu = (
     <List
@@ -45,8 +40,13 @@ export default function Landing() {
     />
   )
 
-  const quickStart = (type?: string) => {
-    setModalVisible(true)
+  const quickStart = async (type?: string) => {
+    if (state.signedIn) {
+      const roomInfo = await RoomAPI.Create()
+      window.location.href = `/room/${roomInfo.uuid}`
+    } else {
+      setModalVisible(true)
+    }
   }
 
   return(

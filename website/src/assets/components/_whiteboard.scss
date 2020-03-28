@@ -150,7 +150,7 @@ $stroke-range-thumb-border:                  1px solid #CCC !default;
 $stroke-range-thumb-border-radius:           3px !default;
 $stroke-range-thumb-box-shadow:              0 .1rem .25rem rgba($black, .5) !default;
 $stroke-range-thumb-focus-box-shadow:        0 .1rem .25rem rgba($black, .5) !default;
-$stroke-range-thumb-focus-box-shadow-width:  $input-focus-width !default; // For focus box shadow issue in IE/Edge
+$stroke-range-thumb-focus-box-shadow-width:  .2rem !default; // For focus box shadow issue in IE/Edge
 $stroke-range-thumb-active-bg:               #FFF !default;
 $stroke-range-thumb-disabled-bg:             $gray-500 !default;
 

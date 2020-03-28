@@ -1,12 +1,18 @@
 import axios from "axios"
-import { IRoomArgs } from "../models"
+import { IRoomArgs, IRoomInfo } from "../models"
 
-// 创建房间
-export function Create(args?: IRoomArgs) {
-  return axios.post("/room")
-}
+export class RoomAPI {
 
-// 房间信息
-export function Info(uuid: string) {
-  return axios.get(`/room/${uuid}`)
+  // 创建房间
+  static async Create(args?: IRoomArgs): Promise<IRoomInfo> {
+    const resp = await axios.post("/room", args)
+    return resp.data as IRoomInfo
+  }
+
+  // 房间信息
+  static async Info(uuid: string): Promise<IRoomInfo> {
+    const resp = await axios.get(`/room/${uuid}`)
+    return resp.data as IRoomInfo
+  }
+
 }

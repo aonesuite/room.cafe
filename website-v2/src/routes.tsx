@@ -4,6 +4,7 @@ import { RouteConfig } from "react-router-config"
 
 import Landing from "./landing"
 import OAuthCallback from "./oauth"
+import Room from "./room"
 
 /**
  * Component Waiting wrapper
@@ -29,7 +30,8 @@ export function useRouter() {
 
 const routes: RouteConfig[] = [
   { path: "/", component: Landing, exact: true }, // 首页
-  { path: "/oauth/:provider/callback", component: OAuthCallback }
+  { path: "/oauth/:provider/callback", component: OAuthCallback },
+  { path: "/room/:uuid", component: Room }
 ]
 
 export default routes
