@@ -123,20 +123,22 @@ export default function WhiteBoard(params: JoinRoomParams) {
     [params]
   )
 
-  // 刷新白板实图大小
-  const refreshRoomViewSize = () => {
-    whiteBoardState.room?.refreshViewSize()
-  }
-
   useEffect(() => {
     initWhiteBoard()
+  }, [initWhiteBoard])
 
-    window.addEventListener("resize", refreshRoomViewSize)
+  // 刷新白板实图大小
+  useEffect(() => {
+    const refreshRoomViewSize = () => whiteBoardState.room?.refreshViewSize()
+
+    if (whiteBoardState.room !== undefined) {
+      window.addEventListener("resize", refreshRoomViewSize)
+    }
 
     return function cleanup() {
       window.removeEventListener("resize", refreshRoomViewSize)
     }
-  }, [initWhiteBoard])
+  }, [whiteBoardState.room])
 
   // 获取上传文件 token
   useEffect(() => {
