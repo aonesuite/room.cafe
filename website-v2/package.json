@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://room.cafe",
   "dependencies": {
+    "agora-rtc-sdk-ng": "^0.1.4",
     "antd": "^4.0.4",
     "axios": "^0.19.2",
     "i18next": "^19.3.3",
