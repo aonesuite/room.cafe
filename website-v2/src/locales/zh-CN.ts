@@ -110,7 +110,8 @@ const zhCN: IMessage = {
   },
 
   uploader: {
-    image_size_limit_hint: "请上传不超过 2M 的图片"
+    image_size_limit_hint: "请上传不超过 2M 的图片",
+    image_upload_failed: "上传失败"
   }
 }
 

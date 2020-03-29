@@ -100,5 +100,6 @@ export interface IMessage {
 
   uploader: {
     image_size_limit_hint: string
+    image_upload_failed: string
   },
 }

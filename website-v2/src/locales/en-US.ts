@@ -109,7 +109,8 @@ const enUS: IMessage = {
   },
 
   uploader: {
-    image_size_limit_hint: "Please upload pictures less than 2M."
+    image_size_limit_hint: "Please upload pictures less than 2M.",
+    image_upload_failed: "Image upload failed"
   }
 }
 

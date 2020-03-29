@@ -14,5 +14,4 @@ export class RoomAPI {
     const resp = await axios.get(`/room/${uuid}`)
     return resp.data as IRoomInfo
   }
-
 }

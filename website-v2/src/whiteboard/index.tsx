@@ -2,27 +2,33 @@ import React, { useState, useEffect, useCallback } from "react"
 
 import { useTranslation } from "react-i18next"
 import { Room, RoomPhase, WhiteWebSdk, RoomWhiteboard, JoinRoomParams, Color, MemberState } from "white-react-sdk"
-import { Button, Tooltip, Menu, Popover, Slider } from "antd"
+import { Button, Tooltip, Menu, Popover, Slider, Upload, message } from "antd"
+import { RcFile, UploadChangeParam } from "antd/lib/upload"
 
-import { ReactComponent as MousePointerSVG } from "../assets/icons/MousePointer.svg"
-import { ReactComponent as PencilAltSVG } from "../assets/icons/PencilAlt.svg"
-import { ReactComponent as TextSVG } from "../assets/icons/Text.svg"
-import { ReactComponent as SquareSVG } from "../assets/icons/Square.svg"
-import { ReactComponent as CircleSVG } from "../assets/icons/Circle.svg"
-import { ReactComponent as EraserSVG } from "../assets/icons/Eraser.svg"
-import { ReactComponent as ImagesSVG } from "../assets/icons/Images.svg"
+import { LoadingOutlined } from "@ant-design/icons"
 
-import { colors } from "../utils/color"
+import { UploaderAPI } from "api/uploader"
+import { IUploaderToken } from "models/uploader"
+import { colors } from "utils/color"
+
+import { ReactComponent as MousePointerSVG } from "assets/icons/MousePointer.svg"
+import { ReactComponent as PencilAltSVG } from "assets/icons/PencilAlt.svg"
+import { ReactComponent as TextSVG } from "assets/icons/Text.svg"
+import { ReactComponent as SquareSVG } from "assets/icons/Square.svg"
+import { ReactComponent as CircleSVG } from "assets/icons/Circle.svg"
+import { ReactComponent as EraserSVG } from "assets/icons/Eraser.svg"
+import { ReactComponent as ImagesSVG } from "assets/icons/Images.svg"
 
 import "white-web-sdk/style/index.css"
 import "./whiteboard.scss"
+
+const whiteWebSdk = new WhiteWebSdk()
 
 interface IWhiteBoardState {
   room?: Room
   phase?: RoomPhase
 }
 
-const whiteWebSdk = new WhiteWebSdk()
 const initWhiteBoardState: IWhiteBoardState = {}
 const initMemberState: MemberState = {
   currentApplianceName: "pencil",
@@ -41,8 +47,9 @@ export default function WhiteBoard(params: JoinRoomParams) {
 
   const [whiteBoardState, setWhiteBoardState] = useState(initWhiteBoardState)
   const [memberState, setMemberState] = useState(initMemberState)
-
   const [strokeTooltipState, setStrokeTooltipState] = useState([false, false])
+  const [uploaderToken, setUploaderToken] = useState("")
+  const [uploading, setUploading] = useState(false)
 
   // 设置教具
   const setAppliance = (appliance: string) => {
@@ -59,6 +66,42 @@ export default function WhiteBoard(params: JoinRoomParams) {
     whiteBoardState.room?.setMemberState({ strokeWidth: value })
   }
 
+  // 上传前检查
+  const beforeUpload = (file: RcFile, fileList: RcFile[]): boolean => {
+    if (file.size > 1024 * 1024 * 2) {
+      message.error(t("uploader.image_size_limit_hint"))
+      return false
+    }
+    return true
+  }
+
+  // 上传状态变化处理
+  const onChange = (info: UploadChangeParam) => {
+    if (info.file.status === "uploading") {
+      setUploading(true)
+    } else {
+      setUploading(false)
+    }
+
+    if (info.file.status === "done") {
+      const uuid = params.uuid + +new Date()
+      whiteBoardState.room?.insertImage({
+        uuid,
+        centerX: 0,
+        centerY: 0,
+        width: info.file.response.imageInfo.width,
+        height: info.file.response.imageInfo.height
+      })
+
+      UploaderAPI.getURL(info.file.response.key).then((resp) => {
+        whiteBoardState.room?.completeImageUpload(uuid, resp.data.url)
+      })
+    } else if (info.file.status === "error") {
+      message.error(t("uploader.image_upload_failed"))
+    }
+  }
+
+  // 初始化白板
   const initWhiteBoard = useCallback(
     () => {
       whiteWebSdk.joinRoom(
@@ -79,9 +122,36 @@ export default function WhiteBoard(params: JoinRoomParams) {
     [params]
   )
 
+  // 刷新白板实图大小
+  const refreshRoomViewSize = () => {
+    whiteBoardState.room?.refreshViewSize()
+  }
+
   useEffect(() => {
     initWhiteBoard()
+
+    window.addEventListener("resize", refreshRoomViewSize)
+
+    return function cleanup() {
+      window.removeEventListener("resize", refreshRoomViewSize)
+    }
   }, [initWhiteBoard])
+
+  // 获取上传文件 token
+  useEffect(() => {
+    const getToken = () => {
+      UploaderAPI.getToken().then((resp) => {
+        const token = resp.data as IUploaderToken
+        setUploaderToken(token.token)
+      })
+    }
+
+    getToken()
+    const intervalTimer = setInterval(getToken, 1000 * 60 * 15)
+    return function cleanup() {
+      clearInterval(intervalTimer)
+    }
+  }, [])
 
   return (
     <div id="whiteboard">
@@ -208,9 +278,19 @@ export default function WhiteBoard(params: JoinRoomParams) {
 
           <Menu.Item key="uploader">
             <Tooltip placement="right" title={ t("whiteboard_tool.insert_images") }>
-              <Button type="link" size="small">
-                <ImagesSVG className="icon" />
-              </Button>
+              <Upload
+                name="file"
+                action="https://up.qiniup.com"
+                accept="image/png,image/jpeg,image/gif"
+                showUploadList={false}
+                disabled={uploading}
+                data={{ token: uploaderToken }}
+                beforeUpload={(file, fileList) => beforeUpload(file, fileList) }
+                onChange={(info) => onChange(info)}>
+                <Button type="link" size="small" disabled={uploading}>
+                  { uploading ? <LoadingOutlined className="icon-uploading" /> : <ImagesSVG className="icon" /> }
+                </Button>
+              </Upload>
             </Tooltip>
           </Menu.Item>
         </Menu>
