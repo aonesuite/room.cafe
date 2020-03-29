@@ -68,7 +68,7 @@ export default function WhiteBoard(params: JoinRoomParams) {
   }
 
   // 上传前检查
-  const beforeUpload = (file: RcFile, fileList: RcFile[]): boolean => {
+  const uploaderBeforeUpload = (file: RcFile, fileList: RcFile[]): boolean => {
     if (file.size > 1024 * 1024 * 2) {
       message.error(t("uploader.image_size_limit_hint"))
       return false
@@ -77,7 +77,7 @@ export default function WhiteBoard(params: JoinRoomParams) {
   }
 
   // 上传状态变化处理
-  const onChange = (info: UploadChangeParam) => {
+  const uploaderStatusOnChange = (info: UploadChangeParam) => {
     if (info.file.status === "uploading") {
       setUploading(true)
     } else {
@@ -288,8 +288,8 @@ export default function WhiteBoard(params: JoinRoomParams) {
                     showUploadList={false}
                     disabled={uploading}
                     data={{ token: uploaderToken }}
-                    beforeUpload={(file, fileList) => beforeUpload(file, fileList) }
-                    onChange={(info) => onChange(info)}>
+                    beforeUpload={uploaderBeforeUpload }
+                    onChange={uploaderStatusOnChange}>
                     <Button type="link" size="small" disabled={uploading}>
                       { uploading ? <LoadingOutlined className="icon-uploading" /> : <ImagesSVG className="icon" /> }
                     </Button>
