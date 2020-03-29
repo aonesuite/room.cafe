@@ -27,7 +27,7 @@ func Info(c *gin.Context) {
 
 	room := models.Room{}
 
-	if result := database.First(&room, "uuid = ?", uuid); result.Error != nil {
+	if result := database.Preload("Attendees").First(&room, "uuid = ?", uuid); result.Error != nil {
 		if result.RecordNotFound() {
 			log.Error("the room doesn't exist", result.Error)
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "the room doesn't exist", "code": "ROOM_NOT_FOUND"})
@@ -39,19 +39,20 @@ func Info(c *gin.Context) {
 	}
 
 	var (
-		err      error
-		appID    = config.GetString("agora.app_id")
-		appCert  = config.GetString("agora.app_certificate")
-		expireAt = time.Now().Unix() + 600
+		err          error
+		agoraAppID   = config.GetString("agora.app_id")
+		agoraAppCert = config.GetString("agora.app_certificate")
+		expireAt     = time.Now().Unix() + 600
 	)
-	room.RTCToken, err = agora.GenRTCJoinChannelToken(appID, appCert, room.UUID, currentUser.RoomUserID(), expireAt)
+
+	room.RTCToken, err = agora.GenRTCJoinChannelToken(agoraAppID, agoraAppCert, room.RTCChannel, currentUser.RoomUserID(), expireAt)
 	if err != nil {
 		log.Error("get rtn room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
-	room.RTMToken, err = agora.GenRTMJoinChannelToken(appID, appCert, currentUser.RoomUserID(), expireAt)
+	room.RTMToken, err = agora.GenRTMJoinChannelToken(agoraAppID, agoraAppCert, currentUser.RoomUserID(), expireAt)
 	if err != nil {
 		log.Error("get rtm room token failed ", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})

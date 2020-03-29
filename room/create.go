@@ -39,20 +39,20 @@ func Create(c *gin.Context) {
 	}
 
 	var (
-		uuid     = bson.NewObjectId().Hex()
-		appID    = config.GetString("agora.app_id")
-		appCert  = config.GetString("agora.app_certificate")
-		expireAt = time.Now().Unix() + 600
+		uuid         = bson.NewObjectId().Hex()
+		agoraAppID   = config.GetString("agora.app_id")
+		agoraAppCert = config.GetString("agora.app_certificate")
+		expireAt     = time.Now().Unix() + 600
 	)
 
-	roomToken, err := agora.GenRTCJoinChannelToken(appID, appCert, uuid, currentUser.RoomUserID(), expireAt)
+	roomToken, err := agora.GenRTCJoinChannelToken(agoraAppID, agoraAppCert, uuid, currentUser.RoomUserID(), expireAt)
 	if err != nil {
 		log.Error("get rtc room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
-	rtmToken, err := agora.GenRTMJoinChannelToken(appID, appCert, currentUser.RoomUserID(), expireAt)
+	rtmToken, err := agora.GenRTMJoinChannelToken(agoraAppID, agoraAppCert, currentUser.RoomUserID(), expireAt)
 	if err != nil {
 		log.Error("get rtc room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
@@ -77,9 +77,12 @@ func Create(c *gin.Context) {
 		Name:    args.Name,
 		Private: args.Private,
 		Owner:   currentUser.ID,
-		//		RTC:             roomAccess.RoomName,
-		RTCToken:        roomToken,
-		RTMToken:        rtmToken,
+
+		RTCAppID:   agoraAppID,
+		RTCChannel: uuid,
+		RTCToken:   roomToken,
+		RTMToken:   rtmToken,
+
 		Whiteboard:      whiteRet.Room.UUID,
 		WhiteboardToken: whiteRet.RoomToken,
 	}
@@ -106,6 +109,7 @@ func Create(c *gin.Context) {
 
 	database.Commit()
 
-	c.JSON(http.StatusCreated, room)
+	room.Attendees = []models.Attendee{attendee}
 
+	c.JSON(http.StatusCreated, room)
 }
