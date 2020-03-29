@@ -20,6 +20,13 @@
   background: #FFF;
 
   &.active{ z-index: 999; }
+
+  .whiteboard-loading{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -30px;
+  }
 }
 
 .whiteboard-main{
