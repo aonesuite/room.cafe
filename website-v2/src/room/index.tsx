@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, NavLink } from "react-router-dom"
 // import { useTranslation } from "react-i18next"
+import { Layout, Row, Col } from "antd"
 
-import { RoomAPI } from "../api/room"
-import { IRoomInfo } from "../models"
+import { RoomAPI } from "api/room"
+import { IRoomInfo } from "models"
+
+// import WhiteBoard from "whiteboard"
+import RTC from "rtc"
+
+import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
+
+import { useGlobalState } from "common/contexts/GlobalContext"
 
 import "./room.scss"
-
-import WhiteBoard from "../whiteboard"
 
 const initRoomInfo: IRoomInfo = { uuid: "" }
 
 export default function Room() {
   // const { t } = useTranslation()
+  const { state } = useGlobalState()
   const { uuid } = useParams()
 
   const [ roomInfo, setRoomInfo ] = useState(initRoomInfo)
@@ -21,44 +28,49 @@ export default function Room() {
     if (uuid === undefined) {
       return
     }
-
     RoomAPI.Info(uuid).then((info: IRoomInfo) => {
       setRoomInfo(info)
     })
-
   }, [uuid])
 
   return (
-    <div className="room">
+    <Layout>
 
-      {/* <Navbar /> */}
+      <Layout.Header>
+        <Row>
+          <Col flex="auto">
+            <NavLink className="brand" to="/">
+              <span>ROOM CAFE</span>
+              <LogoSVG width={24} height={24} />
+              <sup>Beta</sup>
+            </NavLink>
+            <span className="nav-item">{state.user?.name}</span>
+          </Col>
 
-      {
-        (roomInfo.whiteboard_id && roomInfo.whiteboard_token) &&
-          <WhiteBoard uuid={roomInfo.whiteboard_id} roomToken={roomInfo.whiteboard_token} />
-      }
+          <Col className="navs">
 
-      {/* <Streams v-if="RTC.roomState === 2" /> */}
+          </Col>
+        </Row>
+      </Layout.Header>
 
-      {/* <Chat v-if="RTC.roomState === 2" /> */}
+      <Layout.Content>
+        <div className="room">
 
-      {/* <QuickStartModal @joinRoom="joinRoom" /> */}
+        {
+          // (roomInfo.whiteboard_id && roomInfo.whiteboard_token) &&
+          //   <WhiteBoard uuid={roomInfo.whiteboard_id} roomToken={roomInfo.whiteboard_token} />
+        }
 
-      {/* <b-modal
-        id="AllowDevices"
-        ref="AllowDevices"
-        centered
-        :lazy="true"
-        :no-close-on-backdrop="true"
-        size="lg"
-        hide-footer
-        hide-header
-        className="modal-allow-devices">
-        <div className="hint-allow">
-          <h5>{ t("devices_allow_hint_title") }</h5>
-          <p>{ t("devices_allow_hint_desc") }</p>
+        {
+          (roomInfo.rtc_app_id && roomInfo.rtc_channel && roomInfo.rtc_token) &&
+          <RTC rtc_app_id={roomInfo.rtc_app_id} rtc_channel={roomInfo.rtc_channel} rtc_token={roomInfo.rtc_token} />
+        }
+
+        {/* <Streams v-if="RTC.roomState === 2" /> */}
+        {/* <Chat v-if="RTC.roomState === 2" /> */}
+
         </div>
-      </b-modal> */}
-    </div>
+      </Layout.Content>
+    </Layout>
   )
 }
