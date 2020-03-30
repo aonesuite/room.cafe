@@ -1,4 +1,4 @@
-import { IAgoraRTCClient, IMicrophoneAudioTrack, ICameraVideoTrack } from "agora-rtc-sdk-ng"
+import { IAgoraRTCClient, IMicrophoneAudioTrack, ICameraVideoTrack, UID } from "agora-rtc-sdk-ng"
 
 export interface IRoomArgs {
   name?:    string
@@ -25,14 +25,15 @@ export interface IRoomInfo {
   updated_at?:       number
 }
 
-export interface IRTC {
-  client: IAgoraRTCClient,
-  localAudioTrack?: IMicrophoneAudioTrack,
-  localVideoTrack?: ICameraVideoTrack
-}
-
 export interface IRTCArgs {
   rtc_app_id:  string
   rtc_channel: string
-  rtc_token:   string
+  rtc_token:   string | null
+}
+
+export interface IRTC {
+  client?:          IAgoraRTCClient
+  uid?:             UID
+  localAudioTrack?: IMicrophoneAudioTrack
+  localVideoTrack?: ICameraVideoTrack
 }

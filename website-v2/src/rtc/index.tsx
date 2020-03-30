@@ -1,48 +1,55 @@
 import React, { useState, useEffect, useCallback } from "react"
-import AgoraRTC, { IMicrophoneAudioTrack, ICameraVideoTrack } from "agora-rtc-sdk-ng"
+import AgoraRTC, { IMicrophoneAudioTrack, ICameraVideoTrack, UID } from "agora-rtc-sdk-ng"
 
 import { IRTCArgs, IRTC } from "models"
 
-const initRTCState: IRTC = {
-  client: AgoraRTC.createClient({ mode: "live", codec: "vp8" })
-}
+import { Monitor } from "./monitor"
+
+const initRTCState: IRTC = {}
 
 export default function RTC(params: IRTCArgs) {
 
-  const [rtc] = useState(initRTCState)
+  const [rtc, setRTC] = useState(initRTCState)
 
   // 初始化 RTC client
   const initRTC = useCallback(
     async () => {
-      console.log("init rtc")
+      console.log("init rtc", params)
 
-      rtc.client.join(params.rtc_app_id, params.rtc_channel, params.rtc_token)
+      const client = AgoraRTC.createClient({mode: "live", codec: "vp8"})
 
-      const [ localAudioTrack,   localVideoTrack] = await Promise.all<IMicrophoneAudioTrack, ICameraVideoTrack>(
-        [AgoraRTC.createMicrophoneAudioTrack(), AgoraRTC.createCameraVideoTrack()
+      const [uid, localAudioTrack, localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
+        client.join(params.rtc_app_id, params.rtc_channel, null), // join the channel
+        AgoraRTC.createMicrophoneAudioTrack(), // create local tracks, using microphone
+        AgoraRTC.createCameraVideoTrack()      // create local tracks, using camera
       ])
 
-      console.log(localAudioTrack, localVideoTrack)
+      setRTC({client, uid, localAudioTrack, localVideoTrack})
 
-      // 通过采集麦克/风创建本地音频轨道对象
-      rtc.localAudioTrack = localAudioTrack
-
-      // 通过采集摄像头创建本地视频轨道对象
-      rtc.localVideoTrack = localVideoTrack
+      localVideoTrack.play("local-player")
 
       // 将这些音视频轨道对象发布到频道中
-      await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack])
-
-      console.log("publish success!")
+      await client.publish([localAudioTrack, localVideoTrack])
     },
-    [params, rtc]
+    [params]
   )
 
   useEffect(() => {
     initRTC()
+    return function cleanup() {
+      rtc.client?.leave()
+    }
   }, [initRTC])
 
   return (
-    <div className="streams"></div>
+    <div className="streams">
+      { rtc.uid }
+
+      {
+        rtc.uid && <Monitor uid={rtc.uid} />
+      }
+
+      <div id="local-player" className="player" style={{ width: 480, height: 320 }}></div>
+    </div>
   )
 }

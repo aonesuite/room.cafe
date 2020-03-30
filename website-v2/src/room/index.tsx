@@ -63,7 +63,11 @@ export default function Room() {
 
         {
           (roomInfo.rtc_app_id && roomInfo.rtc_channel && roomInfo.rtc_token) &&
-          <RTC rtc_app_id={roomInfo.rtc_app_id} rtc_channel={roomInfo.rtc_channel} rtc_token={roomInfo.rtc_token} />
+          <RTC
+            rtc_app_id={roomInfo.rtc_app_id}
+            rtc_channel={roomInfo.rtc_channel}
+            rtc_token={roomInfo.rtc_token}
+          />
         }
 
         {/* <Streams v-if="RTC.roomState === 2" /> */}
