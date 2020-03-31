@@ -16,7 +16,7 @@ export default function RTC(params: IRTCArgs) {
     async () => {
       console.log("init rtc", params)
 
-      const client = AgoraRTC.createClient({mode: "live", codec: "vp8"})
+      const client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
       const [uid, localAudioTrack, localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
         client.join(params.rtc_app_id, params.rtc_channel, null), // join the channel
