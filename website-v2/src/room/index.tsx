@@ -1,57 +1,31 @@
-import React, { useState, useEffect } from "react"
-import { useParams, NavLink } from "react-router-dom"
-// import { useTranslation } from "react-i18next"
-import { Layout, Row, Col } from "antd"
+import React, { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import { observer } from "mobx-react-lite"
+import { Layout } from "antd"
 
-import { RoomAPI } from "api/room"
-import { IRoomInfo } from "models"
+import Navbar from "./navbar"
 
 // import WhiteBoard from "whiteboard"
 import RTC from "rtc"
 
-import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
-
-import { useGlobalState } from "common/contexts/GlobalContext"
+import { useRoomStore } from "./context"
 
 import "./room.scss"
 
-const initRoomInfo: IRoomInfo = { uuid: "" }
-
-export default function Room() {
-  // const { t } = useTranslation()
-  const { state } = useGlobalState()
+const Room = observer(() => {
   const { uuid } = useParams()
-
-  const [ roomInfo, setRoomInfo ] = useState(initRoomInfo)
+  const { roomStore } = useRoomStore()
 
   useEffect(() => {
-    if (uuid === undefined) {
-      return
-    }
-    RoomAPI.Info(uuid).then((info: IRoomInfo) => {
-      setRoomInfo(info)
-    })
-  }, [uuid])
+
+    roomStore.init(uuid)
+
+  }, [uuid, roomStore])
 
   return (
     <Layout>
 
-      <Layout.Header>
-        <Row>
-          <Col flex="auto">
-            <NavLink className="brand" to="/">
-              <span>ROOM CAFE</span>
-              <LogoSVG width={24} height={24} />
-              <sup>Beta</sup>
-            </NavLink>
-            <span className="nav-item">{state.user?.name}</span>
-          </Col>
-
-          <Col className="navs">
-
-          </Col>
-        </Row>
-      </Layout.Header>
+      <Navbar />
 
       <Layout.Content>
         <div className="room">
@@ -62,19 +36,14 @@ export default function Room() {
         }
 
         {
-          (roomInfo.rtc_app_id && roomInfo.rtc_channel && roomInfo.rtc_token) &&
-          <RTC
-            rtc_app_id={roomInfo.rtc_app_id}
-            rtc_channel={roomInfo.rtc_channel}
-            rtc_token={roomInfo.rtc_token}
-          />
+          (roomStore.info?.rtc_app_id && roomStore.info?.rtc_channel && roomStore.info?.rtc_token) &&
+          <RTC />
         }
-
-        {/* <Streams v-if="RTC.roomState === 2" /> */}
-        {/* <Chat v-if="RTC.roomState === 2" /> */}
 
         </div>
       </Layout.Content>
     </Layout>
   )
-}
+})
+
+export default Room
