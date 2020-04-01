@@ -4,7 +4,8 @@ import { RouteConfig } from "react-router-config"
 
 import Landing from "./landing"
 import OAuthCallback from "./oauth"
-import Room from "./room"
+
+const Room = React.lazy(() => import(/* webpackChunkName: "room" */ "./room"))
 
 /**
  * Component Waiting wrapper
