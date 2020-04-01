@@ -8,6 +8,7 @@
     "antd": "^4.0.4",
     "axios": "^0.19.2",
     "i18next": "^19.3.3",
+    "mobx-react-lite": "^1.5.2",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
