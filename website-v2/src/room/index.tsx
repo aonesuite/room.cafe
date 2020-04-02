@@ -20,6 +20,9 @@ const Room = observer(() => {
 
     roomStore.init(uuid)
 
+    return function cleanup() {
+      roomStore.leave()
+    }
   }, [uuid, roomStore])
 
   return (
@@ -31,13 +34,12 @@ const Room = observer(() => {
         <div className="room">
 
         {
-          // (roomInfo.whiteboard_id && roomInfo.whiteboard_token) &&
-          //   <WhiteBoard uuid={roomInfo.whiteboard_id} roomToken={roomInfo.whiteboard_token} />
+          // roomStore.info &&
+          // <WhiteBoard uuid={roomStore.info.whiteboard_id} roomToken={roomStore.info.whiteboard_token} />
         }
 
         {
-          (roomStore.info?.rtc_app_id && roomStore.info?.rtc_channel && roomStore.info?.rtc_token) &&
-          <RTC />
+          roomStore.info && <RTC />
         }
 
         </div>

@@ -1,44 +1,28 @@
-import React, { useEffect, useCallback } from "react"
+import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
-
-import { IRTCArgs } from "models"
 
 import { useRoomStore } from "../room/context"
 
 import { Monitor } from "./monitor"
 
+import "./monitor.scss"
+
 const RTC = observer(() => {
 
   const { roomStore } = useRoomStore()
 
-  // 初始化 RTC client
-  const initRTC = useCallback(
-    () => {
-
-      console.log("localVideoTrack", roomStore.localVideoTrack)
-
-      // 将这些音视频轨道对象发布到频道中
-      // await client.publish([localAudioTrack, localVideoTrack])
-    },
-    [roomStore]
-  )
-
   useEffect(() => {
-    initRTC()
-    return function cleanup() {
-      // rtc.client?.leave()
-    }
-  }, [initRTC])
+
+    console.log("rtc local tracks 2", roomStore.localTracks)
+
+  }, [roomStore])
 
   return (
     <div className="streams">
-      <div>
-        { roomStore.uuid }
-      </div>
-      { roomStore.rtc?.uid }
-      { roomStore.rtc?.uid && <Monitor uid={roomStore.rtc?.uid} /> }
 
-      <div id="local-player" className="player" style={{ width: 480, height: 320 }}></div>
+      <div>{ roomStore.uuid }</div>
+
+      <Monitor uid={roomStore.rtcUID || ""} tracks={ roomStore.localTracks } />
     </div>
   )
 })
