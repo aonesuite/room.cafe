@@ -4,7 +4,8 @@ import { Button, Modal, Form, Input } from "antd"
 import { GoogleOutlined, GithubOutlined } from "@ant-design/icons"
 
 import { useTranslation } from "react-i18next"
-import { UserAPI } from "../api/user"
+import { UserAPI } from "api/user"
+import { useGlobalStore } from "common/contexts/GlobalContext"
 
 export interface IQuickStartOptions {
   visible: boolean
@@ -14,10 +15,13 @@ export interface IQuickStartOptions {
 export default function QuickStart(options: IQuickStartOptions) {
 
   const { t } = useTranslation()
+  const { globalStore } = useGlobalStore()
   const [form] = Form.useForm()
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log("onFinish:", values)
+    // const user = await UserAPI.AutoCreate(values)
+    globalStore.setUser(values)
   }
 
   const onFinishFailed = (errorInfo: any) => {

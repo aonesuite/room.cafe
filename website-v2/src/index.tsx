@@ -3,23 +3,23 @@ import ReactDOM from "react-dom"
 
 import axios from "axios"
 
-import "./locales/i18n"
-import App from "./App"
+import "locales/i18n"
+import App from "App"
 
-import "./assets/main.scss"
+import "assets/main.scss"
 import "white-web-sdk/style/index.css"
 
-import * as serviceWorker from "./serviceWorker"
-import { UserAPI } from "./api/user"
-import { User } from "./models"
+import * as serviceWorker from "serviceWorker"
+import { UserAPI } from "api/user"
+import { IUser } from "models"
 
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL
 axios.defaults.withCredentials = true
 
-let currentUser: User
+let currentUser: IUser
 
 UserAPI.State()
-  .then((user: User) => {
+  .then((user: IUser) => {
     currentUser = user
   })
   .finally(() => {

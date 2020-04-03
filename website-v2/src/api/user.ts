@@ -1,17 +1,18 @@
 import axios from "axios"
-import { User, IOAuthSignInArgs, IUserArgs } from "../models"
+import { IOAuthSignInArgs, IUserArgs, IUser } from "models"
 
 export class UserAPI {
 
   // 用户状态
-  static async State(): Promise<User> {
-    const resp = await axios.get<User>("/user/state")
-    return new User(resp.data)
+  static async State(): Promise<IUser> {
+    const resp = await axios.get<IUser>("/user/state")
+    return resp.data as IUser
   }
 
   // 创建用户
-  static AutoCreate(args: IUserArgs) {
-    return axios.post("/user", args)
+  static async AutoCreate(args: IUserArgs): Promise<IUser> {
+    const resp = await axios.post<IUser>("/user", args)
+    return resp.data as IUser
   }
 
   // 用户退出

@@ -1,54 +1,26 @@
-import { createContext, useContext } from "react"
-import { User } from "../../models"
+import React from "react"
+import { observable, action } from "mobx"
 
-export interface IAppGlobalState {
+import { IUser } from "models"
+
+export class GlobalStore {
+  @observable
   title?: string
+
+  @observable
   signedIn?: boolean
-  user?: User
-}
 
-export interface IContextProps {
-  state: IAppGlobalState,
-  dispatch(obj: any): any
-}
+  @observable
+  user?: IUser
 
-export const appGlobalState: IAppGlobalState = {
-  title: "Room Cafe",
-  signedIn: false
-}
-
-export interface IAction {
-  type: string
-}
-
-export const globalReducer: React.Reducer<IAppGlobalState, IAction> = (state, action) => {
-  switch (action.type) {
-    case "SIGNED_IN":
-      return {...state, signedIn: true}
-
-    case "SIGN_OUT":
-      return {...state, signedIn: false}
-
-    default:
-      return state
+  @action
+  setUser(user: IUser) {
+    this.user = user
   }
 }
 
-export const GlobalContext = createContext<IContextProps>({
-  state: appGlobalState,
-  dispatch: (obj: any) => {
-    console.log(obj)
-  }
+export const appContext = React.createContext({
+  globalStore: new GlobalStore()
 })
 
-// export const GlobalProvider = ({reducer, initialState, children}: any) => (
-//   <GlobalContext.Provider value={useReducer(reducer, initialState)}>
-//     {children}
-//   </GlobalContext.Provider>
-// )
-
-/**
- * usage:
- * const { dispatch } = useGlobalState()
- */
-export const useGlobalState = () => useContext(GlobalContext)
+export const useGlobalStore = () => React.useContext(appContext)

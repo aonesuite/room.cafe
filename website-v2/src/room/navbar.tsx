@@ -8,15 +8,14 @@ import { Layout, Row, Col, Button } from "antd"
 
 import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
 
-import { useGlobalState } from "common/contexts/GlobalContext"
+import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "./context"
 
 import "./room.scss"
 
 const Navbar = observer(() => {
   // const { t } = useTranslation()
-  const { state } = useGlobalState()
-
+  const { globalStore } = useGlobalStore()
   const { roomStore } = useRoomStore()
 
   return (
@@ -28,7 +27,7 @@ const Navbar = observer(() => {
             <LogoSVG width={24} height={24} />
             <sup>Beta</sup>
           </NavLink>
-          <span className="nav-item">{state.user?.name}</span>
+          <span className="nav-item">{globalStore.user?.name}</span>
         </Col>
 
         <Col className="navs">

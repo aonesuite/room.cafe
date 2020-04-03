@@ -1,31 +1,31 @@
 import React, { useState } from "react"
-
-import { BrowserRouter, NavLink } from "react-router-dom"
+import { observer } from "mobx-react-lite"
+import { NavLink } from "react-router-dom"
 
 import { useTranslation } from "react-i18next"
-import { langs, changeLanguage } from "../locales/i18n"
+import { langs, changeLanguage } from "locales/i18n"
 
 import { Layout, Button, Row, Col, Popover, List } from "antd"
 import { GlobalOutlined } from "@ant-design/icons"
 
-import { ReactComponent as VideoSVG } from "../assets/icons/Video.svg"
-import { ReactComponent as ChalkboardSVG } from "../assets/icons/Chalkboard.svg"
-import { ReactComponent as CommentAltLinesSVG } from "../assets/icons/CommentAltLines.svg"
-import { ReactComponent as LogoSVG } from "../assets/icons/Logo.svg"
+import { ReactComponent as VideoSVG } from "assets/icons/Video.svg"
+import { ReactComponent as ChalkboardSVG } from "assets/icons/Chalkboard.svg"
+import { ReactComponent as CommentAltLinesSVG } from "assets/icons/CommentAltLines.svg"
+import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
 
-import { useGlobalState } from "../common/contexts/GlobalContext"
+import { useGlobalStore } from "common/contexts/GlobalContext"
 
-import { RoomAPI } from "../api/room"
+import { RoomAPI } from "api/room"
 
-import QuickStart from "../quick-start"
+import QuickStart from "quick-start"
 
 import "./landing.scss"
 
 const { Header, Content, Footer } = Layout
 
-export default function Landing() {
+const Landing = observer(() => {
   const { t } = useTranslation()
-  const { state } = useGlobalState()
+  const { globalStore } = useGlobalStore()
   const [modalVisible, setModalVisible] = useState(false)
 
   const menu = (
@@ -41,7 +41,7 @@ export default function Landing() {
   )
 
   const quickStart = async (type?: string) => {
-    if (state.signedIn) {
+    if (globalStore.signedIn) {
       const roomInfo = await RoomAPI.Create()
       window.location.href = `/room/${roomInfo.uuid}`
     } else {
@@ -50,7 +50,7 @@ export default function Landing() {
   }
 
   return(
-    <BrowserRouter>
+    <React.Fragment>
 
       <QuickStart visible={modalVisible} onCancel={ () => setModalVisible(false) } />
 
@@ -67,7 +67,7 @@ export default function Landing() {
             </Col>
 
             <Col className="navs">
-              <span className="nav-item">{state.user?.name}</span>
+              <span className="nav-item">{globalStore.user?.name}</span>
 
               <Popover content={menu} trigger={["click"]}>
                 <Button className="nav-item" icon={<GlobalOutlined />} type="link" />
@@ -76,7 +76,7 @@ export default function Landing() {
               <Button className="nav-item btn-success" onClick={ () => quickStart("quick_start") }>{ t("quick_start") }</Button>
 
               {
-                state.signedIn === false &&
+                globalStore.user?.signed_in === false &&
                 <React.Fragment>
                   <Button className="nav-item btn-success" onClick={ () => quickStart("sign_in") }>{ t("sign_in") }</Button>
                 </React.Fragment>
@@ -91,8 +91,8 @@ export default function Landing() {
             <div className="hero">
               <div className="section">
 
-                <h1>{ state.signedIn === false ? t("slogan") : t("sloganSignedIn", {name: state.user?.name}) }</h1>
-                <h3>{ state.signedIn === false ? t("welcome") : t("welcomeSignedIn") }</h3>
+                <h1>{ globalStore.user?.signed_in ? t("sloganSignedIn", {name: globalStore.user?.name}) : t("slogan") }</h1>
+                <h3>{ globalStore.user?.signed_in ? t("welcomeSignedIn") : t("welcome") }</h3>
 
                 <div className="feature-actions">
                   <ul className="list-inline">
@@ -184,6 +184,8 @@ export default function Landing() {
           </p>
         </Footer>
       </Layout>
-    </BrowserRouter>
+    </React.Fragment>
   )
-}
+})
+
+export default Landing

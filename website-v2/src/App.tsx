@@ -1,34 +1,37 @@
 import React, { useEffect } from "react"
+import { observer } from "mobx-react-lite"
 import { BrowserRouter } from "react-router-dom"
 import { renderRoutes } from "react-router-config"
 
 import { ConfigProvider } from "antd"
 
-import routes from "./routes"
+import routes from "routes"
 
-import {
-  GlobalContext,
-  globalReducer,
-  IAppGlobalState
-} from "./common/contexts/GlobalContext"
+import { useGlobalStore } from "common/contexts/GlobalContext"
+import { IUser } from "models"
 
-function App(appGlobalState: IAppGlobalState) {
+export interface IAppOptions {
+  user?: IUser
+}
 
-  const [state, dispatch] = React.useReducer(globalReducer, appGlobalState)
+const App = observer((props: IAppOptions) => {
+  const { globalStore } = useGlobalStore()
 
   useEffect(() => {
-    dispatch({ type: appGlobalState.user && appGlobalState.user.id > 0 ? "SIGNED_IN" : "SIGN_OUT" })
-  }, [appGlobalState])
+    console.log("App", props)
+
+    if (props.user) {
+      globalStore.setUser(props.user)
+    }
+  }, [props, globalStore])
 
   return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
-      <ConfigProvider prefixCls="app">
-        <BrowserRouter>
-          {renderRoutes(routes)}
-        </BrowserRouter>
-      </ConfigProvider>
-    </GlobalContext.Provider>
+    <ConfigProvider prefixCls="app">
+      <BrowserRouter>
+        {renderRoutes(routes)}
+      </BrowserRouter>
+    </ConfigProvider>
   )
-}
+})
 
 export default App

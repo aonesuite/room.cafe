@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
 
-import { useRoomStore } from "../room/context"
+import { useRoomStore } from "room/context"
 
 import { Monitor } from "./monitor"
 
@@ -23,6 +23,11 @@ const RTC = observer(() => {
       <div>{ roomStore.uuid }</div>
 
       <Monitor uid={roomStore.rtcUID || ""} tracks={ roomStore.localTracks } />
+
+      {
+        roomStore.rtcClient?.remoteUsers.length
+      }
+
     </div>
   )
 })
