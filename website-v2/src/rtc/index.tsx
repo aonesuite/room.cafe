@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { observer } from "mobx-react-lite"
 
 import { useRoomStore } from "room/context"
@@ -11,21 +11,28 @@ const RTC = observer(() => {
 
   const { roomStore } = useRoomStore()
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log("rtc local tracks 2", roomStore.localTracks)
+  //   console.log("rtc local tracks 2", roomStore.localTracks)
 
-  }, [roomStore])
+  // }, [roomStore])
 
   return (
     <div className="streams">
 
-      <div>{ roomStore.uuid }</div>
-
-      <Monitor uid={roomStore.rtcUID || ""} tracks={ roomStore.localTracks } />
+      {
+        (roomStore.rtcUID !== "" && roomStore.rtcUID !== undefined) &&
+        <Monitor uid={roomStore.rtcUID} tracks={ roomStore.localTracks } />
+      }
 
       {
-        roomStore.rtcClient?.remoteUsers.length
+        // console.log("rtc page", roomStore.remoteVideoTracks)
+      }
+
+      {
+        roomStore.remoteVideoTracks.map((track) =>
+        <Monitor key={track.getUserId()} uid={track.getUserId()} tracks={ [track] } />
+        )
       }
 
     </div>

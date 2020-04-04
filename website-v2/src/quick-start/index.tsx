@@ -20,8 +20,8 @@ export default function QuickStart(options: IQuickStartOptions) {
 
   const onFinish = async (values: any) => {
     console.log("onFinish:", values)
-    // const user = await UserAPI.AutoCreate(values)
-    globalStore.setUser(values)
+    const user = await UserAPI.AutoCreate(values)
+    globalStore.setUser(user)
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -54,6 +54,10 @@ export default function QuickStart(options: IQuickStartOptions) {
 
         <Form.Item name="name" rules={[{ required: true, message: t("name_is_required") }]}>
           <Input placeholder={ t("login_quickly_placeholder") } />
+        </Form.Item>
+
+        <Form.Item name="email" rules={[{ type: "email", required: true, message: t("email_is_required") }]}>
+          <Input placeholder={ t("email_quickly_placeholder") } />
         </Form.Item>
 
         <Form.Item shouldUpdate={true} style={{ textAlign: "right" }}>

@@ -18,8 +18,6 @@ const App = observer((props: IAppOptions) => {
   const { globalStore } = useGlobalStore()
 
   useEffect(() => {
-    console.log("App", props)
-
     if (props.user) {
       globalStore.setUser(props.user)
     }

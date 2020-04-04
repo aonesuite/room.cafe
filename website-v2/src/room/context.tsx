@@ -31,10 +31,10 @@ export class RoomStore {
   localTracks = observable.array<ILocalTrack>([])
 
   @observable
-  remoteVideoTracks = observable.map<UID, IRemoteVideoTrack>()
+  remoteVideoTracks = observable.array<IRemoteVideoTrack>([])
 
   @observable
-  remoteAudioTracks = observable.map<UID, IRemoteAudioTrack>()
+  remoteAudioTracks = observable(new Map<UID, IRemoteAudioTrack>()) // observable.map<UID, IRemoteAudioTrack>({})
 
   @action
   async init(uuid?: string) {
@@ -59,40 +59,59 @@ export class RoomStore {
     this.rtcClient = client
     this.rtcUID = uid
     this.localTracks.replace([localAudioTrack, localVideoTrack])
-  }
 
-  @action
-  async subscribeRemoteTracks() {
+    this.rtcClient.publish([localAudioTrack, localVideoTrack])
 
     // 远端用户发布
-    this.rtcClient?.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
+    this.rtcClient.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
 
-      await this.rtcClient?.subscribe(user) // 开始订阅远端用户
+      console.log("user-published", this.rtcClient)
+
+      if (this.rtcClient === undefined) {
+        return
+      }
+
+      console.log("user-published")
+
+      await this.rtcClient.subscribe(user) // 开始订阅远端用户
 
       if (["all", "video"].includes(mediaType) && user.videoTrack) { // 获取远端视频轨道对象
-        this.remoteVideoTracks.set(user.uid, user.videoTrack)
+        // this.remoteVideoTracks.set(user.uid, user.videoTrack)
+        this.remoteVideoTracks.push(user.videoTrack)
       }
 
       if (["all", "audio"].includes(mediaType) && user.audioTrack) { // 获取远端音视频轨道对象
         this.remoteAudioTracks.set(user.uid, user.audioTrack)
+        // this.remoteAudioTracks.push(user.audioTrack)
       }
+
+      console.log("user-published", user.uid, user.audioTrack, user.videoTrack)
+
+      console.log("user-published", this.remoteVideoTracks, this.remoteAudioTracks)
     })
 
-    // 远端用户取消发布/远端用户离开了频道
-    this.rtcClient?.on("user-unpublished", (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
-      switch (mediaType) {
-        case "audio":
-          this.remoteAudioTracks.delete(user.uid)
-          break
-        case "video":
-          this.remoteVideoTracks.delete(user.uid)
-          break
-        default:
-          this.remoteAudioTracks.delete(user.uid)
-          this.remoteVideoTracks.delete(user.uid)
-          break
-      }
-    })
+    // this.rtcClient.on("user-unpublished", this.userUnpublished)
+  }
+
+
+  //   // 远端用户取消发布/远端用户离开了频道
+  @action
+  async userUnpublished(user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") {
+
+    console.log("user-unpublished")
+
+    // switch (mediaType) {
+    //   case "audio":
+    //     this.remoteAudioTracks.delete(user.uid)
+    //     break
+    //   case "video":
+    //     this.remoteVideoTracks.delete(user.uid)
+    //     break
+    //   case "all":
+    //     if (this.remoteAudioTracks) { this.remoteAudioTracks.delete(user.uid) }
+    //     if (this.remoteVideoTracks) { this.remoteVideoTracks.delete(user.uid) }
+    //     break
+    // }
   }
 
   @action
