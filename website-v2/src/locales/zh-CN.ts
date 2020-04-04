@@ -30,8 +30,11 @@ const zhCN: IMessage = {
 
   contact: "联系我们",
 
-  login_quickly_placeholder: "输入您的名字然后快速开始",
+  login_quickly_placeholder: "输入您的名字",
   name_is_required: "名字必填",
+
+  email_quickly_placeholder: "输入您的邮箱",
+  email_is_required: "邮箱必填",
 
   join: "加入",
   join_the_room: "加入房间",

@@ -23,6 +23,9 @@ export interface IMessage {
   login_quickly_placeholder: string
   name_is_required: string
 
+  email_is_required: string
+  email_quickly_placeholder: string
+
   join: string
   join_the_room: string
 

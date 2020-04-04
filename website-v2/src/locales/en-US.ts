@@ -30,8 +30,11 @@ const enUS: IMessage = {
 
   contact: "Contact us",
 
-  login_quickly_placeholder: "Enter a name and start quickly",
-  name_is_required: "name is required",
+  login_quickly_placeholder: "Enter your name",
+  name_is_required: "Name is required",
+
+  email_quickly_placeholder: "Enter your email",
+  email_is_required: "Email is required",
 
   join: "Join",
   join_the_room: "Join the room",
