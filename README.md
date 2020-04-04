@@ -38,3 +38,10 @@
 
 ### 收发消息
 * 群聊信息，及时沟通
+
+
+## 第三方服务
+
+### 白板
+https://developer.netless.link/docs/javascript/guide/js-sdk/
+https://netless.link/
