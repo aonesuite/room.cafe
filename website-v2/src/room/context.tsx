@@ -1,14 +1,13 @@
 import React from "react"
 import { observable, action } from "mobx"
 import AgoraRTC, {
+  IAgoraRTCClient,
+  UID,
+  ILocalAudioTrack,
+  ILocalVideoTrack,
   IMicrophoneAudioTrack,
   ICameraVideoTrack,
-  UID,
-  ILocalTrack,
-  IAgoraRTCClient,
-  IAgoraRTCRemoteUser,
-  IRemoteVideoTrack,
-  IRemoteAudioTrack
+  IAgoraRTCRemoteUser
 } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
@@ -22,19 +21,19 @@ export class RoomStore {
   info?: IRoomInfo
 
   @observable
-  rtcClient?: IAgoraRTCClient
+  client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
   @observable
   rtcUID?: UID
 
   @observable
-  localTracks = observable.array<ILocalTrack>([])
+  localAudioTrack?: ILocalAudioTrack
 
   @observable
-  remoteVideoTracks = observable.array<IRemoteVideoTrack>([])
+  localVideoTrack?: ILocalVideoTrack
 
   @observable
-  remoteAudioTracks = observable(new Map<UID, IRemoteAudioTrack>()) // observable.map<UID, IRemoteAudioTrack>({})
+  users = observable.array<IAgoraRTCRemoteUser>([])
 
   @action
   async init(uuid?: string) {
@@ -42,87 +41,48 @@ export class RoomStore {
       this.uuid = uuid
       this.info = await RoomAPI.Info(uuid)
 
-      this.initRTC(this.info)
+      await this.initRTC(this.info)
     }
   }
 
   @action
   async initRTC(info: IRoomInfo) {
-    const client = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
-
-    const [uid, localAudioTrack, localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
-      client.join(info.rtc_app_id || "", info.rtc_channel || "", null), // join the channel
-      AgoraRTC.createMicrophoneAudioTrack(),                            // create local tracks, using microphone
-      AgoraRTC.createCameraVideoTrack()                                 // create local tracks, using camera
+    [this.rtcUID, this.localAudioTrack, this.localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
+      this.client.join(info.rtc_app_id || "", info.rtc_channel || "", null), // join the channel
+      AgoraRTC.createMicrophoneAudioTrack(),                                 // create local tracks, using microphone
+      AgoraRTC.createCameraVideoTrack()                                      // create local tracks, using camera
     ])
 
-    this.rtcClient = client
-    this.rtcUID = uid
-    this.localTracks.replace([localAudioTrack, localVideoTrack])
+    // 发布本地音视频
+    this.client.publish([this.localAudioTrack, this.localVideoTrack])
 
-    this.rtcClient.publish([localAudioTrack, localVideoTrack])
-
-    // 远端用户发布
-    this.rtcClient.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
-
-      console.log("user-published", this.rtcClient)
-
-      if (this.rtcClient === undefined) {
-        return
-      }
-
-      console.log("user-published")
-
-      await this.rtcClient.subscribe(user) // 开始订阅远端用户
-
-      if (["all", "video"].includes(mediaType) && user.videoTrack) { // 获取远端视频轨道对象
-        // this.remoteVideoTracks.set(user.uid, user.videoTrack)
-        this.remoteVideoTracks.push(user.videoTrack)
-      }
-
-      if (["all", "audio"].includes(mediaType) && user.audioTrack) { // 获取远端音视频轨道对象
-        this.remoteAudioTracks.set(user.uid, user.audioTrack)
-        // this.remoteAudioTracks.push(user.audioTrack)
-      }
-
-      console.log("user-published", user.uid, user.audioTrack, user.videoTrack)
-
-      console.log("user-published", this.remoteVideoTracks, this.remoteAudioTracks)
+    // 用户加入频道
+    this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
+      this.users.push(user)
     })
 
-    // this.rtcClient.on("user-unpublished", this.userUnpublished)
-  }
-
-
-  //   // 远端用户取消发布/远端用户离开了频道
-  @action
-  async userUnpublished(user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") {
-
-    console.log("user-unpublished")
-
-    // switch (mediaType) {
-    //   case "audio":
-    //     this.remoteAudioTracks.delete(user.uid)
-    //     break
-    //   case "video":
-    //     this.remoteVideoTracks.delete(user.uid)
-    //     break
-    //   case "all":
-    //     if (this.remoteAudioTracks) { this.remoteAudioTracks.delete(user.uid) }
-    //     if (this.remoteVideoTracks) { this.remoteVideoTracks.delete(user.uid) }
-    //     break
-    // }
+    // 用户离开频道
+    this.client.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
+      this.users.remove(user)
+    })
   }
 
   @action
   async leave() {
-    this.localTracks.forEach((track) => {
-      track.stop()
-      track.close()
-    })
 
-    this.localTracks.clear()
-    await this.rtcClient?.leave()
+    if (this.localVideoTrack) {
+      this.localVideoTrack.stop()
+      this.localVideoTrack.close()
+      this.localVideoTrack = undefined
+    }
+
+    if (this.localAudioTrack) {
+      this.localAudioTrack.stop()
+      this.localAudioTrack.close()
+      this.localAudioTrack = undefined
+    }
+
+    await this.client.leave()
   }
 }
 
