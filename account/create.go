@@ -1,12 +1,13 @@
 package account
 
 import (
+	"net/http"
+	"time"
+
 	"room.cafe/components/config"
 	"room.cafe/components/db"
 	"room.cafe/components/log"
 	"room.cafe/components/timestamp"
-	"net/http"
-	"time"
 
 	"room.cafe/models"
 
@@ -18,9 +19,9 @@ import (
 
 // CreateArgs create user args
 type CreateArgs struct {
-	Name   string `json:"name"`   // 昵称
-	Email  string `json:"email"`  // 邮箱
-	Gender string `json:"gender"` // 性别
+	Name   string `json:"name"  binding:"required"` // 昵称
+	Email  string `json:"email" binding:"required"` // 邮箱
+	Gender string `json:"gender"`                   // 性别
 }
 
 // Create 创建用户
@@ -28,14 +29,8 @@ func Create(c *gin.Context) {
 	var (
 		log      = log.New(c)
 		database = db.Get(log.ReqID())
-		args     CreateArgs
-		timeNow  = timestamp.Now()
+		args     = CreateArgs{}
 	)
-
-	if c.Request.Body == nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": "invalid args", "code": "INVALID_ARGS"})
-		return
-	}
 
 	if err := c.BindJSON(&args); err != nil {
 		log.Error("bind create room args failed", err.Error())
@@ -48,7 +43,7 @@ func Create(c *gin.Context) {
 		Email:  args.Email,
 		Gender: args.Gender,
 
-		CurrentSignInAt: timeNow,
+		CurrentSignInAt: timestamp.Now(),
 		CurrentSignInIP: c.ClientIP(),
 	}
 
@@ -110,11 +105,12 @@ func createToken(xl *log.Logger, c *gin.Context, tx *gorm.DB, user models.User) 
 	c.SetCookie("ROOMCAFE", signed, int(userToken.Expire), "/", host, secure, true)
 
 	c.JSON(http.StatusCreated, gin.H{
-		"id":     user.ID,
-		"name":   user.Name,
-		"email":  user.Email,
-		"gender": user.Gender,
-		"avatar": user.Avatar,
-		"token":  signed,
+		"signed_in": true,
+		"id":        user.ID,
+		"name":      user.Name,
+		"email":     user.Email,
+		"gender":    user.Gender,
+		"avatar":    user.Avatar,
+		"token":     signed,
 	})
 }
