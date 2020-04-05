@@ -21,7 +21,7 @@
     "no-string-literal": false,
     "no-console": [true, "info", "time", "timeEnd", "trace"],
     "comment-format": [true, "check-space"],
-    "max-line-length": [true, 140],
+    "max-line-length": [true, 150],
     "typedef-whitespace": [
       true,
       {
