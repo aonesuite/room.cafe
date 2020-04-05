@@ -46,6 +46,13 @@ export class RoomStore {
   }
 
   @action
+  addUser(user: IAgoraRTCRemoteUser) {
+    if (this.users.findIndex(item => item.uid === user.uid) < 0) {
+      this.users.push(user)
+    }
+  }
+
+  @action
   async initRTC(info: IRoomInfo) {
     [this.rtcUID, this.localAudioTrack, this.localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
       this.client.join(info.rtc_app_id || "", info.rtc_channel || "", null), // join the channel
@@ -58,7 +65,7 @@ export class RoomStore {
 
     // 用户加入频道
     this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
-      this.users.push(user)
+      this.addUser(user)
     })
 
     // 用户离开频道
