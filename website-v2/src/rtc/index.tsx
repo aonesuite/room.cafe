@@ -1,9 +1,12 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng"
+import className from "classnames"
+
+import { ReactComponent as MicrophoneSlashSVG } from "assets/icons/MicrophoneSlash.svg"
 
 import { useRoomStore } from "room/context"
-
+import AudioVolume from "./AudioVolume"
 import "./rtc.scss"
 
 const RTC = observer(() => {
@@ -17,9 +20,11 @@ const RTC = observer(() => {
 
   // 处理本地音频
   useEffect(() => {
-    if (roomStore.localAudioTrack) {
-      console.log("localAudioTrack", roomStore.localAudioTrack)
-    }
+    // setInterval(() => {
+    //   if (roomStore.localAudioTrack) {
+    //     console.log("localAudioTrack", roomStore.localAudioTrack.getVolumeLevel())
+    //   }
+    // }, 1000)
   }, [roomStore.localAudioTrack])
 
   // 订阅远端音视频
@@ -37,6 +42,12 @@ const RTC = observer(() => {
 
       if (["all", "audio"].includes(mediaType) && user.audioTrack !== undefined) {
         user.audioTrack.play()
+        // setInterval(() => {
+        //   if (user.audioTrack) {
+        //     console.log("remoteAudioTrack", user.audioTrack.getVolumeLevel())
+        //   }
+        // }, 1000)
+        user.audioMuted = true
       }
     })
   }, [roomStore])
@@ -48,6 +59,11 @@ const RTC = observer(() => {
         <div key={roomStore.rtcUID} id={`monitor-${roomStore.rtcUID}`} className="monitor">
           <div className="info">
             { roomStore.rtcUID }
+
+            <div className={className({ "audio-status": true, "mute": roomStore.localAudioMuted })}>
+              { (roomStore.localAudioTrack && !roomStore.localAudioTrack?.isMuted) && <AudioVolume track={roomStore.localAudioTrack} /> }
+              { roomStore.localAudioTrack?.isMuted && <MicrophoneSlashSVG height={18} /> }
+            </div>
           </div>
         </div>
       }
@@ -57,6 +73,11 @@ const RTC = observer(() => {
         <div key={user.uid} id={`monitor-${user.uid}`} className="monitor">
           <div className="info">
             { user.uid }
+
+            <div className={className({ "audio-status": true, "mute": user.audioTrack?.getStats().muteState })}>
+              {/* <canvas class="audio-wave" ref="audioWave" width="76" height="20" v-show="!stream.audioTrack.info.muted"></canvas> */}
+              { user.audioMuted && <MicrophoneSlashSVG height={18} /> }
+            </div>
           </div>
         </div>
         )
