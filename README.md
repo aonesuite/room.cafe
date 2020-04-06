@@ -40,7 +40,13 @@
 * 群聊信息，及时沟通
 
 
-## 第三方服务
+## 第三方组件及服务
+
+### 前端状态管理
+https://mobx.js.org/
+
+### RTC
+https://agoraio-community.github.io/AgoraWebSDK-NG/zh-CN/
 
 ### 白板
 https://developer.netless.link/docs/javascript/guide/js-sdk/
