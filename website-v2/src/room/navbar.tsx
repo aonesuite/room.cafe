@@ -34,16 +34,19 @@ const Navbar = observer(() => {
     console.log(roomStore)
   }, [roomStore])
 
+  // 全屏事件监听
   useEffect(() => {
     if (fscreen.fullscreenEnabled) {
       fscreen.addEventListener("fullscreenchange", () => { roomStore.isFullscreen = fscreen.fullscreenElement !== null }, false)
     }
   }, [roomStore])
 
+  // 全屏切换
   const switchFullscreen = () => {
     roomStore.isFullscreen ? fscreen.exitFullscreen() : fscreen.requestFullscreen(document.documentElement)
   }
 
+  // 离开房间
   const exit = async () => {
     await roomStore.leave()
     window.location.href = "/"
@@ -72,22 +75,16 @@ const Navbar = observer(() => {
             </li>
 
             <li className="nav-item">
-              <Tooltip placement="bottom" title={ t("open_chat") }>
+              <Tooltip placement="bottom" title={ roomStore.chatPopUp ? t("close_chat") : t("open_chat") }>
                 <Button type="link">
                   <CommentAltLinesSVG width={22} height={22} />
                 </Button>
               </Tooltip>
-              {/*
-                <b-tooltip id="chatTooltip" ref="chatTooltip" target="chatBtn" placement="bottom">
-                  { ChatPopUp ? $t("close_chat") : $t("open_chat") }
-                </b-tooltip>
-              */}
             </li>
-
 
             <li className="nav-item">
               <Tooltip placement="bottom" title={ roomStore.localAudioMuted ? t("microphone_open") : t("microphone_mute") }>
-                <Button type="link" onClick={ () => roomStore.localAudioMuted = !roomStore.localAudioMuted }>
+                <Button type="link" onClick={ () => roomStore.setLocalTrackMute("audio", !roomStore.localAudioMuted) }>
                   { roomStore.localAudioMuted ? <MicrophoneSlashSVG height={22} /> : <MicrophoneSVG height={22} /> }
                 </Button>
               </Tooltip>
@@ -95,7 +92,7 @@ const Navbar = observer(() => {
 
             <li className="nav-item">
               <Tooltip placement="bottom" title={ roomStore.localVideoMuted ? t("video_open") : t("video_mute") }>
-                <Button type="link" onClick={ () => roomStore.localVideoMuted = !roomStore.localVideoMuted }>
+                <Button type="link" onClick={ () => roomStore.setLocalTrackMute("video", !roomStore.localVideoMuted) }>
                   { roomStore.localVideoMuted ? <VideoSlashSVG height={22} /> : <VideoSVG height={22} /> }
                 </Button>
               </Tooltip>

@@ -44,6 +44,9 @@ export class RoomStore {
   @observable
   users = observable.array<IAgoraRTCRemoteUser>([])
 
+  @observable
+  chatPopUp: boolean = false
+
   @action
   async init(uuid?: string) {
     if (uuid !== undefined) {
@@ -72,6 +75,9 @@ export class RoomStore {
     // 发布本地音视频
     this.client.publish([this.localAudioTrack, this.localVideoTrack])
 
+    this.localVideoMuted = this.localVideoTrack.isMuted
+    this.localAudioMuted = this.localAudioTrack.isMuted
+
     // 用户加入频道
     this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
       this.addUser(user)
@@ -81,6 +87,24 @@ export class RoomStore {
     this.client.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
       this.users.remove(user)
     })
+  }
+
+  @action
+  setLocalTrackMute(kind: "audio" | "video", muted: boolean) {
+    switch (kind) {
+      case "audio":
+        if (this.localAudioTrack) {
+          this.localAudioTrack.setMute(muted)
+          this.localAudioMuted = this.localAudioTrack.isMuted
+        }
+        break
+      case "video":
+        if (this.localVideoTrack) {
+          this.localVideoTrack.setMute(muted)
+          this.localVideoMuted = this.localVideoTrack.isMuted
+        }
+        break
+    }
   }
 
   @action
