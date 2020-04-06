@@ -40,7 +40,7 @@ const Room = observer(() => {
     <React.Fragment>
       <QuickStart visible={modalVisible} onCancel={ () => setModalVisible(false) } />
 
-      <Layout className="room">
+      <Layout className="room" id="room">
 
         <Navbar />
 

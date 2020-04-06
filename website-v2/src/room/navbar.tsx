@@ -2,8 +2,10 @@ import React, { useEffect } from "react"
 import { NavLink } from "react-router-dom"
 import { observer } from "mobx-react-lite"
 
-// import { useTranslation } from "react-i18next"
-import { Layout, Row, Col, Button } from "antd"
+import { useTranslation } from "react-i18next"
+import { Layout, Row, Col, Button, Tooltip } from "antd"
+
+import fscreen from "fscreen"
 
 import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
 import { ReactComponent as ChalkboardSVG } from "assets/icons/Chalkboard.svg"
@@ -24,13 +26,28 @@ import { useRoomStore } from "./context"
 import "./room.scss"
 
 const Navbar = observer(() => {
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
   const { globalStore } = useGlobalStore()
   const { roomStore } = useRoomStore()
 
   useEffect(() => {
     console.log(roomStore)
   }, [roomStore])
+
+  useEffect(() => {
+    if (fscreen.fullscreenEnabled) {
+      fscreen.addEventListener("fullscreenchange", () => { roomStore.isFullscreen = fscreen.fullscreenElement !== null }, false)
+    }
+  }, [roomStore])
+
+  const switchFullscreen = () => {
+    roomStore.isFullscreen ? fscreen.exitFullscreen() : fscreen.requestFullscreen(document.documentElement)
+  }
+
+  const exit = async () => {
+    await roomStore.leave()
+    window.location.href = "/"
+  }
 
   return (
     <Layout.Header className="navbar-room">
@@ -47,59 +64,68 @@ const Navbar = observer(() => {
         <Col>
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Button type="link">
-                <ChalkboardSVG width={22} height={22} />
-              </Button>
+              <Tooltip placement="bottom" title={ t("whiteboard") }>
+                <Button type="link">
+                  <ChalkboardSVG width={22} height={22} />
+                </Button>
+              </Tooltip>
             </li>
 
             <li className="nav-item">
-              <Button type="link">
-                <CommentAltLinesSVG width={22} height={22} />
-              </Button>
+              <Tooltip placement="bottom" title={ t("open_chat") }>
+                <Button type="link">
+                  <CommentAltLinesSVG width={22} height={22} />
+                </Button>
+              </Tooltip>
               {/*
                 <b-tooltip id="chatTooltip" ref="chatTooltip" target="chatBtn" placement="bottom">
-                  { ChatPopUp ? $t('close_chat') : $t('open_chat') }
+                  { ChatPopUp ? $t("close_chat") : $t("open_chat") }
                 </b-tooltip>
               */}
             </li>
 
-            {/* 屏幕共享 */}
-            {/* <ShareScreen tag="li" className="nav-item" v-if="$browser.name === 'chrome' || $browser.name === 'firefox'" /> */}
 
-            {/* 音频开关 */}
             <li className="nav-item">
-              <Button type="link" onClick={ () => roomStore.localAudioMuted = !roomStore.localAudioMuted }>
-                { roomStore.localAudioMuted ? <MicrophoneSlashSVG height={22} /> : <MicrophoneSVG height={22} /> }
-              </Button>
+              <Tooltip placement="bottom" title={ roomStore.localAudioMuted ? t("microphone_open") : t("microphone_mute") }>
+                <Button type="link" onClick={ () => roomStore.localAudioMuted = !roomStore.localAudioMuted }>
+                  { roomStore.localAudioMuted ? <MicrophoneSlashSVG height={22} /> : <MicrophoneSVG height={22} /> }
+                </Button>
+              </Tooltip>
             </li>
 
-            {/* 视频开关 */}
             <li className="nav-item">
-              <Button type="link" onClick={ () => roomStore.localVideoMuted = !roomStore.localVideoMuted }>
-                { roomStore.localVideoMuted ? <VideoSlashSVG height={22} /> : <VideoSVG height={22} /> }
-              </Button>
+              <Tooltip placement="bottom" title={ roomStore.localVideoMuted ? t("video_open") : t("video_mute") }>
+                <Button type="link" onClick={ () => roomStore.localVideoMuted = !roomStore.localVideoMuted }>
+                  { roomStore.localVideoMuted ? <VideoSlashSVG height={22} /> : <VideoSVG height={22} /> }
+                </Button>
+              </Tooltip>
             </li>
 
-            {/* 全屏 */}
+            {
+              fscreen.fullscreenEnabled &&
+              <li className="nav-item">
+                <Tooltip placement="bottom" title={ roomStore.isFullscreen ? t("fullscreen_exit") : t("fullscreen") }>
+                  <Button type="link" onClick={ switchFullscreen }>
+                    { roomStore.isFullscreen ? <ScreenNormalSVG height={22} /> :  <ScreenFullSVG height={22} /> }
+                  </Button>
+                </Tooltip>
+              </li>
+            }
+
             <li className="nav-item">
-              <Button type="link" onClick={ () => roomStore.isFullscreen = !roomStore.isFullscreen }>
-                { roomStore.isFullscreen ? <ScreenNormalSVG height={22} /> :  <ScreenFullSVG height={22} /> }
-              </Button>
+              <Tooltip placement="bottom" title={ t("settings") }>
+                <Button type="link">
+                  <CogSVG width={22} height={22} />
+                </Button>
+              </Tooltip>
             </li>
 
-            {/* 设置 */}
             <li className="nav-item">
-              <Button type="link">
-                <CogSVG width={22} height={22} />
-              </Button>
-            </li>
-
-            {/* 退出 */}
-            <li className="nav-item">
-              <Button type="link">
-                <SignOutAltSVG width={22} height={22} />
-              </Button>
-              {/* <b-tooltip id="exitTooltip" ref="exitTooltip" target="exitBtn" placement="bottom">{{ $t('exit') }}</b-tooltip> */}
+              <Tooltip placement="bottom" title={ t("exit") }>
+                <Button type="link" onClick={ exit }>
+                  <SignOutAltSVG width={22} height={22} />
+                </Button>
+                </Tooltip>
             </li>
           </ul>
         </Col>
