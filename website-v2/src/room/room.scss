@@ -17,7 +17,6 @@
 }
 
 .navbar-room{
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
   background-color: #000;
   border-bottom: 1px solid;
 
@@ -48,11 +47,19 @@
   }
 
   .navbar-nav{
-    .nav-link,
-    .btn-link{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    .nav-item{
+      display: inline-block;
+    }
+
+    .app-btn-link{
       min-width: 42px;
       padding: 0.25rem 0.25rem;
       text-align: center;
+      vertical-align: middle;
       color: rgba($color: #FFF, $alpha: 0.95);
       &:hover{
         color: rgba($color: #FFF, $alpha: 1);

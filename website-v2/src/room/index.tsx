@@ -40,23 +40,16 @@ const Room = observer(() => {
     <React.Fragment>
       <QuickStart visible={modalVisible} onCancel={ () => setModalVisible(false) } />
 
-      <Layout>
+      <Layout className="room">
 
         <Navbar />
 
         <Layout.Content>
-          <div className="room">
-
           {
-            // roomStore.info &&
-            // <WhiteBoard uuid={roomStore.info.whiteboard_id} roomToken={roomStore.info.whiteboard_token} />
+            // roomStore.info && <WhiteBoard uuid={roomStore.info.whiteboard_id} roomToken={roomStore.info.whiteboard_token} />
           }
 
-          {
-            roomStore.info && <RTC />
-          }
-
-          </div>
+          { roomStore.info && <RTC /> }
         </Layout.Content>
       </Layout>
     </React.Fragment>

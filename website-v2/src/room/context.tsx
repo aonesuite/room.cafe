@@ -33,6 +33,15 @@ export class RoomStore {
   localVideoTrack?: ILocalVideoTrack
 
   @observable
+  localAudioMuted: boolean = false
+
+  @observable
+  localVideoMuted: boolean = false
+
+  @observable
+  isFullscreen: boolean = false
+
+  @observable
   users = observable.array<IAgoraRTCRemoteUser>([])
 
   @action
