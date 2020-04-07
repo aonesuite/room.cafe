@@ -1,18 +1,18 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { observer } from "mobx-react-lite"
-
-import { useTranslation } from "react-i18next"
-import { Layout, Row, Col, Button, Tooltip } from "antd"
-
 import fscreen from "fscreen"
+import { useTranslation } from "react-i18next"
+import CopyToClipboard from "react-copy-to-clipboard"
+import { Layout, Row, Col, Button, Tooltip, Modal, Input, message } from "antd"
 
 import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
 import { ReactComponent as ChalkboardSVG } from "assets/icons/Chalkboard.svg"
 import { ReactComponent as CommentAltLinesSVG } from "assets/icons/CommentAltLines.svg"
 import { ReactComponent as CogSVG } from "assets/icons/Cog.svg"
 import { ReactComponent as SignOutAltSVG } from "assets/icons/SignOutAlt.svg"
-
+import { ReactComponent as UserPlusSVG } from "assets/icons/UserPlus.svg"
+import { ReactComponent as LinkSVG } from "assets/icons/Link.svg"
 import { ReactComponent as MicrophoneSlashSVG } from "assets/icons/MicrophoneSlash.svg"
 import { ReactComponent as MicrophoneSVG } from "assets/icons/Microphone.svg"
 import { ReactComponent as VideoSlashSVG } from "assets/icons/VideoSlash.svg"
@@ -29,6 +29,10 @@ const Navbar = observer(() => {
   const { t } = useTranslation()
   const { globalStore } = useGlobalStore()
   const { roomStore } = useRoomStore()
+
+  const shareLink = `https://room.cafe/room/${roomStore.info?.uuid}`
+
+  const [invitePeopleModalVisible, setInvitePeopleModalVisible] = useState(false)
 
   useEffect(() => {
     console.log(roomStore)
@@ -66,6 +70,31 @@ const Navbar = observer(() => {
 
         <Col>
           <ul className="navbar-nav">
+            <li className="nav-item">
+              <Tooltip placement="bottom" title={ t("invite_people") }>
+                <Button type="link" onClick={() => setInvitePeopleModalVisible(true)}>
+                  <UserPlusSVG width={22} height={22} />
+                </Button>
+              </Tooltip>
+
+              <Modal
+                title={t("invite_people")}
+                visible={invitePeopleModalVisible}
+                onCancel={() => setInvitePeopleModalVisible(false)}
+                centered={true}
+                footer={null}
+                bodyStyle={{ textAlign: "right" }}>
+                <Input size="large" readOnly={true} value={shareLink} />
+
+                <CopyToClipboard text={shareLink} onCopy={() => message.success(t("copy_link_success"))}>
+                  <Button size="large" style={{ marginTop: 5 }}>
+                    <LinkSVG width={18} height={18} style={{ verticalAlign: "middle", marginRight: 3 }} />
+                    { t("copy_link_to_share") }
+                  </Button>
+                </CopyToClipboard>
+              </Modal>
+            </li>
+
             <li className="nav-item">
               <Tooltip placement="bottom" title={ t("whiteboard") }>
                 <Button type="link">
