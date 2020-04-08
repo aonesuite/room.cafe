@@ -41,7 +41,7 @@ const Landing = observer(() => {
   )
 
   const quickStart = async (type?: string) => {
-    if (globalStore.signedIn) {
+    if (globalStore.user?.signed_in) {
       const roomInfo = await RoomAPI.Create()
       window.location.href = `/room/${roomInfo.uuid}`
     } else {

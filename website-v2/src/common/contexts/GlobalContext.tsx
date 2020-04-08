@@ -4,11 +4,6 @@ import { observable, action } from "mobx"
 import { IUser } from "models"
 
 export class GlobalStore {
-  @observable
-  title?: string
-
-  @observable
-  signedIn?: boolean
 
   @observable
   user?: IUser
