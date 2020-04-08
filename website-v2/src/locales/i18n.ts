@@ -21,7 +21,7 @@ export const resources = {
 }
 
 export function changeLanguage(lang: string) {
-  localStorage.setItem("locale", lang);
+  localStorage.setItem("locale", lang)
   i18n.changeLanguage(lang)
 }
 
@@ -37,7 +37,7 @@ i18n
     }
   })
 
-const lang = localStorage.getItem("locale")
-if (lang) {
-  i18n.changeLanguage(lang)
+const locale = localStorage.getItem("locale")
+if (locale) {
+  i18n.changeLanguage(locale)
 }
