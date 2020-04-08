@@ -22,6 +22,7 @@ import { ReactComponent as ScreenFullSVG } from "assets/icons/ScreenFull.svg"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "./context"
+import Settings from "./settings"
 
 import "./room.scss"
 
@@ -33,6 +34,7 @@ const Navbar = observer(() => {
   const shareLink = `https://room.cafe/room/${roomStore.info?.uuid}`
 
   const [invitePeopleModalVisible, setInvitePeopleModalVisible] = useState(false)
+  const [settingsModalVisible, setSettingsModalVisible] = useState(false)
 
   useEffect(() => {
     console.log(roomStore)
@@ -140,10 +142,11 @@ const Navbar = observer(() => {
 
             <li className="nav-item">
               <Tooltip placement="bottom" title={ t("settings") }>
-                <Button type="link">
+                <Button type="link" onClick={() => setSettingsModalVisible(true) }>
                   <CogSVG width={22} height={22} />
                 </Button>
               </Tooltip>
+              <Settings visible={ settingsModalVisible } onCancel={() => setSettingsModalVisible(false) } />
             </li>
 
             <li className="nav-item">

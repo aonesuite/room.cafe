@@ -1,7 +1,14 @@
-export declare type ClarityType = "HD" | "SD" | "FHD";
+export declare type ClarityType = "HD" | "SD" | "FHD"
+
+export interface Clarity {
+  label:   string
+  width:   number
+  height:  number
+  bitrate: number
+}
 
 // https://support.google.com/youtube/answer/6375112?co=GENIE.Platform%3DDesktop&hl=zh-Hans
-export const clarities = {
+export const clarities: Record<ClarityType, Clarity> = {
   // 标清 480p
   "SD": {
     width: 854, height: 480, bitrate: 800, label: "480p (SD)"
@@ -15,9 +22,9 @@ export const clarities = {
     // 1080p
   "FHD": {
     width: 1920, height: 1080, bitrate: 1500, label: "1080p (FHD)"
-  },
+  }
 }
 
-export function getClarity(clarity: ClarityType) {
-  return clarities[clarity];
+export function getClarity(clarity: ClarityType): Clarity {
+  return clarities[clarity]
 }
