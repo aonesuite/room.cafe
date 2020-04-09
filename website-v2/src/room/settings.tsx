@@ -39,7 +39,7 @@ const Settings = observer((options: IQuickStartOptions) => {
         </TabPane>
 
         <TabPane tab={t("room_settings.bandwidth")} key="bandwidth">
-          <label htmlFor="bandwidth">{t("room_settings.langs")}</label>
+          <label htmlFor="bandwidth">{t("room_settings.incoming_video")}</label>
           <Select
             id="bandwidth"
             style={{width: "100%"}}
