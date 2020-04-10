@@ -6,9 +6,10 @@ import { Modal, Tabs, Select } from "antd"
 import i18n from "i18next"
 import { langs, changeLanguage } from "locales/i18n"
 
-import { ClarityType, clarities } from "constants/clarity"
+import { clarities } from "constants/clarity"
 
 import { useRoomStore } from "./context"
+import { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
 const { TabPane } = Tabs
 
@@ -20,6 +21,10 @@ export interface IQuickStartOptions {
 const Settings = observer((options: IQuickStartOptions) => {
   const { t } = useTranslation()
   const { roomStore } = useRoomStore()
+
+  const setClarity = (clarity: string) => {
+    roomStore.localVideoTrack?.setEncoderConfiguration(clarity as VideoEncoderConfigurationPreset)
+  }
 
   useEffect(() => {
     console.log(roomStore)
@@ -43,10 +48,11 @@ const Settings = observer((options: IQuickStartOptions) => {
           <Select
             id="bandwidth"
             style={{width: "100%"}}
-            placeholder={t("room_settings.placeholder_select_resolution")}>
+            placeholder={t("room_settings.placeholder_select_resolution")}
+            onChange={(clarity: string) => setClarity(clarity)}>
             {
-              (Object.keys(clarities) as Array<ClarityType>).map(key =>
-                <Select.Option key={key} value={key}>{clarities[key].label}</Select.Option>
+              clarities.map(clarity =>
+                <Select.Option key={clarity.value} value={clarity.value}>{clarity.label}</Select.Option>
               )
             }
           </Select>

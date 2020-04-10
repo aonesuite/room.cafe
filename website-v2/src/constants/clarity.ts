@@ -1,30 +1,28 @@
+import { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
+
 export declare type ClarityType = "HD" | "SD" | "FHD"
 
 export interface Clarity {
-  label:   string
-  width:   number
-  height:  number
-  bitrate: number
+  label: string
+  value: VideoEncoderConfigurationPreset
 }
 
 // https://support.google.com/youtube/answer/6375112?co=GENIE.Platform%3DDesktop&hl=zh-Hans
-export const clarities: Record<ClarityType, Clarity> = {
-  // 标清 480p
-  "SD": {
-    width: 854, height: 480, bitrate: 800, label: "480p (SD)"
+export const clarities: Clarity[] = [
+  {
+    label: "360p",
+    value: "360p_11"
   },
-
-    // 超清 720p
-  "HD": {
-    width: 1280, height: 720, bitrate: 1200, label: "720p (HD)"
+  {
+    label: "480p (SD)",
+    value: "480p_9"
   },
-
-    // 1080p
-  "FHD": {
-    width: 1920, height: 1080, bitrate: 1500, label: "1080p (FHD)"
+  {
+    label: "720p (HD)",
+    value: "720p_3"
+  },
+  {
+    label: "1080p (FHD)",
+    value: "1080p_2"
   }
-}
-
-export function getClarity(clarity: ClarityType): Clarity {
-  return clarities[clarity]
-}
+]
