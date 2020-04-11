@@ -149,6 +149,7 @@
       margin: 4px;
       padding: 0;
       border-radius: 50%;
+      visibility: visible;
       cursor: pointer;
       border: 1px solid rgba($color: #000, $alpha: 0.15);
       &.active{

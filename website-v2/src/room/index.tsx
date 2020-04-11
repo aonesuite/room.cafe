@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 import { Layout } from "antd"
 
 import QuickStart from "quick-start"
-// import WhiteBoard from "whiteboard"
+import WhiteBoard from "whiteboard"
 import RTC from "rtc"
 
 import Navbar from "./navbar"
@@ -46,7 +46,7 @@ const Room = observer(() => {
 
         <Layout.Content>
           {
-            // roomStore.info && <WhiteBoard uuid={roomStore.info.whiteboard_id} roomToken={roomStore.info.whiteboard_token} />
+            roomStore.info && <WhiteBoard uuid={roomStore.info.whiteboard_id} roomToken={roomStore.info.whiteboard_token} />
           }
 
           { roomStore.info && <RTC /> }
