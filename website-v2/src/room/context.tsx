@@ -5,7 +5,10 @@ import AgoraRTC, {
   UID,
   IMicrophoneAudioTrack,
   ICameraVideoTrack,
-  IAgoraRTCRemoteUser
+  IAgoraRTCRemoteUser,
+  ILocalVideoTrack,
+  ILocalAudioTrack,
+  VideoEncoderConfigurationPreset
 } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
@@ -25,10 +28,13 @@ export class RoomStore {
   rtcUID?: UID
 
   @observable
-  localAudioTrack?: IMicrophoneAudioTrack
+  localAudioTrack?: ILocalAudioTrack
 
   @observable
-  localVideoTrack?: ICameraVideoTrack
+  localVideoTrack?: ILocalVideoTrack
+
+  @observable
+  localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
 
   @observable
   localAudioMuted: boolean = false
@@ -65,9 +71,9 @@ export class RoomStore {
   @action
   async initRTC(info: IRoomInfo) {
     [this.rtcUID, this.localAudioTrack, this.localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
-      this.client.join(info.rtc_app_id || "", info.rtc_channel || "", null), // join the channel
-      AgoraRTC.createMicrophoneAudioTrack(),                                 // create local tracks, using microphone
-      AgoraRTC.createCameraVideoTrack()                                      // create local tracks, using camera
+      this.client.join(info.rtc_app_id || "", info.rtc_channel || "", null),        // join the channel
+      AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
+      AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity}) // create local tracks, using camera
     ])
 
     // 发布本地音视频
@@ -85,6 +91,14 @@ export class RoomStore {
     this.client.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
       this.users.remove(user)
     })
+  }
+
+  @action
+  setLocalVideoTrackClarity(clarity: VideoEncoderConfigurationPreset) {
+    this.localVideoTrackClarity = clarity
+    if (this.localVideoTrack) {
+      (this.localVideoTrack as ICameraVideoTrack).setEncoderConfiguration(clarity as VideoEncoderConfigurationPreset)
+    }
   }
 
   @action

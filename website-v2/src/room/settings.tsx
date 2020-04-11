@@ -1,15 +1,13 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import { useTranslation } from "react-i18next"
-import { Modal, Tabs, Select } from "antd"
-
 import i18n from "i18next"
 import { langs, changeLanguage } from "locales/i18n"
+import { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
+import { Modal, Tabs, Select } from "antd"
 
 import { clarities } from "constants/clarity"
-
 import { useRoomStore } from "./context"
-import { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
 const { TabPane } = Tabs
 
@@ -23,7 +21,7 @@ const Settings = observer((options: IQuickStartOptions) => {
   const { roomStore } = useRoomStore()
 
   const setClarity = (clarity: string) => {
-    roomStore.localVideoTrack?.setEncoderConfiguration(clarity as VideoEncoderConfigurationPreset)
+    roomStore.setLocalVideoTrackClarity(clarity as VideoEncoderConfigurationPreset)
   }
 
   useEffect(() => {
@@ -49,6 +47,7 @@ const Settings = observer((options: IQuickStartOptions) => {
             id="bandwidth"
             style={{width: "100%"}}
             placeholder={t("room_settings.placeholder_select_resolution")}
+            defaultValue={roomStore.localVideoTrackClarity}
             onChange={(clarity: string) => setClarity(clarity)}>
             {
               clarities.map(clarity =>
