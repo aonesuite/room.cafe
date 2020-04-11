@@ -1,9 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { useTranslation } from "react-i18next"
 import i18n from "i18next"
 import { langs, changeLanguage } from "locales/i18n"
-import { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
+import AgoraRTC, { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 import { Modal, Tabs, Select } from "antd"
 
 import { clarities } from "constants/clarity"
@@ -16,16 +16,36 @@ export interface IQuickStartOptions {
   onCancel: () => void
 }
 
+const initMediaDeviceInfo: MediaDeviceInfo[] = []
+
 const Settings = observer((options: IQuickStartOptions) => {
   const { t } = useTranslation()
   const { roomStore } = useRoomStore()
+  const [videoDevices, setvideoDevices] = useState(initMediaDeviceInfo)
+  const [audioDevices, setAudioDevices] = useState(initMediaDeviceInfo)
+
+  const setDevise = (kind: string, devise: string) => {
+    switch (kind) {
+      case "video":
+        roomStore.localVideoTrack?.setDevice(devise)
+        break
+      case "audio":
+        roomStore.localAudioTrack?.setDevice(devise)
+        break
+    }
+  }
 
   const setClarity = (clarity: string) => {
     roomStore.setLocalVideoTrackClarity(clarity as VideoEncoderConfigurationPreset)
   }
 
   useEffect(() => {
-    console.log(roomStore)
+    // 获取所有音视频设备
+    AgoraRTC.getDevices()
+    .then(devices => {
+      setvideoDevices(devices.filter((device) => device.kind === "videoinput" ))
+      setAudioDevices(devices.filter((device) => device.kind === "audioinput" ))
+    })
   }, [roomStore])
 
   return (
@@ -38,7 +58,31 @@ const Settings = observer((options: IQuickStartOptions) => {
 
       <Tabs defaultActiveKey="general">
         <TabPane tab={t("room_settings.general")} key="general">
-          {t("room_settings.general")}
+          <label htmlFor="video-device">{t("room_settings.camera")}</label>
+          <Select
+            id="video-device"
+            style={{width: "100%", marginBottom: 10}}
+            placeholder={t("room_settings.placeholder_select_camera")}
+            onChange={(devise: string) => setDevise("video", devise)}>
+            {
+              videoDevices.map(device =>
+                <Select.Option key={device.groupId + device.deviceId} value={device.deviceId}>{device.label}</Select.Option>
+              )
+            }
+          </Select>
+
+          <label htmlFor="microphone-device">{t("room_settings.microphone")}</label>
+          <Select
+            id="microphone-device"
+            style={{width: "100%"}}
+            placeholder={t("room_settings.placeholder_select_microphone")}
+            onChange={(devise: string) => setDevise("audio", devise)}>
+            {
+              audioDevices.map(device =>
+                <Select.Option key={device.groupId + device.deviceId} value={device.deviceId}>{device.label}</Select.Option>
+              )
+            }
+          </Select>
         </TabPane>
 
         <TabPane tab={t("room_settings.bandwidth")} key="bandwidth">

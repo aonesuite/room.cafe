@@ -6,8 +6,6 @@ import AgoraRTC, {
   IMicrophoneAudioTrack,
   ICameraVideoTrack,
   IAgoraRTCRemoteUser,
-  ILocalVideoTrack,
-  ILocalAudioTrack,
   VideoEncoderConfigurationPreset
 } from "agora-rtc-sdk-ng"
 
@@ -28,10 +26,10 @@ export class RoomStore {
   rtcUID?: UID
 
   @observable
-  localAudioTrack?: ILocalAudioTrack
+  localAudioTrack?: IMicrophoneAudioTrack
 
   @observable
-  localVideoTrack?: ILocalVideoTrack
+  localVideoTrack?: ICameraVideoTrack
 
   @observable
   localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
