@@ -136,6 +136,10 @@
       right: 0;
       text-align: right;
 
+      svg{
+        vertical-align: bottom;
+      }
+
       .audio-wave{ width: 38px; height: 10px; }
       .audio-mute{ display: none; height: 15px; color: #CCC }
       &.mute {
