@@ -1,7 +1,5 @@
 import { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
-export declare type ClarityType = "HD" | "SD" | "FHD"
-
 export interface Clarity {
   label: string
   value: VideoEncoderConfigurationPreset
