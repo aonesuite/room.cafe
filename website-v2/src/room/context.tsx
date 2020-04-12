@@ -10,7 +10,7 @@ import AgoraRTC, {
 } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
-import { IRoomInfo } from "models"
+import { IRoomInfo, User } from "models"
 
 export class RoomStore {
   @observable
@@ -21,9 +21,6 @@ export class RoomStore {
 
   @observable
   client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
-
-  @observable
-  rtcUID?: UID
 
   @observable
   localAudioTrack?: IMicrophoneAudioTrack
@@ -44,7 +41,10 @@ export class RoomStore {
   isFullscreen: boolean = false
 
   @observable
-  users = observable.array<IAgoraRTCRemoteUser>([])
+  localUser: User = new User()
+
+  @observable
+  users = observable.array<User>([], { deep: true })
 
   @observable
   chatPopUp: boolean = false
@@ -62,23 +62,29 @@ export class RoomStore {
   @action
   addUser(user: IAgoraRTCRemoteUser) {
     if (this.users.findIndex(item => item.uid === user.uid) < 0) {
-      this.users.push(user)
+      const remoteUser = new User()
+      remoteUser.updateWithRTCRemoteUser(user)
+      this.users.push(remoteUser)
     }
   }
 
   @action
   async initRTC(info: IRoomInfo) {
-    [this.rtcUID, this.localAudioTrack, this.localVideoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
+
+    [this.localUser.uid, this.localUser.audioTrack, this.localUser.videoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
       this.client.join(info.rtc_app_id || "", info.rtc_channel || "", null),        // join the channel
       AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
       AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity}) // create local tracks, using camera
     ])
 
     // 发布本地音视频
-    this.client.publish([this.localAudioTrack, this.localVideoTrack])
+    this.client.publish([this.localUser.audioTrack, this.localUser.videoTrack])
 
-    this.localVideoMuted = this.localVideoTrack.isMuted
-    this.localAudioMuted = this.localAudioTrack.isMuted
+    this.localUser.audioMuted = this.localUser.videoTrack.isMuted
+    this.localUser.videoMuted = this.localUser.audioTrack.isMuted
+    this.localUser.isLocalUser = true
+
+    // this.users.push(localUser)
 
     // 用户加入频道
     this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
@@ -87,15 +93,49 @@ export class RoomStore {
 
     // 用户离开频道
     this.client.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
-      this.users.remove(user)
+      const _u = this.users.find(item => item.uid === user.uid)
+      if (_u) { this.users.remove(_u) }
+    })
+
+    // 订阅远端音视频
+    this.client.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
+
+      // user-published 与 user-joined 不能保证顺序
+      this.addUser(user)
+
+      await this.client.subscribe(user)
+
+      const u = this.users.find(item => item.uid === user.uid)
+
+      if (u === undefined) { return }
+
+      if (["all", "video"].includes(mediaType) && user.videoTrack !== undefined) {
+        u.videoTrack = user.videoTrack
+        u.videoMuted = user.videoMuted
+      }
+
+      if (["all", "audio"].includes(mediaType) && user.audioTrack !== undefined) {
+        u.audioTrack = user.audioTrack
+        u.audioMuted = user.audioMuted
+        u.audioTrack.play()
+      }
+    })
+
+    // 远程用户更新静音状态
+    this.client.on("user-mute-updated", (user: IAgoraRTCRemoteUser) => {
+      const u = this.users.find(item => item.uid === user.uid)
+      if (u === undefined) { return }
+      u.audioMuted = user.audioMuted
+      u.videoMuted = user.videoMuted
     })
   }
 
   @action
   setLocalVideoTrackClarity(clarity: VideoEncoderConfigurationPreset) {
     this.localVideoTrackClarity = clarity
-    if (this.localVideoTrack) {
-      (this.localVideoTrack as ICameraVideoTrack).setEncoderConfiguration(clarity as VideoEncoderConfigurationPreset)
+    const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack
+    if (localVideoTrack) {
+      localVideoTrack.setEncoderConfiguration(clarity as VideoEncoderConfigurationPreset)
     }
   }
 
@@ -103,15 +143,17 @@ export class RoomStore {
   setLocalTrackMute(kind: "audio" | "video", muted: boolean) {
     switch (kind) {
       case "audio":
-        if (this.localAudioTrack) {
-          this.localAudioTrack.setMute(muted)
-          this.localAudioMuted = this.localAudioTrack.isMuted
+        const localAudioTrack = this.localUser.audioTrack as IMicrophoneAudioTrack
+        if (localAudioTrack) {
+          localAudioTrack.setMute(muted)
+          this.localUser.audioMuted = localAudioTrack.isMuted
         }
         break
       case "video":
-        if (this.localVideoTrack) {
-          this.localVideoTrack.setMute(muted)
-          this.localVideoMuted = this.localVideoTrack.isMuted
+        const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack
+        if (localVideoTrack) {
+          localVideoTrack.setMute(muted)
+          this.localUser.videoMuted = localVideoTrack.isMuted
         }
         break
     }
