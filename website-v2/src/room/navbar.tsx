@@ -36,10 +36,6 @@ const Navbar = observer(() => {
   const [invitePeopleModalVisible, setInvitePeopleModalVisible] = useState(false)
   const [settingsModalVisible, setSettingsModalVisible] = useState(false)
 
-  useEffect(() => {
-    console.log(roomStore)
-  }, [roomStore])
-
   // 全屏事件监听
   useEffect(() => {
     if (fscreen.fullscreenEnabled) {
