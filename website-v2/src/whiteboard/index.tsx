@@ -257,7 +257,7 @@ export default function WhiteBoard(params: JoinRoomParams) {
                       </div>
                     }>
 
-                    <Button type="link" size="small" onClick={ () => setAppliance("ellipse") } id="whiteboard-stroke">
+                    <Button type="link" size="small" id="whiteboard-stroke">
                       <span style={{ borderColor: `rgb(${memberState.strokeColor.join(",")})` }}>
                         <span style={{
                           backgroundColor: `rgb(${memberState.strokeColor.join(",")})`,
