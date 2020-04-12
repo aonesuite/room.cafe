@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite"
 import { useTranslation } from "react-i18next"
 import i18n from "i18next"
 import { langs, changeLanguage } from "locales/i18n"
-import AgoraRTC, { VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
+import AgoraRTC, { VideoEncoderConfigurationPreset, ICameraVideoTrack, IMicrophoneAudioTrack } from "agora-rtc-sdk-ng"
 import { Modal, Tabs, Select } from "antd"
 
 import { clarities } from "constants/clarity"
@@ -27,10 +27,17 @@ const Settings = observer((options: IQuickStartOptions) => {
   const setDevise = (kind: string, devise: string) => {
     switch (kind) {
       case "video":
-        roomStore.localVideoTrack?.setDevice(devise)
+        const localVideoTrack = roomStore.localUser.videoTrack as ICameraVideoTrack
+        if (localVideoTrack) {
+          localVideoTrack.setDevice(devise)
+        }
+
         break
       case "audio":
-        roomStore.localAudioTrack?.setDevice(devise)
+        const localAudioTrack = roomStore.localUser.audioTrack as IMicrophoneAudioTrack
+        if (localAudioTrack) {
+          localAudioTrack.setDevice(devise)
+        }
         break
     }
   }
@@ -41,10 +48,9 @@ const Settings = observer((options: IQuickStartOptions) => {
 
   useEffect(() => {
     // 获取所有音视频设备
-    AgoraRTC.getDevices()
-    .then(devices => {
-      setvideoDevices(devices.filter((device) => device.kind === "videoinput" ))
-      setAudioDevices(devices.filter((device) => device.kind === "audioinput" ))
+    AgoraRTC.getDevices().then(devices => {
+      setvideoDevices(devices.filter((device) => device.kind === "videoinput"))
+      setAudioDevices(devices.filter((device) => device.kind === "audioinput"))
     })
   }, [roomStore])
 

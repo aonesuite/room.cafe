@@ -1,13 +1,6 @@
 import React from "react"
 import { observable, action } from "mobx"
-import AgoraRTC, {
-  IAgoraRTCClient,
-  UID,
-  IMicrophoneAudioTrack,
-  ICameraVideoTrack,
-  IAgoraRTCRemoteUser,
-  VideoEncoderConfigurationPreset
-} from "agora-rtc-sdk-ng"
+import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
 import { IRoomInfo, User } from "models"
@@ -23,19 +16,7 @@ export class RoomStore {
   client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
   @observable
-  localAudioTrack?: IMicrophoneAudioTrack
-
-  @observable
-  localVideoTrack?: ICameraVideoTrack
-
-  @observable
   localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
-
-  @observable
-  localAudioMuted: boolean = false
-
-  @observable
-  localVideoMuted: boolean = false
 
   @observable
   isFullscreen: boolean = false
@@ -71,7 +52,11 @@ export class RoomStore {
   @action
   async initRTC(info: IRoomInfo) {
 
-    [this.localUser.uid, this.localUser.audioTrack, this.localUser.videoTrack] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
+    [
+      this.localUser.uid,
+      this.localUser.audioTrack,
+      this.localUser.videoTrack
+    ] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
       this.client.join(info.rtc_app_id || "", info.rtc_channel || "", null),        // join the channel
       AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
       AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity}) // create local tracks, using camera
@@ -162,16 +147,16 @@ export class RoomStore {
   @action
   async leave() {
 
-    if (this.localVideoTrack) {
-      this.localVideoTrack.stop()
-      this.localVideoTrack.close()
-      this.localVideoTrack = undefined
+    const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack
+    if (localVideoTrack) {
+      localVideoTrack.stop()
+      localVideoTrack.close()
     }
 
-    if (this.localAudioTrack) {
-      this.localAudioTrack.stop()
-      this.localAudioTrack.close()
-      this.localAudioTrack = undefined
+    const localAudioTrack = this.localUser.audioTrack as IMicrophoneAudioTrack
+    if (localAudioTrack) {
+      localAudioTrack.stop()
+      localAudioTrack.close()
     }
 
     await this.client.leave()
