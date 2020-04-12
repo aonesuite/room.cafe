@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://room.cafe",
   "dependencies": {
+    "@netless/cursor-adapter": "^0.0.5",
     "agora-rtc-sdk-ng": "^0.1.4",
     "antd": "^4.0.4",
     "axios": "^0.19.2",

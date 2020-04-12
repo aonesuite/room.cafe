@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react"
-
 import { useTranslation } from "react-i18next"
+
+import { UserCursor } from "@netless/cursor-adapter"
 import { Room, RoomPhase, WhiteWebSdk, RoomWhiteboard, JoinRoomParams, Color, MemberState } from "white-react-sdk"
+
 import { Button, Tooltip, Menu, Popover, Slider, Upload, message, Spin } from "antd"
 import { RcFile, UploadChangeParam } from "antd/lib/upload"
 
@@ -105,17 +107,32 @@ export default function WhiteBoard(params: JoinRoomParams) {
   // 初始化白板
   const initWhiteBoard = useCallback(
     () => {
+      const cursor = new UserCursor()
       whiteWebSdk.joinRoom(
-        { uuid: params.uuid, roomToken: params.roomToken },
         {
-          onRoomStateChanged: (state) => {
-            if (state.memberState) {
-              setMemberState(state.memberState)
+          uuid: params.uuid,
+          roomToken: params.roomToken,
+          cursorAdapter: cursor
+          // userPayload: {
+          //   userId: userId,
+          //   name: userName,
+          //   avatar: userAvatarUrl,
+          //   identity: identity,
+          // }}
+        },
+        {
+          onRoomStateChanged: (modifyState) => {
+            if (modifyState.memberState) {
+              setMemberState(modifyState.memberState)
+            }
+            if (modifyState.roomMembers) {
+              cursor.setColorAndAppliance(modifyState.roomMembers)
             }
           }
         }
       )
       .then((room) => {
+        cursor.setColorAndAppliance(room.state.roomMembers)
         setWhiteBoardState({ room, phase: RoomPhase.Connecting})
         setMemberState(room.state.memberState)
       })
@@ -126,6 +143,12 @@ export default function WhiteBoard(params: JoinRoomParams) {
   useEffect(() => {
     initWhiteBoard()
   }, [initWhiteBoard])
+
+  useEffect(() => {
+    return function cleanup() {
+      whiteBoardState.room?.disconnect()
+    }
+  }, [whiteBoardState])
 
   // 刷新白板实图大小
   useEffect(() => {

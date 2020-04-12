@@ -1146,6 +1146,21 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@netless/cursor-adapter@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@netless/cursor-adapter/-/cursor-adapter-0.0.5.tgz#78514ac10c22bdcae743f3abbffe50aed2ba09c9"
+  integrity sha512-xCEFll8LaJ4jnINs23qVd+NxJ++bhAk9eK7nEiWr4rpWMV/ei8GqpJLX9FLOJWc6An8HYdpNihFbTVIHyKbO7w==
+  dependencies:
+    "@netless/identicon" "^0.0.2"
+    white-web-sdk "^2.6.3"
+
+"@netless/identicon@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@netless/identicon/-/identicon-0.0.2.tgz#9449eeb91c3397acb72cb1fc8bb42d5779988598"
+  integrity sha512-ko3RNkqE/tmyU+ika9bVfdfUDzmbczff+4Q3gLd5p3uepE3kSeZgjfG+6ShnZC4XrDY1KFneBuDkgPbWXhNUUg==
+  dependencies:
+    md5-typescript "^1.0.5"
+
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
@@ -6991,6 +7006,11 @@ mathjs@^6.2.2:
     tiny-emitter "^2.1.0"
     typed-function "^1.1.1"
 
+md5-typescript@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/md5-typescript/-/md5-typescript-1.0.5.tgz#68c0b24dff8e5d3162e498fa9893b63be72e038f"
+  integrity sha1-aMCyTf+OXTFi5Jj6mJO2O+cuA48=
+
 md5.js@^1.3.4:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
@@ -11940,7 +11960,7 @@ white-react-sdk@^2.7.3:
     react "^16.8.0"
     white-web-sdk "2.7.3"
 
-white-web-sdk@2.7.3:
+white-web-sdk@2.7.3, white-web-sdk@^2.6.3:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/white-web-sdk/-/white-web-sdk-2.7.3.tgz#d52cc95cad661fd4b944a722468a09482de1af23"
   integrity sha512-oy42QO1Agwq+17NG/7UB0weBVAH53i7N8BRoyINuaCc5Yi/+VI6lz/1DkyyOrJUXA1BoIStPO1CXVYRnRblZXg==
