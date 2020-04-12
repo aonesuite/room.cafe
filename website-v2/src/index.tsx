@@ -1,20 +1,25 @@
 import React from "react"
 import ReactDOM from "react-dom"
-
 import axios from "axios"
-
+import AgoraRTC from "agora-rtc-sdk-ng"
 import "locales/i18n"
+
+import * as serviceWorker from "serviceWorker"
+
 import App from "App"
+import { UserAPI } from "api/user"
+import { IUser } from "models"
 
 import "assets/main.scss"
 import "white-web-sdk/style/index.css"
 
-import * as serviceWorker from "serviceWorker"
-import { UserAPI } from "api/user"
-import { IUser } from "models"
-
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL
 axios.defaults.withCredentials = true
+
+// 生产模式禁用所有日志输出
+if (process.env.NODE_ENV === "production") {
+  AgoraRTC.setLogLevel(4)
+}
 
 let currentUser: IUser
 
