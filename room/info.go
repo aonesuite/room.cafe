@@ -45,6 +45,8 @@ func Info(c *gin.Context) {
 		expireAt     = time.Now().Unix() + 600
 	)
 
+	room.RTCAppID = agoraAppID
+
 	room.RTCToken, err = agora.GenRTCJoinChannelToken(agoraAppID, agoraAppCert, room.RTCChannel, currentUser.RoomUserID(), expireAt)
 	if err != nil {
 		log.Error("get rtn room token failed", err)
