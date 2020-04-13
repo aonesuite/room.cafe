@@ -26,11 +26,28 @@ type Room struct {
 	UpdatedAt timestamp.Timestamp  `json:"updated_at"`
 	DeletedAt *timestamp.Timestamp `json:"deleted_at,omitempty"`
 
-	Attendees []Attendee `json:"attendees"` // 参会人员
+	Attendees []User `json:"attendees" gorm:"many2many:attendees"` // 参会人员
 }
+
+// Role 角色
+type Role string
+
+const (
+	// RoleAudience 普通观众
+	RoleAudience = "audience"
+
+	// RoleAdmin 房间管理员
+	RoleAdmin = "admin"
+
+	// RoleOwner 房间所有者
+	RoleOwner = "owner"
+)
 
 // Attendee 会议出席者
 type Attendee struct {
 	UserID uint `json:"user_id" gorm:"unique_index:room_user"`
 	RoomID uint `json:"room_id" gorm:"unique_index:room_user"`
+	Role   Role `json:"role"`
+
+	*User `gorm:"-"`
 }

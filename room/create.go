@@ -98,6 +98,7 @@ func Create(c *gin.Context) {
 	attendee := models.Attendee{
 		UserID: currentUser.ID,
 		RoomID: room.ID,
+		Role:   models.RoleOwner,
 	}
 
 	if err := database.Create(&attendee).Error; err != nil {
@@ -108,8 +109,6 @@ func Create(c *gin.Context) {
 	}
 
 	database.Commit()
-
-	room.Attendees = []models.Attendee{attendee}
 
 	c.JSON(http.StatusCreated, room)
 }
