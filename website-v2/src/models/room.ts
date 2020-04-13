@@ -13,6 +13,7 @@ export interface IRoomInfo {
 
   rtc_app_id:       string
   rtc_channel:      string
+  rtc_user:         number
   rtc_token:        string
   rtm_token:        string
 

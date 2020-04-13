@@ -13,10 +13,11 @@ type Room struct {
 	State   string `json:"state"`                                      // 房间状态: active, archived
 	Owner   uint   `json:"owner"          gorm:"index"`                // 管理员
 
-	RTCAppID   string `json:"rtc_app_id"  gorm:"size:128"` // RTC APP ID
+	RTCAppID   string `json:"rtc_app_id"  gorm:"-"`        // RTC APP ID
 	RTCChannel string `json:"rtc_channel" gorm:"size:128"` // RTC 目标频/房间名称，保持跟 UUID 一致
-	RTCToken   string `json:"rtc_token"   gorm:"-"`        // RTC RoomToken
-	RTMToken   string `json:"rtm_token"   gorm:"-"`        // RTM RoomToken
+	RTCUser    uint32 `json:"rtc_user"    gorm:"-"`
+	RTCToken   string `json:"rtc_token"   gorm:"-"` // RTC RoomToken
+	RTMToken   string `json:"rtm_token"   gorm:"-"` // RTM RoomToken
 
 	Whiteboard      string `json:"whiteboard_id"    gorm:"size:128"` // 白板房间 ID
 	WhiteboardToken string `json:"whiteboard_token" gorm:"-"`        // 白板房间 token

@@ -57,9 +57,9 @@ export class RoomStore {
       this.localUser.audioTrack,
       this.localUser.videoTrack
     ] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
-      this.client.join(info.rtc_app_id, info.rtc_channel, info.rtc_token),          // join the channel
-      AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
-      AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity}) // create local tracks, using camera
+      this.client.join(info.rtc_app_id, info.rtc_channel, info.rtc_token, info.rtc_user), // join the channel
+      AgoraRTC.createMicrophoneAudioTrack(),                                              // create local tracks, using microphone
+      AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity})       // create local tracks, using camera
     ])
 
     // 发布本地音视频
