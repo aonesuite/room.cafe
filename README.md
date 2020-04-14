@@ -47,6 +47,7 @@ https://mobx.js.org/
 
 ### RTC
 https://agoraio-community.github.io/AgoraWebSDK-NG/zh-CN/
+https://console.agora.io/
 
 ### 白板
 https://developer.netless.link/docs/javascript/guide/js-sdk/
