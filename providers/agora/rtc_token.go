@@ -11,13 +11,14 @@ const (
 	RolePublisher  = 1
 	RoleSubscriber = 2
 	RoleAdmin      = 101
+	RoleRtmUser    = 1
 )
 
 //RtcTokenBuilder class
 type RtcTokenBuilder struct {
 }
 
-//BuildTokenWithUserAccount method
+//BuildRTCTokenWithUserAccount method
 // appID: The App ID issued to you by Agora. Apply for a new App ID from
 //        Agora Dashboard if it is missing from your kit. See Get an App ID.
 // appCertificate:	Certificate of the application that you registered in
@@ -32,7 +33,7 @@ type RtcTokenBuilder struct {
 //                    Agora Service within 10 minutes after the token is
 //                    generated, set expireTimestamp as the current
 //                    timestamp + 600 (seconds)./
-func BuildTokenWithUserAccount(appID string, appCertificate string, channelName string, userAccount string, role Role, privilegeExpiredTs uint32) (string, error) {
+func BuildRTCTokenWithUserAccount(appID string, appCertificate string, channelName string, userAccount string, role Role, privilegeExpiredTs uint32) (string, error) {
 	token := CreateAccessToken2(appID, appCertificate, channelName, userAccount)
 	token.AddPrivilege(KJoinChannel, privilegeExpiredTs)
 
@@ -44,7 +45,7 @@ func BuildTokenWithUserAccount(appID string, appCertificate string, channelName 
 	return token.Build()
 }
 
-//BuildTokenWithUID method
+// BuildRTCTokenWithUID method
 // appID: The App ID issued to you by Agora. Apply for a new App ID from
 //        Agora Dashboard if it is missing from your kit. See Get an App ID.
 // appCertificate:	Certificate of the application that you registered in
@@ -57,10 +58,10 @@ func BuildTokenWithUserAccount(appID string, appCertificate string, channelName 
 //                    1/1/1970. If, for example, you want to access the
 //                    Agora Service within 10 minutes after the token is
 //                    generated, set expireTimestamp as the current
-func BuildTokenWithUID(appID string, appCertificate string, channelName string, uid uint32, role Role, privilegeExpiredTs uint32) (string, error) {
+func BuildRTCTokenWithUID(appID string, appCertificate string, channelName string, uid uint32, role Role, privilegeExpiredTs uint32) (string, error) {
 	uidStr := fmt.Sprint(uid)
 	if uid == 0 {
 		uidStr = ""
 	}
-	return BuildTokenWithUserAccount(appID, appCertificate, channelName, uidStr, role, privilegeExpiredTs)
+	return BuildRTCTokenWithUserAccount(appID, appCertificate, channelName, uidStr, role, privilegeExpiredTs)
 }
