@@ -92,9 +92,9 @@ func TestCreate(t *testing.T) {
 	assert.Nil(err)
 	assert.NotEmpty(room.UUID)
 	assert.NotEmpty(room.Owner)
-	assert.NotEmpty(room.RTCToken)
-	assert.NotEmpty(room.Whiteboard)
-	assert.NotEmpty(room.WhiteboardToken)
+	// assert.NotEmpty(room.RTCToken)
+	assert.NotEmpty(room.WhiteboardID)
+	// assert.NotEmpty(room.WhiteboardToken)
 
 	rooms = append(rooms, room)
 
@@ -130,8 +130,8 @@ func TestInfo(t *testing.T) {
 		assert.Nil(err)
 		assert.NotEmpty(room.UUID)
 		assert.NotEmpty(room.Owner)
-		assert.NotEmpty(room.RTCToken)
-		assert.NotEmpty(room.Whiteboard)
-		assert.NotEmpty(room.WhiteboardToken)
+		// assert.NotEmpty(room.RTCToken)
+		assert.NotEmpty(room.WhiteboardID)
+		// assert.NotEmpty(room.WhiteboardToken)
 	}
 }
