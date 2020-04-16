@@ -46,10 +46,10 @@ const Room = observer(() => {
 
         <Layout.Content>
           {
-            roomStore.info && <WhiteBoard uuid={roomStore.info.whiteboard_id} roomToken={roomStore.info.whiteboard_token} />
+            roomStore.whiteboard && <WhiteBoard uuid={roomStore.whiteboard?.whiteboard_id} roomToken={roomStore.whiteboard?.whiteboard_token} />
           }
 
-          { roomStore.info && <RTC /> }
+          { roomStore.rtn && <RTC /> }
         </Layout.Content>
       </Layout>
     </React.Fragment>

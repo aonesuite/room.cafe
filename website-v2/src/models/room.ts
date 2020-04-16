@@ -4,24 +4,14 @@ export interface IRoomArgs {
 }
 
 export interface IRoomInfo {
-  id:               number
-  uuid:             string
-  name:             string
-  private:          boolean
-  state:            string
-  owner:            number
-
-  rtc_app_id:       string
-  rtc_channel:      string
-  rtc_user:         number
-  rtc_token:        string
-  rtm_token:        string
-
-  whiteboard_id:    string
-  whiteboard_token: string
-
-  created_at:       number
-  updated_at:       number
+  id:         number
+  uuid:       string  // 房间对外的 UUID
+  name:       string  // 自定义房间名称
+  private:    boolean // 是否为私密房间
+  state:      string  // 房间状态: active, archived
+  owner:      number  // 管理员
+  created_at: number
+  updated_at: number
 }
 
 export interface IRTN {

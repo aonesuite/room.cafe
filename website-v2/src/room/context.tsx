@@ -3,7 +3,7 @@ import { observable, action } from "mobx"
 import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
-import { IRoomInfo, User } from "models"
+import { IRoomInfo, User, IRTN, IWhiteboard } from "models"
 
 export class RoomStore {
   @observable
@@ -11,6 +11,12 @@ export class RoomStore {
 
   @observable
   info?: IRoomInfo
+
+  @observable
+  rtn?: IRTN
+
+  @observable
+  whiteboard?: IWhiteboard
 
   @observable
   client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
@@ -35,8 +41,10 @@ export class RoomStore {
     if (uuid !== undefined) {
       this.uuid = uuid
       this.info = await RoomAPI.Info(uuid)
+      this.rtn = await RoomAPI.rtn(uuid)
+      this.whiteboard = await RoomAPI.whiteboard(uuid)
 
-      await this.initRTC(this.info)
+      await this.initRTC(this.rtn)
     }
   }
 
@@ -50,16 +58,16 @@ export class RoomStore {
   }
 
   @action
-  async initRTC(info: IRoomInfo) {
+  async initRTC(rtn: IRTN) {
 
     [
       this.localUser.uid,
       this.localUser.audioTrack,
       this.localUser.videoTrack
     ] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
-      this.client.join(info.rtc_app_id, info.rtc_channel, info.rtc_token, info.rtc_user), // join the channel
-      AgoraRTC.createMicrophoneAudioTrack(),                                              // create local tracks, using microphone
-      AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity})       // create local tracks, using camera
+      this.client.join(rtn.app_id, rtn.channel, rtn.rtc_token, rtn.uid),            // join the channel
+      AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
+      AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity}) // create local tracks, using camera
     ])
 
     // 发布本地音视频
