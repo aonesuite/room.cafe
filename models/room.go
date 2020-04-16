@@ -37,11 +37,12 @@ const (
 
 // Attendee 会议出席者
 type Attendee struct {
-	UserID uint   `json:"user_id" gorm:"unique_index:room_user"`
-	RoomID uint   `json:"room_id" gorm:"unique_index:room_user"`
+	ID     uint   `json:"id,omitempty"      gorm:"primary_key"`
+	UserID uint   `json:"uid,omitempty"     gorm:"unique_index:room_user"`
+	RoomID uint   `json:"room_id,omitempty" gorm:"unique_index:room_user"`
 	Role   Role   `json:"role"`
 	Name   string `json:"name"`
-	Avatar string `json:"avatar" sql:"-"`
+	Avatar string `json:"avatar"            sql:"-"`
 
 	CreatedAt timestamp.Timestamp  `json:"created_at"`
 	UpdatedAt timestamp.Timestamp  `json:"updated_at"`
