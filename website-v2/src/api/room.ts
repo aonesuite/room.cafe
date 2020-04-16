@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IRoomArgs, IRoomInfo } from "../models"
+import { IRoomArgs, IRoomInfo, IRTN, IWhiteboard } from "../models"
 
 export class RoomAPI {
 
@@ -13,5 +13,15 @@ export class RoomAPI {
   static async Info(uuid: string): Promise<IRoomInfo> {
     const resp = await axios.get(`/room/${uuid}`)
     return resp.data as IRoomInfo
+  }
+
+  static async rtn(uuid: string): Promise<IRTN> {
+    const resp = await axios.get(`/room/${uuid}/rtn`)
+    return resp.data as IRTN
+  }
+
+  static async whiteboard(uuid: string): Promise<IWhiteboard> {
+    const resp = await axios.get(`/room/${uuid}/whiteboard`)
+    return resp.data as IWhiteboard
   }
 }

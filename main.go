@@ -101,8 +101,11 @@ func main() {
 		router.GET("/uploader/token", uploader.MakeUploadToken)      // 上传 token
 		router.GET("/uploader/url/:key", uploader.MakeDownloadToken) // 下载 url
 
-		router.POST("/room", room.Create)    // 创建房间
-		router.GET("/room/:uuid", room.Info) // 房间信息
+		rooms := router.Group("/room", room.Room)
+		rooms.POST("/", room.Create)                    // 创建房间
+		rooms.GET("/:uuid", room.Info)                  // 房间信息
+		rooms.GET("/:uuid/rtn", room.RTN)               // 房间 RTC 信息
+		rooms.GET("/:uuid/whiteboard", room.Whiteboard) // 房间白板信息
 	}
 
 	// engine.Run(":" + config.GetString("app.port"))

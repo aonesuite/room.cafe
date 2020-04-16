@@ -2,16 +2,12 @@ package room
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 
-	"room.cafe/components/config"
 	"room.cafe/components/db"
 	"room.cafe/components/log"
-
-	"room.cafe/providers/agora"
-	"room.cafe/providers/white"
 
 	"room.cafe/models"
 )
@@ -19,15 +15,36 @@ import (
 // Info 房间信息
 // GET	/room/:uuid
 func Info(c *gin.Context) {
-	log := log.New(c)
-	currentUser := c.MustGet("currentUser").(*models.User)
-	uuid := c.Param("uuid")
+	var room = c.MustGet("room").(*models.Room)
+	c.JSON(http.StatusOK, room)
+}
 
-	database := db.Get(log.ReqID())
+// middleware
 
-	room := models.Room{}
+// Room 房间信息
+func Room(c *gin.Context) {
+	var (
+		log         = log.New(c)
+		currentUser = c.MustGet("currentUser").(*models.User)
+		uuid        = c.Param("uuid")
+		database    = db.Get(log.ReqID())
+		room        = models.Room{}
+	)
 
-	if result := database.Preload("Attendees").First(&room, "uuid = ?", uuid); result.Error != nil {
+	result := database.Preload("Attendees", func(db *gorm.DB) *gorm.DB {
+		return db.Select([]string{
+			"attendees.user_id",
+			"attendees.role",
+			"IFNULL(attendees.name, users.name) name",
+			"attendees.created_at",
+			"attendees.updated_at",
+			"users.name",
+			"users.avatar",
+			"users.gender",
+		}).Joins("LEFT JOIN users ON users.id = attendees.user_id")
+	})
+
+	if result.First(&room, "uuid = ?", uuid); result.Error != nil {
 		if result.RecordNotFound() {
 			log.Error("the room doesn't exist", result.Error)
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "the room doesn't exist", "code": "ROOM_NOT_FOUND"})
@@ -35,40 +52,6 @@ func Info(c *gin.Context) {
 			log.Error("find room failed", result.Error)
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
 		}
-		return
-	}
-
-	var (
-		err          error
-		agoraAppID   = config.GetString("agora.app_id")
-		agoraAppCert = config.GetString("agora.app_certificate")
-		expireAt     = time.Now().Unix() + 600
-	)
-
-	room.RTCAppID = agoraAppID
-	room.RTCUser = uint32(currentUser.ID)
-
-	room.RTCToken, err = agora.BuildTokenWithUID(agoraAppID, agoraAppCert, room.RTCChannel, room.RTCUser, agora.RoleAttendee, uint32(expireAt))
-	if err != nil {
-		log.Error("get rtn room token failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
-	room.RTMToken, err = agora.GenRTMJoinChannelToken(agoraAppID, agoraAppCert, currentUser.RoomUserID(), expireAt)
-	if err != nil {
-		log.Error("get rtm room token failed ", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
-	// 获取白板 token
-	whiteClient := white.NewClient(config.GetString("herewhite.mini_token"), config.GetString("herewhite.host"))
-
-	room.WhiteboardToken, err = whiteClient.GetRoomToken(log, room.Whiteboard)
-	if err != nil {
-		log.Error("get join white room token failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
@@ -84,5 +67,6 @@ func Info(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, room)
+	c.Set("room", &room)
+	c.Next()
 }

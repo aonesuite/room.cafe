@@ -2,17 +2,12 @@ package room
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/globalsign/mgo/bson"
 
-	"room.cafe/components/config"
 	"room.cafe/components/db"
 	"room.cafe/components/log"
-
-	"room.cafe/providers/agora"
-	"room.cafe/providers/white"
 
 	"room.cafe/models"
 )
@@ -38,58 +33,19 @@ func Create(c *gin.Context) {
 		}
 	}
 
-	var (
-		uuid         = bson.NewObjectId().Hex()
-		agoraAppID   = config.GetString("agora.app_id")
-		agoraAppCert = config.GetString("agora.app_certificate")
-		expireAt     = time.Now().Unix() + 600
-	)
-
-	roomToken, err := agora.GenRTCJoinChannelToken(agoraAppID, agoraAppCert, uuid, currentUser.RoomUserID(), expireAt)
-	if err != nil {
-		log.Error("get rtc room token failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
-	rtmToken, err := agora.GenRTMJoinChannelToken(agoraAppID, agoraAppCert, currentUser.RoomUserID(), expireAt)
-	if err != nil {
-		log.Error("get rtc room token failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
-	// 获取白板 token
-	whiteClient := white.NewClient(config.GetString("herewhite.mini_token"), config.GetString("herewhite.host"))
-	whiteArgs := white.ReqCreateWhite{Name: uuid, Limit: 100}
-	whiteRet, err := whiteClient.CreateWhite(log, whiteArgs)
-	if err != nil {
-		log.Error("create white room failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
 	database := db.Get(log.ReqID())
-	database = database.Begin()
+	tx := database.Begin()
 
 	room := models.Room{
-		UUID:    uuid,
+		UUID:    bson.NewObjectId().Hex(),
 		Name:    args.Name,
 		Private: args.Private,
 		Owner:   currentUser.ID,
-
-		RTCAppID:   agoraAppID,
-		RTCChannel: uuid,
-		RTCToken:   roomToken,
-		RTMToken:   rtmToken,
-
-		Whiteboard:      whiteRet.Room.UUID,
-		WhiteboardToken: whiteRet.RoomToken,
 	}
 
 	// 创建房间
-	if err := database.Create(&room).Error; err != nil {
-		database.Rollback()
+	if err := tx.Create(&room).Error; err != nil {
+		tx.Rollback()
 		log.Error("create room failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
@@ -101,14 +57,19 @@ func Create(c *gin.Context) {
 		Role:   models.RoleOwner,
 	}
 
-	if err := database.Create(&attendee).Error; err != nil {
-		database.Rollback()
+	// 添加成员
+	if err := tx.Create(&attendee).Error; err != nil {
+		tx.Rollback()
 		log.Error("room add attendee failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
-	database.Commit()
+	if err := tx.Commit().Error; err != nil {
+		log.Error("database commit failed", err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		return
+	}
 
 	c.JSON(http.StatusCreated, room)
 }
