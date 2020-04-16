@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 
 	"room.cafe/components/db"
 	"room.cafe/components/log"
@@ -30,7 +31,21 @@ func Room(c *gin.Context) {
 		room        = models.Room{}
 	)
 
-	if result := database.Preload("Attendees").First(&room, "uuid = ?", uuid); result.Error != nil {
+	result := database.Preload("Attendees", func(db *gorm.DB) *gorm.DB {
+		return db.Select([]string{
+			"attendees.user_id",
+			"attendees.room_id",
+			"attendees.role",
+			"IFNULL(attendees.name, users.name) name",
+			"attendees.created_at",
+			"attendees.updated_at",
+			"users.name",
+			"users.avatar",
+			"users.gender",
+		}).Joins("LEFT JOIN users ON users.id = attendees.user_id")
+	})
+
+	if result.First(&room, "uuid = ?", uuid); result.Error != nil {
 		if result.RecordNotFound() {
 			log.Error("the room doesn't exist", result.Error)
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"message": "the room doesn't exist", "code": "ROOM_NOT_FOUND"})

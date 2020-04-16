@@ -31,7 +31,7 @@ func Whiteboard(c *gin.Context) {
 		}
 
 		whiteboard := models.Whiteboard{
-			Whiteboard:      room.WhiteboardID,
+			WhiteboardID:    room.WhiteboardID,
 			WhiteboardToken: whiteboardToken,
 		}
 
@@ -48,7 +48,7 @@ func Whiteboard(c *gin.Context) {
 	}
 
 	whiteboard := models.Whiteboard{
-		Whiteboard:      whiteRet.Room.UUID,
+		WhiteboardID:    whiteRet.Room.UUID,
 		WhiteboardToken: whiteRet.RoomToken,
 	}
 
