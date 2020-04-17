@@ -112,13 +112,8 @@ export default function WhiteBoard(params: JoinRoomParams) {
         {
           uuid: params.uuid,
           roomToken: params.roomToken,
-          cursorAdapter: cursor
-          // userPayload: {
-          //   userId: userId,
-          //   name: userName,
-          //   avatar: userAvatarUrl,
-          //   identity: identity,
-          // }}
+          cursorAdapter: cursor,
+          userPayload: params.userPayload
         },
         {
           onRoomStateChanged: (modifyState) => {

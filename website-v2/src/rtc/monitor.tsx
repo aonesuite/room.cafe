@@ -35,7 +35,7 @@ const Monitor = observer((options: IMonitorOptions) => {
       <div className="cover">
         {
           attendee && attendee?.avatar &&
-          <img className="avatar" src={attendee?.avatar} />
+          <img className="avatar" src={attendee?.avatar} alt={attendee?.name} />
         }
       </div>
 

@@ -20,6 +20,7 @@ const Room = observer(() => {
   const { roomStore } = useRoomStore()
 
   const [modalVisible, setModalVisible] = useState(false)
+  const [userPayload, setUserPayload] = useState({})
 
   // 未登录处理
   useEffect(() => {
@@ -28,13 +29,23 @@ const Room = observer(() => {
 
   // 初始化 room store
   useEffect(() => {
-
     roomStore.init(uuid)
 
     return function cleanup() {
       roomStore.leave()
     }
   }, [uuid, roomStore])
+
+  useEffect(() => {
+    const attendee = roomStore.attendees?.find(item => item.uid === globalStore.user?.id)
+    if (attendee) {
+      setUserPayload({
+        userId: attendee.uid,
+        name: attendee.name,
+        avatar: attendee.avatar,
+      })
+    }
+  }, [globalStore.user, roomStore.attendees])
 
   return (
     <React.Fragment>
@@ -46,7 +57,12 @@ const Room = observer(() => {
 
         <Layout.Content>
           {
-            roomStore.whiteboard && <WhiteBoard uuid={roomStore.whiteboard?.whiteboard_id} roomToken={roomStore.whiteboard?.whiteboard_token} />
+            roomStore.whiteboard &&
+            <WhiteBoard
+              uuid={roomStore.whiteboard?.whiteboard_id}
+              roomToken={roomStore.whiteboard?.whiteboard_token}
+              userPayload={userPayload}
+            />
           }
 
           { roomStore.rtn && <RTC /> }
