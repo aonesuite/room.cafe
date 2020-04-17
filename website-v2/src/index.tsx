@@ -9,9 +9,9 @@ import * as serviceWorker from "serviceWorker"
 import App from "App"
 import { UserAPI } from "api/user"
 import { IUser } from "models"
+import { globalStore } from "common/contexts/GlobalContext"
 
 import "assets/main.scss"
-import "white-web-sdk/style/index.css"
 
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL
 axios.defaults.withCredentials = true
@@ -21,15 +21,13 @@ if (process.env.NODE_ENV === "production") {
   AgoraRTC.setLogLevel(4)
 }
 
-let currentUser: IUser
-
 UserAPI.State()
   .then((user: IUser) => {
-    currentUser = user
+    globalStore.setUser(user)
   })
   .finally(() => {
     ReactDOM.render(
-      <App user={currentUser} />,
+      <App />,
       document.getElementById("root")
     )
   })
