@@ -103,12 +103,15 @@
     z-index: 2;
     transition: all .5s ease;
 
+
     video{
       display: flex;
       background: #000000;
       object-fit: cover !important;
     }
+
     &.video-mute{
+      > div { background-color: transparent !important; }
       video{ visibility: hidden; }
     }
   }

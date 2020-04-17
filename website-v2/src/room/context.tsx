@@ -1,9 +1,9 @@
 import React from "react"
-import { observable, action } from "mobx"
+import { observable, computed, action } from "mobx"
 import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
-import { IRoomInfo, User, IRTN, IWhiteboard } from "models"
+import { IRoomInfo, User, IRTN, IWhiteboard, IAttendees } from "models"
 
 export class RoomStore {
   @observable
@@ -35,6 +35,11 @@ export class RoomStore {
 
   @observable
   chatPopUp: boolean = false
+
+  @computed
+  get attendees(): IAttendees[] | undefined {
+    return this.info?.attendees
+  }
 
   @action
   async init(uuid?: string) {
