@@ -1,10 +1,10 @@
 import React from "react"
 import { observable, computed, action } from "mobx"
 import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
-import AgoraRTM from "agora-rtm-sdk"
 
 import { RoomAPI } from "api/room"
 import { IRoomInfo, User, IRTN, IWhiteboard, IAttendees } from "models"
+import { RTM } from "./rtm"
 
 export class RoomStore {
   @observable
@@ -23,7 +23,7 @@ export class RoomStore {
   rtcClient: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
   @observable
-  rtmClient = AgoraRTM.createInstance('<APPID>')
+  RTM: RTM = new RTM()
 
   @observable
   localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
@@ -54,6 +54,8 @@ export class RoomStore {
       this.whiteboard = await RoomAPI.whiteboard(uuid)
 
       await this.initRTC(this.rtn)
+
+      this.RTM.init(this.rtn)
     }
   }
 
