@@ -54,8 +54,7 @@ export class RoomStore {
       this.whiteboard = await RoomAPI.whiteboard(uuid)
 
       await this.initRTC(this.rtn)
-
-      this.RTM.init(this.rtn)
+      await this.RTM.init(this.rtn)
     }
   }
 

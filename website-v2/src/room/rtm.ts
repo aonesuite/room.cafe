@@ -3,6 +3,14 @@ import AgoraRTM from "agora-rtm-sdk"
 
 import { IRTN } from "models"
 
+export enum EventName {
+  ChannelMessage     = "ChannelMessage",
+  MemberLeft         = "MemberLeft",
+  MemberJoined       = "MemberJoined",
+  AttributesUpdated  = "AttributesUpdated",
+  MemberCountUpdated = "MemberCountUpdated"
+}
+
 export class RTM {
 
   @observable
@@ -16,10 +24,21 @@ export class RTM {
 
   @action
   async init(info: IRTN) {
+
     this.client = AgoraRTM.createInstance(info.app_id)
-    await this.client.login(info.uid, info.rtm_token)
+
+    await this.client.login({
+      uid: `${info.uid}`,
+      token: info.rtm_token
+    })
+
     this.channel = this.client.createChannel(info.channel)
+
     await this.channel.join()
+
+    this.channel.on('ChannelMessage', (message: any, memberId: any) => {
+      console.log("rtm", message, memberId)
+    })
   }
 
   @action
