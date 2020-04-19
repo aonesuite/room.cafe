@@ -1,6 +1,6 @@
 export interface IMsg {
   userId:    string
-  timestamp: number
+  timestamp?: number
   content:   string
 }
 

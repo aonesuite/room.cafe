@@ -1,7 +1,7 @@
 import { observable, action } from "mobx"
 import AgoraRTM from "agora-rtm-sdk"
 
-import { IRTN } from "models"
+import { IRTN, ChatMessage } from "models"
 
 export enum EventName {
   ChannelMessage     = "ChannelMessage",
@@ -21,6 +21,9 @@ export class RTM {
 
   @observable
   channel: any
+
+  @observable
+  chatMessages: ChatMessage[] = []
 
   @action
   async init(info: IRTN) {
@@ -42,8 +45,10 @@ export class RTM {
   }
 
   @action
-  sendMessage(text: string): Promise<void> {
-    return this.channel.sendMessage({ text })
+  sendMessage(message: ChatMessage): Promise<void> {
+    return this.channel.sendMessage({
+      text: message.content
+    })
   }
 
   @action

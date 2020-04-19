@@ -13,6 +13,7 @@ import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "./context"
 
 import "./room.scss"
+import Chat from "./chat"
 
 const Room = observer(() => {
   const { globalStore } = useGlobalStore()
@@ -66,6 +67,8 @@ const Room = observer(() => {
           }
 
           { roomStore.rtn && <RTC /> }
+
+          { roomStore.RTM && <Chat /> }
         </Layout.Content>
       </Layout>
     </React.Fragment>
