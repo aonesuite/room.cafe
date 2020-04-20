@@ -1,7 +1,3 @@
-.chat-open{
-
-}
-
 #chat{
   display: none;
   overflow: hidden;
@@ -13,7 +9,7 @@
   bottom: 135px;
   z-index: 12;
   transition: all 0.5s ease 0s;
-  border-radius: $border-radius-lg;
+  border-radius: 0.15rem;
   opacity: 0;
 
   &.open{
@@ -27,7 +23,8 @@
     background-color: #404040;
     color: #FFF;
 
-    .btn{
+    .app-btn{
+      float: right;
       line-height: 1.2;
       padding: 0.2rem 0.5rem;
       color: rgba($color: #FFF, $alpha: 0.75);
@@ -60,7 +57,7 @@
       overflow: hidden;
       margin-right: 10px;
       border-radius: 3px;
-      background: url(../images/default-avatar.jpg);
+      background: url(../assets/images/default-avatar.jpg);
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
@@ -116,6 +113,29 @@
     width: 100%;
     position: absolute;
     bottom: 0;
+
+    .app-form-item {
+      margin-bottom: 0;
+
+      textarea.app-input {
+        margin-bottom: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+
+        &::placeholder {
+          color: #999;
+          font-size: 0.8rem;
+          font-style: italic;
+        }
+        &:focus {
+          background-color: #fff;
+          -webkit-box-shadow: 0 0 100px 0 rgba(0,0,0,.1);
+          box-shadow: 0 0 100px 0 rgba(0,0,0,.1);
+        }
+      }
+    }
 
     input{
       height: 56px;

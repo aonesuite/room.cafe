@@ -5,15 +5,14 @@ import { Layout } from "antd"
 
 import QuickStart from "quick-start"
 import WhiteBoard from "whiteboard"
-import RTC from "rtc"
-
 import Navbar from "./navbar"
+import RTC from "rtc"
+import Chat from "chat"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "./context"
 
 import "./room.scss"
-import Chat from "./chat"
 
 const Room = observer(() => {
   const { globalStore } = useGlobalStore()

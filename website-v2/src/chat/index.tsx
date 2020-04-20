@@ -8,8 +8,10 @@ import { ReactComponent as CommentAltLinesSVG } from "assets/icons/CommentAltLin
 import { ReactComponent as TimesSVG } from "assets/icons/Times.svg"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
-import { useRoomStore } from "./context"
+import { useRoomStore } from "../room/context"
 import { ChatMessage } from "models"
+
+import "./chat.scss"
 
 const Chat = observer(() => {
   const { t } = useTranslation()
@@ -19,9 +21,15 @@ const Chat = observer(() => {
   const [form] = Form.useForm()
 
   const onFinish = async (values: any) => {
+
+    if (values.content === undefined || values.content.trim() === "") {
+      form.resetFields()
+      return
+    }
+
     const message = new ChatMessage({
       content: values.content as string,
-      userId:  `${globalStore.user?.id}`
+      uid:  `${globalStore.user?.id}`
     })
 
     roomStore.RTM.sendMessage(message).then(() => {
@@ -34,9 +42,9 @@ const Chat = observer(() => {
     <div id="chat" className={className({open: roomStore.chatPopUp})}>
       <header>
         <CommentAltLinesSVG height="16" />
-        <span className="ml-1">{ t("chat") }</span>
+        <span style={{ marginLeft: 5 }}>{ t("chat") }</span>
 
-        <Button className="float-right" type="link" size="small" onClick={ () => roomStore.chatPopUp = false }>
+        <Button type="link" size="small" onClick={ () => roomStore.chatPopUp = false }>
           <TimesSVG height="20" />
         </Button>
       </header>
@@ -44,14 +52,14 @@ const Chat = observer(() => {
       <ul className="message-list">
         {
           roomStore.RTM.chatMessages.map((message, index) =>
-          <li key={`${message.timestamp}-${message.userId}-${index}`}>
+          <li key={`${message.timestamp}-${message.uid}-${index}`}>
             <div className="avatar">
               <img src="" alt="" width="64" height="64" />
             </div>
 
             <div className="body">
               <h6 className="userinfo">
-                <span>{ message.userId }</span>
+                <span>{ message.uid }</span>
               </h6>
               <p>{ message.content }</p>
             </div>
@@ -66,11 +74,11 @@ const Chat = observer(() => {
         className="intercom"
         onFinish={onFinish}>
 
-        <Form.Item name="content" rules={[{ required: true }]}>
+        <Form.Item name="content">
           <Input.TextArea
-            autoSize={{minRows: 1, maxRows: 4}}
+            autoSize={{minRows: 2, maxRows: 4}}
             placeholder={ t("placeholder_send_message") }
-            onPressEnter={ () => form.submit() }
+            onPressEnter={ () => { form.submit(); return false } }
           />
         </Form.Item>
       </Form>
