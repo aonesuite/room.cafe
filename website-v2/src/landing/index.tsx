@@ -16,6 +16,7 @@ import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
 import { useGlobalStore } from "common/contexts/GlobalContext"
 
 import { RoomAPI } from "api/room"
+import Icon from "assets/icons"
 
 import QuickStart from "quick-start"
 
@@ -98,6 +99,7 @@ const Landing = observer(() => {
                   <ul className="list-inline">
                     <li className="list-inline-item">
                       <Button shape="circle" onClick={ () => quickStart("f2f") }>
+                        <Icon type="video" />
                         <VideoSVG />
                       </Button>
                       <span>{ t("video_call") }</span>
