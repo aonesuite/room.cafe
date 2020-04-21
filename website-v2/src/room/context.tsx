@@ -3,7 +3,7 @@ import { observable, computed, action } from "mobx"
 import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
 import { RoomAPI } from "api/room"
-import { IRoomInfo, User, IRTN, IWhiteboard, IAttendees } from "models"
+import { IRoomInfo, User, IRTN, IWhiteboard, IAttendee } from "models"
 import { RTM } from "./rtm"
 
 export class RoomStore {
@@ -41,7 +41,7 @@ export class RoomStore {
   chatPopUp: boolean = false
 
   @computed
-  get attendees(): IAttendees[] | undefined {
+  get attendees(): IAttendee[] | undefined {
     return this.info?.attendees
   }
 

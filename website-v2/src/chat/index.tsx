@@ -9,7 +9,7 @@ import { ReactComponent as TimesSVG } from "assets/icons/Times.svg"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "../room/context"
-import { ChatMessage } from "models"
+import { ChatMessage, IAttendee } from "models"
 
 import "./chat.scss"
 
@@ -19,6 +19,10 @@ const Chat = observer(() => {
   const { roomStore } = useRoomStore()
 
   const [form] = Form.useForm()
+
+  const getMember = (uid: string): IAttendee | undefined => {
+    return roomStore.attendees?.find(item => `${item.uid}` === uid)
+  }
 
   const onFinish = async (values: any) => {
 
@@ -52,14 +56,14 @@ const Chat = observer(() => {
       <ul className="message-list">
         {
           roomStore.RTM.chatMessages.map((message, index) =>
-          <li key={`${message.timestamp}-${message.uid}-${index}`}>
+          <li key={`${message.timestamp}-${message.uid}-${index}`} className={className({ "self": `${globalStore.user?.id}` === message.uid })}>
             <div className="avatar">
               <img src="" alt="" width="64" height="64" />
             </div>
 
             <div className="body">
               <h6 className="userinfo">
-                <span>{ message.uid }</span>
+                <span>{ getMember(message.uid)?.name || message.uid }</span>
               </h6>
               <p>{ message.content }</p>
             </div>

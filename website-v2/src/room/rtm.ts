@@ -1,7 +1,7 @@
 import { observable, action } from "mobx"
 import AgoraRTM from "agora-rtm-sdk"
 
-import { IRTN, ChatMessage } from "models"
+import { IRTN, ChatMessage, IReceiveMessageProperties, IRtmMessage } from "models"
 
 export enum EventName {
   ChannelMessage     = "ChannelMessage",
@@ -39,8 +39,22 @@ export class RTM {
 
     await this.channel.join()
 
-    this.channel.on('ChannelMessage', (message: any, memberId: any) => {
-      console.log("rtm", message, memberId)
+    this.channel.on(EventName.ChannelMessage, (message: IRtmMessage, memberId: string, messagePros: IReceiveMessageProperties) => {
+      switch (message.messageType) {
+        case "TEXT":
+          const msg = new ChatMessage({
+            content: message.text,
+            uid: memberId,
+            timestamp: messagePros.serverReceivedTs
+          })
+
+          this.chatMessages.push(msg)
+          break
+
+        case "RAW":
+
+          break
+      }
     })
   }
 

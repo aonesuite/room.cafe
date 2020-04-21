@@ -12,7 +12,7 @@ export interface IRoomInfo {
   owner:      number  // 管理员
   created_at: number
   updated_at: number
-  attendees:  IAttendees[] // 与会成员
+  attendees:  IAttendee[] // 与会成员
 }
 
 export enum Role {
@@ -21,7 +21,7 @@ export enum Role {
   Owner    = "owner",    // 房间所有者
 }
 
-export interface IAttendees {
+export interface IAttendee {
 	uid:         number // 用户 ID
 	room_id?:    number // 房间 ID
 	role:        Role   // 角色：

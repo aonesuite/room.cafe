@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import className from "classnames"
 
-import { User, IAttendees } from "models"
+import { User, IAttendee } from "models"
 import AudioVolume from "./AudioVolume"
 import { ReactComponent as MicrophoneSlashSVG } from "assets/icons/MicrophoneSlash.svg"
 
@@ -14,7 +14,7 @@ interface IMonitorOptions {
 
 const Monitor = observer((options: IMonitorOptions) => {
   const { roomStore } = useRoomStore()
-  const [attendee, setAttendee] = useState<IAttendees | undefined>(undefined)
+  const [attendee, setAttendee] = useState<IAttendee | undefined>(undefined)
   const playerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

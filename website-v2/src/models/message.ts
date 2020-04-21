@@ -5,7 +5,6 @@ export interface IMsg {
 }
 
 export class ChatMessage {
-  readonly type:    string = "im"
   public uid:       string
   public timestamp: number
   public content:   string
@@ -18,7 +17,6 @@ export class ChatMessage {
 
   public customMessage(): string {
     return JSON.stringify({
-      type:      this.type,
       timestamp: this.timestamp,
       content:   this.content
     })
