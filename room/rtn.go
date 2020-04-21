@@ -39,7 +39,7 @@ func RTN(c *gin.Context) {
 		return
 	}
 
-	rtn.RTMToken, err = agora.BuildRTMToken(rtn.AppID, rtn.AppCertificate, currentUser.RoomUserID(), agora.RoleRtmUser, expireAt)
+	rtn.RTMToken, err = agora.BuildRTMTokenWithUID(rtn.AppID, rtn.AppCertificate, rtn.UID, agora.RoleRtmUser, expireAt)
 	if err != nil {
 		log.Error("get rtm room token failed ", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})

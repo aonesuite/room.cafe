@@ -103,7 +103,7 @@ const Navbar = observer(() => {
 
             <li className="nav-item">
               <Tooltip placement="bottom" title={ roomStore.chatPopUp ? t("close_chat") : t("open_chat") }>
-                <Button type="link">
+                <Button type="link" onClick={ () => roomStore.chatPopUp = !roomStore.chatPopUp }>
                   <CommentAltLinesSVG width={22} height={22} />
                 </Button>
               </Tooltip>
