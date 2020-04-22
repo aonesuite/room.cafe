@@ -29,7 +29,7 @@ export interface IUser {
   signed_in: boolean
 }
 
-export class User {
+export class RTCUser {
 
   @observable
   uid?: UID

@@ -27,14 +27,14 @@ const Settings = observer((options: IQuickStartOptions) => {
   const setDevise = (kind: string, devise: string) => {
     switch (kind) {
       case "video":
-        const localVideoTrack = roomStore.localUser.videoTrack as ICameraVideoTrack
+        const localVideoTrack = roomStore.RTC.localUser.videoTrack as ICameraVideoTrack
         if (localVideoTrack) {
           localVideoTrack.setDevice(devise)
         }
 
         break
       case "audio":
-        const localAudioTrack = roomStore.localUser.audioTrack as IMicrophoneAudioTrack
+        const localAudioTrack = roomStore.RTC.localUser.audioTrack as IMicrophoneAudioTrack
         if (localAudioTrack) {
           localAudioTrack.setDevice(devise)
         }
@@ -43,7 +43,7 @@ const Settings = observer((options: IQuickStartOptions) => {
   }
 
   const setClarity = (clarity: string) => {
-    roomStore.setLocalVideoTrackClarity(clarity as VideoEncoderConfigurationPreset)
+    roomStore.RTC.setLocalVideoTrackClarity(clarity as VideoEncoderConfigurationPreset)
   }
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const Settings = observer((options: IQuickStartOptions) => {
             id="bandwidth"
             style={{width: "100%"}}
             placeholder={t("room_settings.placeholder_select_resolution")}
-            defaultValue={roomStore.localVideoTrackClarity}
+            defaultValue={roomStore.RTC.localVideoTrackClarity}
             onChange={(clarity: string) => setClarity(clarity)}>
             {
               clarities.map(clarity =>

@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import className from "classnames"
 
-import { User, IAttendee } from "models"
+import { RTCUser, IAttendee } from "models"
 import AudioVolume from "./AudioVolume"
 import { MicrophoneSlashSVG } from "assets/icons"
 
 import { useRoomStore } from "room/context"
 
 interface IMonitorOptions {
-  user: User
+  user: RTCUser
 }
 
 const Monitor = observer((options: IMonitorOptions) => {
