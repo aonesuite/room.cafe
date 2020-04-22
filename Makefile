@@ -1,7 +1,7 @@
 # 安装
 install:
 	go mod download
-	cd website-v2; yarn install
+	cd website; yarn install
 
 # 代码风格检验
 fix:
@@ -15,7 +15,7 @@ serve:
 
 # 运行前端站点
 site:
-	cd website-v2; yarn start
+	cd website; yarn start
 
 # 测试
 test:
@@ -31,30 +31,30 @@ report:
 
 # 构建
 build:
-	go clean -i ./...
-	CGO_ENABLED=0 go install -v ./...
+	mkdir -p package
+	rm -rf package/room.cafe
+	rm -rf package/front
 
-	cd website-v2; yarn build
-
-# 编译 linux 64位 运行二进制
-build-linux-64:
 	go clean -i ./...
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go install -v ./...
+	CGO_ENABLED=0 go build -o room.cafe main.go
+	mv room.cafe package
+
+	cd website; yarn install && yarn build
+	cd website; mv build ../package/front
 
 # 构建
-build-backend:
+build-production:
 	mkdir -p package
-	make build-linux-64
-	mv bin/linux_amd64/room.cafe ../package
-
-build-frontend:
-	mkdir -p package
+	rm -rf package/room.cafe
 	rm -rf package/front
-	cd website; yarn install && yarn build
-	cd website; mv dist ../package/front
 
-production: build-backend build-frontend
-	mkdir -p package
+	go clean -i ./...
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o room.cafe main.go
+	mv room.cafe ./package
+
+	cd website; yarn install && yarn build
+	cd website; mv build ../package/front
+
 	tar zcvf room.cafe.tar.gz package/
 
 # 部署

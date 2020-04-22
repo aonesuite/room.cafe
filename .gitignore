@@ -36,6 +36,7 @@ _testmain.go
 .cache
 bin
 gin-bin
+room.cafe
 
 # Mac OSX
 .DS_Store
@@ -48,7 +49,7 @@ config.yml
 .jshintrc
 node_modules/
 website/dist/
-website-v2/build
+website/build
 
 # Log files
 npm-debug.log*
