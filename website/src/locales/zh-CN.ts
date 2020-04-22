@@ -1,27 +1,28 @@
-import { Message } from '.';
+import { IMessage } from "./message"
 
-const zhCN: Message = {
+const zhCN: IMessage = {
   // Home page
   slogan: "与你的家人、朋友和同事互动",
   welcome: "在 Room Cafe，你可以召开视频会议，使用白板分享你的想法，与你喜欢的人发信息聊天。",
-  sloganSignedIn: "嗨，{name}！",
+  sloganSignedIn: "嗨，{{name}}！",
   welcomeSignedIn: "选用以下方式与朋友开始视频会议，分享创意和群聊吧。",
 
   video_call: "实时视频",
   video_call_features: [
     "高清、低延迟的实时语音和视频交流",
-    "高效会议交流，良好体验宛如身临其境",
+    "高效会议交流，良好体验宛如身临其境"
   ],
 
   board: "互动白板",
   board_features: [
     "团队分享想法和创意的绝佳工具",
-    "图片、文字、画笔... 丰富你的展示效果",
+    "图片、文字、画笔... 丰富你的展示效果"
   ],
 
   message: "收发消息",
+  messaging: "收发消息",
   message_features: [
-    "群聊信息，及时沟通",
+    "群聊信息，及时沟通"
   ],
 
   quick_start: "快速开始",
@@ -29,7 +30,11 @@ const zhCN: Message = {
 
   contact: "联系我们",
 
-  login_quickly_placeholder: "输入您的名字然后快速开始",
+  login_quickly_placeholder: "输入您的名字",
+  name_is_required: "名字必填",
+
+  email_quickly_placeholder: "输入您的邮箱",
+  email_is_required: "邮箱必填",
 
   join: "加入",
   join_the_room: "加入房间",
@@ -85,13 +90,13 @@ const zhCN: Message = {
     speakers: "扬声器",
     incoming_video: "输入分辨率",
     cancel: "取消",
-    done: "完成",
+    done: "完成"
   },
 
   clarity: {
     SD: "最高 480p (标清)",
     HD: "最高 720p (高清)",
-    FHD: "最高 1080p (超清)",
+    FHD: "最高 1080p (超清)"
   },
 
   whiteboard_tool: {
@@ -104,12 +109,13 @@ const zhCN: Message = {
     stroke_settings_color: "颜色",
     stroke_settings_thickness: "画笔粗细",
     eraser: "橡皮擦",
-    insert_images: "插入图片",
+    insert_images: "插入图片"
   },
 
   uploader: {
     image_size_limit_hint: "请上传不超过 2M 的图片",
-  },
+    image_upload_failed: "上传失败"
+  }
 }
 
-export default zhCN;
+export default zhCN

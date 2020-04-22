@@ -1,25 +1,26 @@
-import { Message } from '.';
+import { IMessage } from "./message"
 
-const enUS: Message = {
+const enUS: IMessage = {
   // Home page
   slogan: "Interact with your family, friends and colleagues",
   welcome: "In the Room Cafe, you can make video meeting calls, share your ideas and send messages to people you love.",
-  sloganSignedIn: "Hi, {name}",
+  sloganSignedIn: "Hi, {{name}}",
   welcomeSignedIn: "Get started by video meeting, idea sharing and messaging peoples below.",
 
   video_call: "Video call",
   video_call_features: [
     "Dramatically increase user engagement with Video calling.",
-    "High quality, low-latency makes you as in a real meeting room.",
+    "High quality, low-latency makes you as in a real meeting room."
   ],
 
   board: "Board",
   board_features: [
     "Real-time whiteboards is the easiest way to share inspirations with your team.",
-    "Provide a variety of tools like images, texts, brushes, documents, screen sharing to express your ideas.",
+    "Provide a variety of tools like images, texts, brushes, documents, screen sharing to express your ideas."
   ],
 
-  message: "Message | Messaging",
+  message: "Message",
+  messaging: "Messaging",
   message_features: [
     "Have a group chat to immediately diss your throughts."
   ],
@@ -27,9 +28,13 @@ const enUS: Message = {
   quick_start: "Quick start",
   sign_in: "Sign in",
 
-  contact: "Contact",
+  contact: "Contact us",
 
-  login_quickly_placeholder: "Enter a name and start quickly",
+  login_quickly_placeholder: "Enter your name",
+  name_is_required: "Name is required",
+
+  email_quickly_placeholder: "Enter your email",
+  email_is_required: "Email is required",
 
   join: "Join",
   join_the_room: "Join the room",
@@ -84,13 +89,13 @@ const enUS: Message = {
     speakers: "Speakers",
     incoming_video: "Incoming video",
     cancel: "Cancel",
-    done: "Done",
+    done: "Done"
   },
 
   clarity: {
     SD: "Up to 480p (SD)",
     HD: "Up to 720p (HD)",
-    FHD: "Up to 1080p (FHD)",
+    FHD: "Up to 1080p (FHD)"
   },
 
   whiteboard_tool: {
@@ -103,12 +108,13 @@ const enUS: Message = {
     stroke_settings_color: "Color",
     stroke_settings_thickness: "Thickness",
     eraser: "Eraser",
-    insert_images: "Insert Images",
+    insert_images: "Insert Images"
   },
 
   uploader: {
     image_size_limit_hint: "Please upload pictures less than 2M.",
-  },
+    image_upload_failed: "Image upload failed"
+  }
 }
 
-export default enUS;
+export default enUS

@@ -1,27 +1,33 @@
-import axios from 'axios'
-import { OAuthSignInArgs, UserArgs } from '@/types/user'
+import axios from "axios"
+import { IOAuthSignInArgs, IUserArgs, IUser } from "models"
 
-// 用户状态
-export function State () {
-  return axios.get('/user/state')
-}
+export class UserAPI {
 
-// 创建用户
-export function AutoCreate (args: UserArgs) {
-  return axios.post('/user', args)
-}
+  // 用户状态
+  static async State(): Promise<IUser> {
+    const resp = await axios.get<IUser>("/user/state")
+    return resp.data as IUser
+  }
 
-// 用户退出
-export function Logout () {
-  return axios.delete('/user/logout')
-}
+  // 创建用户
+  static async AutoCreate(args: IUserArgs): Promise<IUser> {
+    const resp = await axios.post<IUser>("/user", args)
+    return resp.data as IUser
+  }
 
-// OAuth get redirect url
-export function Authorize (provider: string) {
-  return axios.get('/authorize/' + provider)
-}
+  // 用户退出
+  static Logout() {
+    return axios.delete("/user/logout")
+  }
 
-// OAuth callback
-export function AuthorizeCallback (provider: string, args: OAuthSignInArgs) {
-  return axios.get(`/authorize/${provider}/callback`, {params: args})
+  // OAuth get redirect url
+  static Authorize(provider: string) {
+    return axios.get("/authorize/" + provider)
+  }
+
+  // OAuth callback
+  static AuthorizeCallback(args: IOAuthSignInArgs) {
+    return axios.get(`/authorize/${args.provider}/callback`, {params: args})
+  }
+
 }

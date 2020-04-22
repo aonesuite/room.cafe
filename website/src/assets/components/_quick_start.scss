@@ -55,9 +55,13 @@ form.session{
       height: 90%;
       position: absolute;
       left: 50%;
-      top: 50%;
+      top: 49%;
       transform: translate(-50%, -50%);
-      color: rgba($color: #FFF, $alpha: 0.85)
+      color: rgba($color: #FFF, $alpha: 0.85);
+      svg{
+        width: 100%;
+        height: 100%;
+      }
     }
     .spinner{
       width: 100%;
@@ -65,7 +69,11 @@ form.session{
       position: absolute;
       left: 0;
       top: 0;
-      color: rgba($color: #FFF, $alpha: 0.25)
+      color: rgba($color: #FFF, $alpha: 0.25);
+      svg{
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
