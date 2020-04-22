@@ -4,7 +4,7 @@ import className from "classnames"
 
 import { User, IAttendee } from "models"
 import AudioVolume from "./AudioVolume"
-import { ReactComponent as MicrophoneSlashSVG } from "assets/icons/MicrophoneSlash.svg"
+import { MicrophoneSlashSVG } from "assets/icons"
 
 import { useRoomStore } from "room/context"
 

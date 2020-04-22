@@ -6,19 +6,21 @@ import { useTranslation } from "react-i18next"
 import CopyToClipboard from "react-copy-to-clipboard"
 import { Layout, Row, Col, Button, Tooltip, Modal, Input, message } from "antd"
 
-import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
-import { ReactComponent as ChalkboardSVG } from "assets/icons/Chalkboard.svg"
-import { ReactComponent as CommentAltLinesSVG } from "assets/icons/CommentAltLines.svg"
-import { ReactComponent as CogSVG } from "assets/icons/Cog.svg"
-import { ReactComponent as SignOutAltSVG } from "assets/icons/SignOutAlt.svg"
-import { ReactComponent as UserPlusSVG } from "assets/icons/UserPlus.svg"
-import { ReactComponent as LinkSVG } from "assets/icons/Link.svg"
-import { ReactComponent as MicrophoneSlashSVG } from "assets/icons/MicrophoneSlash.svg"
-import { ReactComponent as MicrophoneSVG } from "assets/icons/Microphone.svg"
-import { ReactComponent as VideoSlashSVG } from "assets/icons/VideoSlash.svg"
-import { ReactComponent as VideoSVG } from "assets/icons/Video.svg"
-import { ReactComponent as ScreenNormalSVG } from "assets/icons/ScreenNormal.svg"
-import { ReactComponent as ScreenFullSVG } from "assets/icons/ScreenFull.svg"
+import {
+  LogoSVG,
+  ChalkboardSVG,
+  CommentAltLinesSVG,
+  CogSVG,
+  SignOutAltSVG,
+  UserPlusSVG,
+  LinkSVG,
+  MicrophoneSlashSVG,
+  MicrophoneSVG,
+  VideoSlashSVG,
+  VideoSVG,
+  ScreenNormalSVG,
+  ScreenFullSVG
+} from "assets/icons"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "./context"
