@@ -43,8 +43,8 @@ const Monitor = observer((options: IMonitorOptions) => {
         ref={playerRef}
         className={className({
           "player": true,
-          'video-mute': options.user.videoTrack && options.user.videoMuted,
-          'audio-mute': options.user.audioTrack && options.user.audioMuted
+          "video-mute": options.user.videoTrack && options.user.videoMuted,
+          "audio-mute": options.user.audioTrack && options.user.audioMuted
         })}>
       </div>
 
