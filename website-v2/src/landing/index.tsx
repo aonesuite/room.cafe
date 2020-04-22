@@ -8,15 +8,11 @@ import { langs, changeLanguage } from "locales/i18n"
 import { Layout, Button, Row, Col, Popover, List } from "antd"
 import { GlobalOutlined } from "@ant-design/icons"
 
-import { ReactComponent as VideoSVG } from "assets/icons/Video.svg"
-import { ReactComponent as ChalkboardSVG } from "assets/icons/Chalkboard.svg"
-import { ReactComponent as CommentAltLinesSVG } from "assets/icons/CommentAltLines.svg"
-import { ReactComponent as LogoSVG } from "assets/icons/Logo.svg"
+import { VideoSVG, ChalkboardSVG, CommentAltLinesSVG, LogoSVG } from "assets/icons"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
 
 import { RoomAPI } from "api/room"
-import Icon from "assets/icons"
 
 import QuickStart from "quick-start"
 
@@ -99,7 +95,6 @@ const Landing = observer(() => {
                   <ul className="list-inline">
                     <li className="list-inline-item">
                       <Button shape="circle" onClick={ () => quickStart("f2f") }>
-                        <Icon type="video" />
                         <VideoSVG />
                       </Button>
                       <span>{ t("video_call") }</span>

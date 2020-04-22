@@ -4,8 +4,7 @@ import { observer } from "mobx-react-lite"
 import { useTranslation } from "react-i18next"
 import { Button, Form, Input } from "antd"
 
-import { ReactComponent as CommentAltLinesSVG } from "assets/icons/CommentAltLines.svg"
-import { ReactComponent as TimesSVG } from "assets/icons/Times.svg"
+import { CommentAltLinesSVG, TimesSVG } from "assets/icons"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "../room/context"
