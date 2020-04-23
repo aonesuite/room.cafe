@@ -67,6 +67,7 @@ type RTN struct {
 
 // Whiteboard 白板信息
 type Whiteboard struct {
-	WhiteboardID    string `json:"whiteboard_id"`    // 白板房间 ID
-	WhiteboardToken string `json:"whiteboard_token"` // 白板房间 token
+	WhiteboardID    string   `json:"whiteboard_id"`    // 白板房间 ID
+	WhiteboardToken string   `json:"whiteboard_token"` // 白板房间 token
+	User            Attendee `json:"user"`             // 当前用户
 }

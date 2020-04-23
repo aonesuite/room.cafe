@@ -15,8 +15,14 @@ import { colors } from "utils/color"
 
 import { ChalkboardSVG, MousePointerSVG, PencilAltSVG, TextSVG, SquareSVG, CircleSVG, EraserSVG, ImagesSVG } from "assets/icons"
 
+import { IWhiteboard } from "models"
+
 import "white-web-sdk/style/index.css"
 import "./whiteboard.scss"
+
+interface Props {
+  whiteboard: IWhiteboard
+}
 
 interface IWhiteBoardState {
   room?: Room
@@ -36,7 +42,7 @@ const initMemberState: MemberState = {
   }
 }
 
-export default function WhiteBoard(params: JoinRoomParams) {
+export default function WhiteBoard(props: Props) {
   const { t } = useTranslation()
 
   const [whiteBoardState, setWhiteBoardState] = useState(initWhiteBoardState)
@@ -78,7 +84,7 @@ export default function WhiteBoard(params: JoinRoomParams) {
     }
 
     if (info.file.status === "done") {
-      const uuid = params.uuid + +new Date()
+      const uuid = props.whiteboard.whiteboard_id + +new Date()
       whiteBoardState.room?.insertImage({
         uuid,
         centerX: 0,
@@ -101,6 +107,17 @@ export default function WhiteBoard(params: JoinRoomParams) {
       const whiteWebSdk = new WhiteWebSdk()
       const cursor = new UserCursor()
 
+      const params: JoinRoomParams = {
+        uuid: props.whiteboard.whiteboard_id,
+        roomToken: props.whiteboard.whiteboard_token,
+        cursorAdapter: cursor,
+        userPayload: {
+          userId: props.whiteboard.user.uid,
+          name: props.whiteboard.user.name,
+          avatar: props.whiteboard.user.avatar,
+        }
+      }
+
       const callbacks = {
         onRoomStateChanged: (modifyState: Partial<RoomState>) => {
           if (modifyState.memberState) { setMemberState(modifyState.memberState) }
@@ -115,7 +132,7 @@ export default function WhiteBoard(params: JoinRoomParams) {
         setMemberState(room.state.memberState)
       })
     },
-    [params]
+    [props]
   )
 
   useEffect(() => {

@@ -33,6 +33,7 @@ func Whiteboard(c *gin.Context) {
 		whiteboard := models.Whiteboard{
 			WhiteboardID:    room.WhiteboardID,
 			WhiteboardToken: whiteboardToken,
+			User:            room.Self,
 		}
 
 		c.JSON(http.StatusOK, whiteboard)
@@ -50,6 +51,7 @@ func Whiteboard(c *gin.Context) {
 	whiteboard := models.Whiteboard{
 		WhiteboardID:    whiteRet.Room.UUID,
 		WhiteboardToken: whiteRet.RoomToken,
+		User:            room.Self,
 	}
 
 	database := db.Get(log.ReqID())

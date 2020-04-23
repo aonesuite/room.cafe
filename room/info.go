@@ -61,12 +61,11 @@ func Room(c *gin.Context) {
 		"attendees.user_id",
 		"attendees.room_id",
 		"attendees.role",
-		"IFNULL(attendees.name, users.name) name",
-		"attendees.created_at",
-		"attendees.updated_at",
-		"users.name",
+		"IF(attendees.name IS NULL OR attendees.name = \"\", users.name, attendees.name) name",
 		"users.avatar",
 		"users.gender",
+		"attendees.created_at",
+		"attendees.updated_at",
 	}).Joins("LEFT JOIN users ON users.id = attendees.user_id").Where("attendees.room_id = ?", room.ID).Find(&room.Attendees).Error
 
 	if err != nil {

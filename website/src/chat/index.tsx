@@ -6,7 +6,6 @@ import { Button, Form, Input } from "antd"
 
 import { CommentAltLinesSVG, TimesSVG } from "assets/icons"
 
-import { useGlobalStore } from "common/contexts/GlobalContext"
 import { useRoomStore } from "../room/context"
 import { ChatMessage, IAttendee } from "models"
 
@@ -14,7 +13,6 @@ import "./chat.scss"
 
 const Chat = observer(() => {
   const { t } = useTranslation()
-  const { globalStore } = useGlobalStore()
   const { roomStore } = useRoomStore()
 
   const [form] = Form.useForm()
@@ -32,7 +30,7 @@ const Chat = observer(() => {
 
     const message = new ChatMessage({
       content: values.content as string,
-      uid:  `${globalStore.user?.id}`
+      uid:  `${roomStore.info?.self.uid}`
     })
 
     roomStore.RTM.sendMessage(message).then(() => {
@@ -55,7 +53,7 @@ const Chat = observer(() => {
       <ul className="message-list">
         {
           roomStore.RTM.chatMessages.map((message, index) =>
-          <li key={`${message.timestamp}-${message.uid}-${index}`} className={className({ "self": `${globalStore.user?.id}` === message.uid })}>
+          <li key={`${message.timestamp}-${message.uid}-${index}`} className={className({ "self": `${roomStore.info?.self.uid}` === message.uid })}>
             <div className="avatar">
               <img src="" alt="" width="64" height="64" />
             </div>
