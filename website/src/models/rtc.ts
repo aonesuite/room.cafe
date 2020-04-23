@@ -55,8 +55,6 @@ export class RTC {
     this.localUser.videoMuted = this.localUser.audioTrack.isMuted
     this.localUser.isLocalUser = true
 
-    // this.users.push(localUser)
-
     // 用户加入频道
     this.rtcClient.on("user-joined", (user: IAgoraRTCRemoteUser) => {
       this.addUser(user)
@@ -145,6 +143,8 @@ export class RTC {
       localAudioTrack.close()
     }
 
-    await this.rtcClient.leave()
+    if (this.rtcClient) {
+      await this.rtcClient.leave()
+    }
   }
 }
