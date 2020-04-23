@@ -13,6 +13,7 @@ export interface IRoomInfo {
   created_at: number
   updated_at: number
   attendees:  IAttendee[] // 与会成员
+  self:       IAttendee   // 当前用户
 }
 
 export enum Role {
@@ -41,6 +42,7 @@ export interface IRTN {
 }
 
 export interface IWhiteboard {
-	whiteboard_id:    string // 白板房间 ID
-	whiteboard_token: string // 白板房间 token
+  whiteboard_id:    string    // 白板房间 ID
+  whiteboard_token: string    // 白板房间 token
+  user:             IAttendee // 当前用户
 }

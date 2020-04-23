@@ -20,7 +20,6 @@ const Room = observer(() => {
   const { roomStore } = useRoomStore()
 
   const [modalVisible, setModalVisible] = useState(false)
-  const [userPayload, setUserPayload] = useState({})
 
   // 未登录处理
   useEffect(() => {
@@ -36,17 +35,6 @@ const Room = observer(() => {
     }
   }, [uuid, roomStore])
 
-  useEffect(() => {
-    const attendee = roomStore.attendees?.find(item => item.uid === globalStore.user?.id)
-    if (attendee) {
-      setUserPayload({
-        userId: attendee.uid,
-        name: attendee.name,
-        avatar: attendee.avatar,
-      })
-    }
-  }, [globalStore.user, roomStore.attendees])
-
   return (
     <React.Fragment>
       <QuickStart visible={modalVisible} onCancel={ () => setModalVisible(false) } />
@@ -56,17 +44,8 @@ const Room = observer(() => {
         <Navbar />
 
         <Layout.Content>
-          {
-            roomStore.whiteboard &&
-            <WhiteBoard
-              uuid={roomStore.whiteboard?.whiteboard_id}
-              roomToken={roomStore.whiteboard?.whiteboard_token}
-              userPayload={userPayload}
-            />
-          }
-
+          { roomStore.whiteboard && <WhiteBoard whiteboard={roomStore.whiteboard} /> }
           { roomStore.rtn && <RTC /> }
-
           { roomStore.RTM && <Chat /> }
         </Layout.Content>
       </Layout>
