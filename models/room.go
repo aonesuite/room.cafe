@@ -19,6 +19,7 @@ type Room struct {
 	DeletedAt *timestamp.Timestamp `json:"deleted_at,omitempty"`
 
 	Attendees []Attendee `json:"attendees"` // 参会人员
+	Self      Attendee   `json:"self"`      // 当前用户
 }
 
 // Role 角色
