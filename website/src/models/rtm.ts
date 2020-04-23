@@ -89,7 +89,11 @@ export class RTM {
 
   @action
   async leave() {
-    await this.channel.leave()
-    await this.client.logout()
+    if (this.channel) {
+      await this.channel.leave()
+    }
+    if (this.client) {
+      await this.client.logout()
+    }
   }
 }
