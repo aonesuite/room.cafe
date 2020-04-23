@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 
 import { UserCursor } from "@netless/cursor-adapter"
-import { Room, RoomPhase, WhiteWebSdk, RoomWhiteboard, JoinRoomParams, Color, MemberState } from "white-react-sdk"
+import { Room, RoomPhase, WhiteWebSdk, RoomWhiteboard, JoinRoomParams, Color, MemberState, RoomState } from "white-react-sdk"
 
 import { Button, Tooltip, Menu, Popover, Slider, Upload, message, Spin } from "antd"
 import { RcFile, UploadChangeParam } from "antd/lib/upload"
@@ -17,8 +17,6 @@ import { ChalkboardSVG, MousePointerSVG, PencilAltSVG, TextSVG, SquareSVG, Circl
 
 import "white-web-sdk/style/index.css"
 import "./whiteboard.scss"
-
-const whiteWebSdk = new WhiteWebSdk()
 
 interface IWhiteBoardState {
   room?: Room
@@ -100,28 +98,20 @@ export default function WhiteBoard(params: JoinRoomParams) {
   // 初始化白板
   const initWhiteBoard = useCallback(
     () => {
+      const whiteWebSdk = new WhiteWebSdk()
       const cursor = new UserCursor()
-      whiteWebSdk.joinRoom(
-        {
-          uuid: params.uuid,
-          roomToken: params.roomToken,
-          cursorAdapter: cursor,
-          userPayload: params.userPayload
-        },
-        {
-          onRoomStateChanged: (modifyState) => {
-            if (modifyState.memberState) {
-              setMemberState(modifyState.memberState)
-            }
-            if (modifyState.roomMembers) {
-              cursor.setColorAndAppliance(modifyState.roomMembers)
-            }
-          }
+
+      const callbacks = {
+        onRoomStateChanged: (modifyState: Partial<RoomState>) => {
+          if (modifyState.memberState) { setMemberState(modifyState.memberState) }
+          if (modifyState.roomMembers) { cursor.setColorAndAppliance(modifyState.roomMembers) }
         }
-      )
+      }
+
+      whiteWebSdk.joinRoom({ ...params, cursorAdapter: cursor }, callbacks)
       .then((room) => {
         cursor.setColorAndAppliance(room.state.roomMembers)
-        setWhiteBoardState({ room, phase: RoomPhase.Connecting})
+        setWhiteBoardState({ room, phase: RoomPhase.Connected})
         setMemberState(room.state.memberState)
       })
     },
