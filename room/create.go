@@ -21,9 +21,12 @@ type CreateArgs struct {
 // Create 创建房间
 // POST	/room
 func Create(c *gin.Context) {
-	log := log.New(c)
-	currentUser := c.MustGet("currentUser").(*models.User)
-	args := CreateArgs{}
+	var (
+		log         = log.New(c)
+		currentUser = c.MustGet("currentUser").(*models.User)
+		args        = CreateArgs{}
+		database    = db.Get(log.ReqID())
+	)
 
 	if c.Request.Body != nil {
 		if err := c.Bind(&args); err != nil {
@@ -33,40 +36,23 @@ func Create(c *gin.Context) {
 		}
 	}
 
-	database := db.Get(log.ReqID())
-	tx := database.Begin()
-
 	room := models.Room{
 		UUID:    bson.NewObjectId().Hex(),
 		Name:    args.Name,
 		Private: args.Private,
 		Owner:   currentUser.ID,
+		Attendees: []models.Attendee{
+			{
+				UserID: currentUser.ID,
+				Role:   models.RoleOwner,
+			},
+		},
 	}
 
 	// 创建房间
-	if err := tx.Create(&room).Error; err != nil {
-		tx.Rollback()
+	if err := database.Create(&room).Error; err != nil {
+		database.Rollback()
 		log.Error("create room failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
-	attendee := models.Attendee{
-		UserID: currentUser.ID,
-		RoomID: room.ID,
-		Role:   models.RoleOwner,
-	}
-
-	// 添加成员
-	if err := tx.Create(&attendee).Error; err != nil {
-		tx.Rollback()
-		log.Error("room add attendee failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
-		return
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		log.Error("database commit failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}

@@ -33,7 +33,9 @@ func Room(c *gin.Context) {
 
 	result := database.Preload("Attendees", func(db *gorm.DB) *gorm.DB {
 		return db.Select([]string{
+			"attendees.id",
 			"attendees.user_id",
+			"attendees.room_id",
 			"attendees.role",
 			"IFNULL(attendees.name, users.name) name",
 			"attendees.created_at",

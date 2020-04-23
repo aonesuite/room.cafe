@@ -26,7 +26,7 @@ func Whiteboard(c *gin.Context) {
 		whiteboardToken, err := client.GetRoomToken(log, room.WhiteboardID)
 		if err != nil {
 			log.Error("get join white room token failed", err)
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get whiteboard info failed", "code": "INTERNAL_SERVER_ERROR"})
 			return
 		}
 
@@ -43,7 +43,7 @@ func Whiteboard(c *gin.Context) {
 	whiteRet, err := client.CreateWhite(log, whiteArgs)
 	if err != nil {
 		log.Error("create white room failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get whiteboard info failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
@@ -53,9 +53,9 @@ func Whiteboard(c *gin.Context) {
 	}
 
 	database := db.Get(log.ReqID())
-	if err := database.Model(room).Update(db.H{"whiteboard_id": whiteRet.Room.UUID}).Error; err != nil {
+	if err := database.Model(room).Where("id = ?", room.ID).Update(db.H{"whiteboard_id": whiteRet.Room.UUID}).Error; err != nil {
 		log.Error("create white room failed", err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "create room failed", "code": "INTERNAL_SERVER_ERROR"})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get whiteboard info failed", "code": "INTERNAL_SERVER_ERROR"})
 		return
 	}
 
