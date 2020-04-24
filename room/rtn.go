@@ -30,9 +30,17 @@ func RTN(c *gin.Context) {
 		AppCertificate: config.GetString("agora.app_certificate"),
 		Channel:        room.UUID,
 		UID:            uint32(currentUser.ID),
+		ScreenUID:      uint32(currentUser.ID) + 10000,
 	}
 
 	rtn.RTCToken, err = agora.BuildRTCTokenWithUID(rtn.AppID, rtn.AppCertificate, rtn.Channel, rtn.UID, agora.RoleAttendee, expireAt)
+	if err != nil {
+		log.Error("get rtn room token failed", err)
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
+		return
+	}
+
+	rtn.ScreenRTCToken, err = agora.BuildRTCTokenWithUID(rtn.AppID, rtn.AppCertificate, rtn.Channel, rtn.ScreenUID, agora.RoleAttendee, expireAt)
 	if err != nil {
 		log.Error("get rtn room token failed", err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"message": "get room info failed", "code": "INTERNAL_SERVER_ERROR"})
