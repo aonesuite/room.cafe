@@ -1,7 +1,7 @@
 import { observable, action } from "mobx"
 import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
-import { Stream, IRTN, RTM } from "models"
+import { Stream, IRTN } from "models"
 
 export class RTC {
 
@@ -9,10 +9,10 @@ export class RTC {
   info?: IRTN
 
   @observable
-  rtcClient: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
+  client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
   @observable
-  RTM: RTM = new RTM()
+  screenClient?: IAgoraRTCClient
 
   @observable
   localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
@@ -24,57 +24,58 @@ export class RTC {
   localStream: Stream = new Stream()
 
   @observable
-  users = observable.array<Stream>([], { deep: true })
+  streams = observable.array<Stream>([], { deep: true })
 
   @action
-  addUser(user: IAgoraRTCRemoteUser) {
-    if (this.users.findIndex(item => item.uid === user.uid) < 0) {
-      const remoteUser = new Stream()
-      remoteUser.updateWithRTCRemoteUser(user)
-      this.users.push(remoteUser)
+  addRemoteUser(user: IAgoraRTCRemoteUser) {
+    if (this.streams.findIndex(item => item.uid === user.uid || item.uid === 10000 - user.uid) < 0) {
+      const stream = new Stream()
+      stream.updateWithRTCRemoteUser(user)
+      this.streams.push(stream)
     }
   }
 
   @action
   async init(rtn: IRTN) {
+    this.info = rtn;
 
     [
       this.localStream.uid,
       this.localStream.audioTrack,
       this.localStream.videoTrack
     ] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
-      this.rtcClient.join(rtn.app_id, rtn.channel, rtn.rtc_token, rtn.uid),         // join the channel
+      this.client.join(rtn.app_id, rtn.channel, rtn.rtc_token, rtn.uid),            // join the channel
       AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
       AgoraRTC.createCameraVideoTrack({encoderConfig: this.localVideoTrackClarity}) // create local tracks, using camera
     ])
 
     // 发布本地音视频
-    this.rtcClient.publish([this.localStream.audioTrack, this.localStream.videoTrack])
+    this.client.publish([this.localStream.audioTrack, this.localStream.videoTrack])
 
     this.localStream.audioMuted = this.localStream.videoTrack.isMuted
     this.localStream.videoMuted = this.localStream.audioTrack.isMuted
     this.localStream.isLocal = true
 
     // 用户加入频道
-    this.rtcClient.on("user-joined", (user: IAgoraRTCRemoteUser) => {
-      this.addUser(user)
+    this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
+      this.addRemoteUser(user)
     })
 
     // 用户离开频道
-    this.rtcClient.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
-      const _u = this.users.find(item => item.uid === user.uid)
-      if (_u) { this.users.remove(_u) }
+    this.client.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
+      const _u = this.streams.find(item => item.uid === user.uid)
+      if (_u) { this.streams.remove(_u) }
     })
 
     // 订阅远端音视频
-    this.rtcClient.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
+    this.client.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
 
       // user-published 与 user-joined 不能保证顺序
-      this.addUser(user)
+      this.addRemoteUser(user)
 
-      await this.rtcClient.subscribe(user)
+      await this.client.subscribe(user)
 
-      const u = this.users.find(item => item.uid === user.uid)
+      const u = this.streams.find(item => item.uid === user.uid)
 
       if (u === undefined) { return }
 
@@ -91,8 +92,8 @@ export class RTC {
     })
 
     // 远程用户更新静音状态
-    this.rtcClient.on("user-mute-updated", (user: IAgoraRTCRemoteUser) => {
-      const u = this.users.find(item => item.uid === user.uid)
+    this.client.on("user-mute-updated", (user: IAgoraRTCRemoteUser) => {
+      const u = this.streams.find(item => item.uid === user.uid)
       if (u === undefined) { return }
       u.audioMuted = user.audioMuted
       u.videoMuted = user.videoMuted
@@ -101,7 +102,17 @@ export class RTC {
 
   @action
   async shareScreen() {
+    if (this.info === undefined) return
 
+    this.screenClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
+    await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid);
+
+    [
+      this.localStream.screenVideoTrack,
+      this.localStream.screenAudioTrack
+    ] = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" }, true)
+
+    await this.screenClient.publish([this.localStream.screenVideoTrack, this.localStream.screenAudioTrack])
   }
 
   @action
@@ -115,41 +126,15 @@ export class RTC {
 
   @action
   setLocalTrackMute(kind: "audio" | "video", muted: boolean) {
-    switch (kind) {
-      case "audio":
-        const localAudioTrack = this.localStream.audioTrack as IMicrophoneAudioTrack
-        if (localAudioTrack) {
-          localAudioTrack.setMute(muted)
-          this.localStream.audioMuted = localAudioTrack.isMuted
-        }
-        break
-      case "video":
-        const localVideoTrack = this.localStream.videoTrack as ICameraVideoTrack
-        if (localVideoTrack) {
-          localVideoTrack.setMute(muted)
-          this.localStream.videoMuted = localVideoTrack.isMuted
-        }
-        break
-    }
+    this.localStream.muteTrack(kind, muted)
   }
 
   @action
   async leave() {
+    this.localStream.close()
 
-    const localVideoTrack = this.localStream.videoTrack as ICameraVideoTrack
-    if (localVideoTrack) {
-      localVideoTrack.stop()
-      localVideoTrack.close()
-    }
-
-    const localAudioTrack = this.localStream.audioTrack as IMicrophoneAudioTrack
-    if (localAudioTrack) {
-      localAudioTrack.stop()
-      localAudioTrack.close()
-    }
-
-    if (this.rtcClient) {
-      await this.rtcClient.leave()
+    if (this.client) {
+      await this.client.leave()
     }
   }
 }
