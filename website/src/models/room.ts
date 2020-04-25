@@ -34,11 +34,13 @@ export interface IAttendee {
 }
 
 export interface IRTN {
-  app_id:    string // APP ID
-	channel:   string // 目标频/房间名称，保持跟 Room UUID 一致
-	uid:       number // 用户 ID
-	rtc_token: string // RTC RoomToken
-	rtm_token: string // RTM RoomToken
+  app_id:           string // APP ID
+  channel:          string // 目标频/房间名称，保持跟 Room UUID 一致
+  uid:              number // 用户 ID
+  rtc_token:        string // RTC RoomToken
+  screen_uid:       string // 屏幕共享用户 ID
+  screen_rtc_token: string // 屏幕共享用户 RoomToken
+  rtm_token:        string // RTM RoomToken
 }
 
 export interface IWhiteboard {

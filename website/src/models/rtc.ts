@@ -1,7 +1,7 @@
 import { observable, action } from "mobx"
 import AgoraRTC, { IAgoraRTCClient, UID, IMicrophoneAudioTrack, ICameraVideoTrack, IAgoraRTCRemoteUser, VideoEncoderConfigurationPreset } from "agora-rtc-sdk-ng"
 
-import { RTCUser, IRTN, RTM } from "models"
+import { Stream, IRTN, RTM } from "models"
 
 export class RTC {
 
@@ -21,15 +21,15 @@ export class RTC {
   isFullscreen: boolean = false
 
   @observable
-  localUser: RTCUser = new RTCUser()
+  localStream: Stream = new Stream()
 
   @observable
-  users = observable.array<RTCUser>([], { deep: true })
+  users = observable.array<Stream>([], { deep: true })
 
   @action
   addUser(user: IAgoraRTCRemoteUser) {
     if (this.users.findIndex(item => item.uid === user.uid) < 0) {
-      const remoteUser = new RTCUser()
+      const remoteUser = new Stream()
       remoteUser.updateWithRTCRemoteUser(user)
       this.users.push(remoteUser)
     }
@@ -39,9 +39,9 @@ export class RTC {
   async init(rtn: IRTN) {
 
     [
-      this.localUser.uid,
-      this.localUser.audioTrack,
-      this.localUser.videoTrack
+      this.localStream.uid,
+      this.localStream.audioTrack,
+      this.localStream.videoTrack
     ] = await Promise.all<UID, IMicrophoneAudioTrack, ICameraVideoTrack>([
       this.rtcClient.join(rtn.app_id, rtn.channel, rtn.rtc_token, rtn.uid),         // join the channel
       AgoraRTC.createMicrophoneAudioTrack(),                                        // create local tracks, using microphone
@@ -49,11 +49,11 @@ export class RTC {
     ])
 
     // 发布本地音视频
-    this.rtcClient.publish([this.localUser.audioTrack, this.localUser.videoTrack])
+    this.rtcClient.publish([this.localStream.audioTrack, this.localStream.videoTrack])
 
-    this.localUser.audioMuted = this.localUser.videoTrack.isMuted
-    this.localUser.videoMuted = this.localUser.audioTrack.isMuted
-    this.localUser.isLocalUser = true
+    this.localStream.audioMuted = this.localStream.videoTrack.isMuted
+    this.localStream.videoMuted = this.localStream.audioTrack.isMuted
+    this.localStream.isLocal = true
 
     // 用户加入频道
     this.rtcClient.on("user-joined", (user: IAgoraRTCRemoteUser) => {
@@ -100,9 +100,14 @@ export class RTC {
   }
 
   @action
+  async shareScreen() {
+
+  }
+
+  @action
   setLocalVideoTrackClarity(clarity: VideoEncoderConfigurationPreset) {
     this.localVideoTrackClarity = clarity
-    const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack
+    const localVideoTrack = this.localStream.videoTrack as ICameraVideoTrack
     if (localVideoTrack) {
       localVideoTrack.setEncoderConfiguration(clarity as VideoEncoderConfigurationPreset)
     }
@@ -112,17 +117,17 @@ export class RTC {
   setLocalTrackMute(kind: "audio" | "video", muted: boolean) {
     switch (kind) {
       case "audio":
-        const localAudioTrack = this.localUser.audioTrack as IMicrophoneAudioTrack
+        const localAudioTrack = this.localStream.audioTrack as IMicrophoneAudioTrack
         if (localAudioTrack) {
           localAudioTrack.setMute(muted)
-          this.localUser.audioMuted = localAudioTrack.isMuted
+          this.localStream.audioMuted = localAudioTrack.isMuted
         }
         break
       case "video":
-        const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack
+        const localVideoTrack = this.localStream.videoTrack as ICameraVideoTrack
         if (localVideoTrack) {
           localVideoTrack.setMute(muted)
-          this.localUser.videoMuted = localVideoTrack.isMuted
+          this.localStream.videoMuted = localVideoTrack.isMuted
         }
         break
     }
@@ -131,13 +136,13 @@ export class RTC {
   @action
   async leave() {
 
-    const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack
+    const localVideoTrack = this.localStream.videoTrack as ICameraVideoTrack
     if (localVideoTrack) {
       localVideoTrack.stop()
       localVideoTrack.close()
     }
 
-    const localAudioTrack = this.localUser.audioTrack as IMicrophoneAudioTrack
+    const localAudioTrack = this.localStream.audioTrack as IMicrophoneAudioTrack
     if (localAudioTrack) {
       localAudioTrack.stop()
       localAudioTrack.close()

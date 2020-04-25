@@ -60,7 +60,12 @@ type RTN struct {
 	Channel        string `json:"channel"`   // 目标频/房间名称，保持跟 Room UUID 一致
 	UID            uint32 `json:"uid"`       // 用户 ID
 	RTCToken       string `json:"rtc_token"` // RTC RoomToken
-	RTMToken       string `json:"rtm_token"` // RTM RoomToken
+
+	// https://agoraio-community.github.io/AgoraWebSDK-NG/docs/zh-CN/screensharing
+	ScreenUID      uint32 `json:"screen_uid"`       // 用户 ID
+	ScreenRTCToken string `json:"screen_rtc_token"` // RTC RoomToken
+
+	RTMToken string `json:"rtm_token"` // RTM RoomToken
 }
 
 // --------------------------------------------------------------------
