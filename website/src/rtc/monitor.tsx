@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from "react"
 import { observer } from "mobx-react-lite"
 import className from "classnames"
 
-import { RTCUser, IAttendee } from "models"
+import { Stream, IAttendee } from "models"
 import AudioVolume from "./AudioVolume"
 import { MicrophoneSlashSVG } from "assets/icons"
 
 import { useRoomStore } from "room/context"
 
 interface IMonitorOptions {
-  user: RTCUser
+  stream: Stream
 }
 
 const Monitor = observer((options: IMonitorOptions) => {
@@ -20,16 +20,16 @@ const Monitor = observer((options: IMonitorOptions) => {
   useEffect(() => {
     const playerElement = playerRef.current
     if (!playerElement) return
-    if (!options.user.videoTrack) return
-    options.user.videoTrack.play(playerElement)
-  }, [options.user.videoTrack])
+    if (!options.stream.videoTrack) return
+    options.stream.videoTrack.play(playerElement)
+  }, [options.stream.videoTrack])
 
   useEffect(() => {
-    setAttendee(roomStore.attendees?.find(item => item.uid === options.user.uid))
-  }, [options.user.uid, roomStore.attendees])
+    setAttendee(roomStore.attendees?.find(item => item.uid === options.stream.uid))
+  }, [options.stream.uid, roomStore.attendees])
 
   return (
-    <div id={`monitor-${options.user.uid}`} className="monitor">
+    <div id={`monitor-${options.stream.uid}`} className="monitor">
       <svg role="img" viewBox="0 0 16 9" xmlns="http://www.w3.org/2000/svg"></svg>
 
       <div className="cover">
@@ -43,16 +43,16 @@ const Monitor = observer((options: IMonitorOptions) => {
         ref={playerRef}
         className={className({
           "player": true,
-          "video-mute": options.user.videoTrack && options.user.videoMuted,
-          "audio-mute": options.user.audioTrack && options.user.audioMuted
+          "video-mute": options.stream.videoTrack && options.stream.videoMuted,
+          "audio-mute": options.stream.audioTrack && options.stream.audioMuted
         })}>
       </div>
 
       <div className="info">
         <span>{ attendee?.name }</span>
-        <div className={className({ "audio-status": true, "mute": options.user.audioTrack?.getStats().muteState })}>
-          { (options.user.audioTrack && !options.user.audioMuted) && <AudioVolume track={ options.user.audioTrack } /> }
-          { (options.user.audioTrack && options.user.audioMuted) && <MicrophoneSlashSVG height={18} /> }
+        <div className={className({ "audio-status": true, "mute": options.stream.audioTrack?.getStats().muteState })}>
+          { (options.stream.audioTrack && !options.stream.audioMuted) && <AudioVolume track={ options.stream.audioTrack } /> }
+          { (options.stream.audioTrack && options.stream.audioMuted) && <MicrophoneSlashSVG height={18} /> }
         </div>
       </div>
     </div>

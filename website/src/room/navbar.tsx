@@ -112,17 +112,17 @@ const Navbar = observer(() => {
             </li>
 
             <li className="nav-item">
-              <Tooltip placement="bottom" title={ roomStore.RTC.localUser.audioMuted ? t("microphone_open") : t("microphone_mute") }>
-                <Button type="link" onClick={ () => roomStore.RTC.setLocalTrackMute("audio", !roomStore.RTC.localUser.audioMuted) }>
-                  { roomStore.RTC.localUser.audioMuted ? <MicrophoneSlashSVG height={22} /> : <MicrophoneSVG height={22} /> }
+              <Tooltip placement="bottom" title={ roomStore.RTC.localStream.audioMuted ? t("microphone_open") : t("microphone_mute") }>
+                <Button type="link" onClick={ () => roomStore.RTC.setLocalTrackMute("audio", !roomStore.RTC.localStream.audioMuted) }>
+                  { roomStore.RTC.localStream.audioMuted ? <MicrophoneSlashSVG height={22} /> : <MicrophoneSVG height={22} /> }
                 </Button>
               </Tooltip>
             </li>
 
             <li className="nav-item">
-              <Tooltip placement="bottom" title={ roomStore.RTC.localUser.videoMuted ? t("video_open") : t("video_mute") }>
-                <Button type="link" onClick={ () => roomStore.RTC.setLocalTrackMute("video", !roomStore.RTC.localUser.videoMuted) }>
-                  { roomStore.RTC.localUser.videoMuted ? <VideoSlashSVG height={22} /> : <VideoSVG height={22} /> }
+              <Tooltip placement="bottom" title={ roomStore.RTC.localStream.videoMuted ? t("video_open") : t("video_mute") }>
+                <Button type="link" onClick={ () => roomStore.RTC.setLocalTrackMute("video", !roomStore.RTC.localStream.videoMuted) }>
+                  { roomStore.RTC.localStream.videoMuted ? <VideoSlashSVG height={22} /> : <VideoSVG height={22} /> }
                 </Button>
               </Tooltip>
             </li>

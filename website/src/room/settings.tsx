@@ -27,14 +27,14 @@ const Settings = observer((options: IQuickStartOptions) => {
   const setDevise = (kind: string, devise: string) => {
     switch (kind) {
       case "video":
-        const localVideoTrack = roomStore.RTC.localUser.videoTrack as ICameraVideoTrack
+        const localVideoTrack = roomStore.RTC.localStream.videoTrack as ICameraVideoTrack
         if (localVideoTrack) {
           localVideoTrack.setDevice(devise)
         }
 
         break
       case "audio":
-        const localAudioTrack = roomStore.RTC.localUser.audioTrack as IMicrophoneAudioTrack
+        const localAudioTrack = roomStore.RTC.localStream.audioTrack as IMicrophoneAudioTrack
         if (localAudioTrack) {
           localAudioTrack.setDevice(devise)
         }
