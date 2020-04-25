@@ -100,6 +100,11 @@ export class RTC {
   }
 
   @action
+  async shareScreen() {
+
+  }
+
+  @action
   setLocalVideoTrackClarity(clarity: VideoEncoderConfigurationPreset) {
     this.localVideoTrackClarity = clarity
     const localVideoTrack = this.localUser.videoTrack as ICameraVideoTrack

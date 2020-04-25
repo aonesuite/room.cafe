@@ -5,7 +5,9 @@ import {
   IRemoteAudioTrack,
   IMicrophoneAudioTrack,
   ICameraVideoTrack,
-  IAgoraRTCRemoteUser
+  IAgoraRTCRemoteUser,
+  ILocalAudioTrack,
+  ILocalVideoTrack
 } from "agora-rtc-sdk-ng"
 
 export interface IOAuthSignInArgs {
@@ -39,6 +41,10 @@ export class RTCUser {
 
   @observable
   videoTrack?: ICameraVideoTrack | IRemoteVideoTrack
+
+  screenAudioTrack?: ILocalAudioTrack | IRemoteAudioTrack
+
+  screenVideoTrack?: ILocalVideoTrack | IRemoteVideoTrack
 
   @observable
   audioMuted: boolean = false
