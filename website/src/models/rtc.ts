@@ -5,30 +5,25 @@ import { Stream, IRTN } from "models"
 
 export class RTC {
 
-  @observable
-  info?: IRTN
+  @observable info?: IRTN
 
-  @observable
-  client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
+  @observable client: IAgoraRTCClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
-  @observable
-  screenClient?: IAgoraRTCClient
+  @observable screenClient?: IAgoraRTCClient
 
-  @observable
-  localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
+  @observable localVideoTrackClarity: VideoEncoderConfigurationPreset = "480p_9"
 
-  @observable
-  isFullscreen: boolean = false
+  @observable isFullscreen: boolean = false
 
-  @observable
-  localStream: Stream = new Stream()
+  @observable localStream: Stream = new Stream()
 
-  @observable
-  streams = observable.array<Stream>([], { deep: true })
+  @observable localScreenStream?: Stream
+
+  @observable streams = observable.array<Stream>([], { deep: true })
 
   @action
   addRemoteUser(user: IAgoraRTCRemoteUser) {
-    if (this.streams.findIndex(item => item.uid === user.uid || item.uid === 10000 - user.uid) < 0) {
+    if (this.streams.findIndex(item => item.uid === user.uid) < 0) {
       const stream = new Stream()
       stream.updateWithRTCRemoteUser(user)
       this.streams.push(stream)
@@ -105,14 +100,22 @@ export class RTC {
     if (this.info === undefined) return
 
     this.screenClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
+
     await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid);
 
+    this.localScreenStream = new Stream();
+
     [
-      this.localStream.screenVideoTrack,
-      this.localStream.screenAudioTrack
+      this.localScreenStream.videoTrack,
+      this.localScreenStream.audioTrack
     ] = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" }, true)
 
-    await this.screenClient.publish([this.localStream.screenVideoTrack, this.localStream.screenAudioTrack])
+    // 发布本地音视频
+    await this.client.publish([this.localScreenStream.audioTrack, this.localScreenStream.videoTrack])
+
+    this.localScreenStream.audioMuted = this.localScreenStream.videoTrack.isMuted
+    this.localScreenStream.videoMuted = this.localScreenStream.audioTrack.isMuted
+    this.localScreenStream.isLocal = true
   }
 
   @action
@@ -131,7 +134,7 @@ export class RTC {
 
   @action
   async leave() {
-    this.localStream.close()
+    this.localStream.release()
 
     if (this.client) {
       await this.client.leave()

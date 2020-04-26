@@ -7,7 +7,8 @@ import {
   ICameraVideoTrack,
   IAgoraRTCRemoteUser,
   ILocalAudioTrack,
-  ILocalVideoTrack
+  ILocalVideoTrack,
+  ILocalTrack
 } from "agora-rtc-sdk-ng"
 
 import { IAttendee } from "models"
@@ -21,26 +22,19 @@ export class Stream {
   @observable attendee?: IAttendee
 
   // 音频轨道
-  @observable audioTrack?: IMicrophoneAudioTrack | IRemoteAudioTrack
+  @observable audioTrack?: IMicrophoneAudioTrack | ILocalAudioTrack | IRemoteAudioTrack
 
   // 音频静音状态
   @observable audioMuted: boolean = false
 
   // 视频轨道
-  @observable videoTrack?: ICameraVideoTrack | IRemoteVideoTrack
+  @observable videoTrack?: ICameraVideoTrack | ILocalVideoTrack | IRemoteVideoTrack
 
   // 视频是否被 mute
   @observable videoMuted: boolean = false
 
-  // 屏幕共享音频轨道
-  @observable screenAudioTrack?: ILocalAudioTrack | IRemoteAudioTrack
-
-  // 屏幕共享视频轨道
-  @observable screenVideoTrack?: ILocalVideoTrack | IRemoteVideoTrack
-
   // 是否为本地 stream
   @observable isLocal: boolean = false
-
 
   // 使用远端用户更新 stream
   @action updateWithRTCRemoteUser(user: IAgoraRTCRemoteUser) {
@@ -71,20 +65,22 @@ export class Stream {
     }
   }
 
-  // 关闭流
-  @action close() {
-    const localAudioTrack = this.audioTrack as IMicrophoneAudioTrack
+  // 释放流
+  @action release() {
+    this.audioTrack?.stop()
+    this.videoTrack?.stop()
+
+    const localAudioTrack = this.audioTrack as ILocalTrack
     if (localAudioTrack) {
-      localAudioTrack.stop()
       localAudioTrack.close()
-      this.audioTrack = undefined
     }
 
-    const localVideoTrack = this.videoTrack as ICameraVideoTrack
+    const localVideoTrack = this.videoTrack as ILocalTrack
     if (localVideoTrack) {
-      localVideoTrack.stop()
       localVideoTrack.close()
-      this.videoTrack = undefined
     }
+
+    this.audioTrack = undefined
+    this.videoTrack = undefined
   }
 }
