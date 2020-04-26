@@ -19,7 +19,8 @@ import {
   VideoSlashSVG,
   VideoSVG,
   ScreenNormalSVG,
-  ScreenFullSVG
+  ScreenFullSVG,
+  ScreenShareSVG
 } from "assets/icons"
 
 import { useGlobalStore } from "common/contexts/GlobalContext"
@@ -107,6 +108,14 @@ const Navbar = observer(() => {
               <Tooltip placement="bottom" title={ roomStore.chatPopUp ? t("close_chat") : t("open_chat") }>
                 <Button type="link" onClick={ () => roomStore.chatPopUp = !roomStore.chatPopUp }>
                   <CommentAltLinesSVG width={22} height={22} />
+                </Button>
+              </Tooltip>
+            </li>
+
+            <li className="nav-item">
+              <Tooltip placement="bottom" title={ t("share_screen") }>
+                <Button type="link" onClick={ () => roomStore.RTC.shareScreen() }>
+                  <ScreenShareSVG width={22} height={22} />
                 </Button>
               </Tooltip>
             </li>

@@ -25,6 +25,11 @@ const Monitor = observer((options: IMonitorOptions) => {
   }, [options.stream.videoTrack])
 
   useEffect(() => {
+    if (!options.stream.audioTrack || options.stream.isLocal) return
+    options.stream.audioTrack.play()
+  }, [options.stream])
+
+  useEffect(() => {
     setAttendee(roomStore.attendees?.find(item => item.uid === options.stream.uid))
   }, [options.stream.uid, roomStore.attendees])
 

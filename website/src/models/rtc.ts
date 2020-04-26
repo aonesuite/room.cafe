@@ -22,10 +22,14 @@ export class RTC {
   @observable streams = observable.array<Stream>([], { deep: true })
 
   @action
-  addRemoteUser(user: IAgoraRTCRemoteUser) {
+  addStreamWithRemoteUser(user: IAgoraRTCRemoteUser) {
     if (this.streams.findIndex(item => item.uid === user.uid) < 0) {
       const stream = new Stream()
-      stream.updateWithRTCRemoteUser(user)
+      stream.uid        = user.uid
+      stream.audioTrack = user.audioTrack
+      stream.videoTrack = user.videoTrack
+      stream.audioMuted = user.audioMuted
+      stream.videoMuted = user.videoMuted
       this.streams.push(stream)
     }
   }
@@ -51,47 +55,53 @@ export class RTC {
     this.localStream.videoMuted = this.localStream.audioTrack.isMuted
     this.localStream.isLocal = true
 
+    this.streams.push(this.localStream)
+
+    // ----------------------------------------------------------------
+
     // 用户加入频道
     this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
-      this.addRemoteUser(user)
+      this.addStreamWithRemoteUser(user)
     })
 
     // 用户离开频道
     this.client.on("user-left", (user: IAgoraRTCRemoteUser, reason: string) => {
-      const _u = this.streams.find(item => item.uid === user.uid)
-      if (_u) { this.streams.remove(_u) }
+      const stream = this.streams.find(item => item.uid === user.uid)
+      if (stream) { this.streams.remove(stream) }
     })
 
     // 订阅远端音视频
     this.client.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
 
       // user-published 与 user-joined 不能保证顺序
-      this.addRemoteUser(user)
+      this.addStreamWithRemoteUser(user)
+
+      const uid = +user.uid
+      if (this.info?.uid === 10000 - uid) return // 如果为当前用户，不订阅屏幕共享的 track
 
       await this.client.subscribe(user)
 
-      const u = this.streams.find(item => item.uid === user.uid)
+      const stream = this.streams.find(item => item.uid === user.uid)
 
-      if (u === undefined) { return }
+      if (stream === undefined) { return }
 
       if (["all", "video"].includes(mediaType) && user.videoTrack !== undefined) {
-        u.videoTrack = user.videoTrack
-        u.videoMuted = user.videoMuted
+        stream.videoTrack = user.videoTrack
+        stream.videoMuted = user.videoMuted
       }
 
       if (["all", "audio"].includes(mediaType) && user.audioTrack !== undefined) {
-        u.audioTrack = user.audioTrack
-        u.audioMuted = user.audioMuted
-        u.audioTrack.play()
+        stream.audioTrack = user.audioTrack
+        stream.audioMuted = user.audioMuted
       }
     })
 
     // 远程用户更新静音状态
     this.client.on("user-mute-updated", (user: IAgoraRTCRemoteUser) => {
-      const u = this.streams.find(item => item.uid === user.uid)
-      if (u === undefined) { return }
-      u.audioMuted = user.audioMuted
-      u.videoMuted = user.videoMuted
+      const stream = this.streams.find(item => item.uid === user.uid)
+      if (stream === undefined) { return }
+      stream.audioMuted = user.audioMuted
+      stream.videoMuted = user.videoMuted
     })
   }
 
@@ -101,21 +111,24 @@ export class RTC {
 
     this.screenClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
-    await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid);
+    await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid)
 
     this.localScreenStream = new Stream();
 
+    // 创建屏幕共享 track
     [
       this.localScreenStream.videoTrack,
       this.localScreenStream.audioTrack
     ] = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" }, true)
 
     // 发布本地音视频
-    await this.client.publish([this.localScreenStream.audioTrack, this.localScreenStream.videoTrack])
+    await this.screenClient.publish([this.localScreenStream.audioTrack, this.localScreenStream.videoTrack])
 
     this.localScreenStream.audioMuted = this.localScreenStream.videoTrack.isMuted
     this.localScreenStream.videoMuted = this.localScreenStream.audioTrack.isMuted
     this.localScreenStream.isLocal = true
+
+    this.streams.push(this.localScreenStream)
   }
 
   @action

@@ -5,7 +5,6 @@ import {
   IRemoteAudioTrack,
   IMicrophoneAudioTrack,
   ICameraVideoTrack,
-  IAgoraRTCRemoteUser,
   ILocalAudioTrack,
   ILocalVideoTrack,
   ILocalTrack
@@ -36,28 +35,19 @@ export class Stream {
   // 是否为本地 stream
   @observable isLocal: boolean = false
 
-  // 使用远端用户更新 stream
-  @action updateWithRTCRemoteUser(user: IAgoraRTCRemoteUser) {
-    this.uid        = user.uid
-    this.audioTrack = user.audioTrack
-    this.videoTrack = user.videoTrack
-    this.audioMuted = user.audioMuted
-    this.videoMuted = user.videoMuted
-  }
-
   // 静音
   @action muteTrack(kind: "audio" | "video", muted: boolean) {
     switch (kind) {
       case "audio":
         if (this.isLocal && this.audioTrack) {
-          const localAudioTrack = this.audioTrack as IMicrophoneAudioTrack
+          const localAudioTrack = this.audioTrack as ILocalTrack
           localAudioTrack.setMute(muted)
           this.audioMuted = localAudioTrack.isMuted
         }
         break
       case "video":
         if (this.isLocal && this.videoTrack) {
-          const localVideoTrack = this.videoTrack as ICameraVideoTrack
+          const localVideoTrack = this.videoTrack as ILocalTrack
           localVideoTrack.setMute(muted)
           this.videoMuted = localVideoTrack.isMuted
         }
