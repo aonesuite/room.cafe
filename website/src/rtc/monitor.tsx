@@ -25,7 +25,25 @@ const Monitor = observer((options: IMonitorOptions) => {
   }, [options.stream.videoTrack])
 
   useEffect(() => {
-    setAttendee(roomStore.attendees?.find(item => item.uid === options.stream.uid))
+    if (!options.stream.audioTrack || options.stream.isLocal) return
+    options.stream.audioTrack.play()
+  }, [options.stream])
+
+  useEffect(() => {
+    const attendee = roomStore.attendees?.find(item => item.uid === options.stream.uid)
+    if (attendee !== undefined) {
+      setAttendee(attendee)
+      return
+    }
+
+    if (options.stream.uid !== undefined) {
+      const uid = +options.stream.uid
+      const attendee = roomStore.attendees?.find(item => item.uid === uid - 10000)
+      if (attendee !== undefined) {
+        attendee.name = `${attendee.name}'s Screensharing`
+        setAttendee(attendee)
+      }
+    }
   }, [options.stream.uid, roomStore.attendees])
 
   return (
