@@ -61,6 +61,9 @@ export class RTC {
 
     // 用户加入频道
     this.client.on("user-joined", (user: IAgoraRTCRemoteUser) => {
+      const uid = +user.uid
+      if (this.info?.uid === uid - 10000) return // 如果为当前用户，不订阅屏幕共享的 track
+
       this.addStreamWithRemoteUser(user)
     })
 
@@ -73,11 +76,11 @@ export class RTC {
     // 订阅远端音视频
     this.client.on("user-published", async (user: IAgoraRTCRemoteUser, mediaType: "audio" | "video" | "all") => {
 
+      const uid = +user.uid
+      if (this.info?.uid === uid - 10000) return // 如果为当前用户，不订阅屏幕共享的 track
+
       // user-published 与 user-joined 不能保证顺序
       this.addStreamWithRemoteUser(user)
-
-      const uid = +user.uid
-      if (this.info?.uid === 10000 - uid) return // 如果为当前用户，不订阅屏幕共享的 track
 
       await this.client.subscribe(user)
 
@@ -116,16 +119,12 @@ export class RTC {
     this.localScreenStream = new Stream();
 
     // 创建屏幕共享 track
-    [
-      this.localScreenStream.videoTrack,
-      this.localScreenStream.audioTrack
-    ] = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" }, true)
+    this.localScreenStream.videoTrack = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" })
 
     // 发布本地音视频
-    await this.screenClient.publish([this.localScreenStream.audioTrack, this.localScreenStream.videoTrack])
+    await this.screenClient.publish(this.localScreenStream.videoTrack)
 
     this.localScreenStream.audioMuted = this.localScreenStream.videoTrack.isMuted
-    this.localScreenStream.videoMuted = this.localScreenStream.audioTrack.isMuted
     this.localScreenStream.isLocal = true
 
     this.streams.push(this.localScreenStream)
