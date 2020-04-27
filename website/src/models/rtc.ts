@@ -114,9 +114,9 @@ export class RTC {
 
     this.screenClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
-    await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid)
-
     this.localScreenStream = new Stream();
+
+    this.localScreenStream.uid = await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid)
 
     // 创建屏幕共享 track
     this.localScreenStream.videoTrack = await AgoraRTC.createScreenVideoTrack({ encoderConfig: "1080p_1" })

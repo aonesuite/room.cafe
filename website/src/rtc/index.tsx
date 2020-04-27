@@ -12,7 +12,7 @@ const RTC = observer(() => {
 
   return (
     <div className="streams">
-      { roomStore.RTC.streams.map((user) => <Monitor key={user.uid} stream={user} />) }
+      { roomStore.RTC.streams.map((stream) => <Monitor key={stream.uid} stream={stream} />) }
     </div>
   )
 })
