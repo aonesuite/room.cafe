@@ -114,7 +114,7 @@ export class RTC {
 
     this.screenClient = AgoraRTC.createClient({mode: "rtc", codec: "vp8"})
 
-    this.localScreenStream = new Stream();
+    this.localScreenStream = new Stream()
 
     this.localScreenStream.uid = await this.screenClient.join(this.info.app_id, this.info.channel, this.info.screen_rtc_token, this.info.screen_uid)
 

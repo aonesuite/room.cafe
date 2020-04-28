@@ -19,7 +19,7 @@ export interface IRoomInfo {
 export enum Role {
   Audience = "audience", // 普通观众
   Admin    = "admin",    // 房间管理员
-  Owner    = "owner",    // 房间所有者
+  Owner    = "owner"     // 房间所有者
 }
 
 export interface IAttendee {
