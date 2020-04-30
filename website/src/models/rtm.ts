@@ -35,25 +35,13 @@ export enum EventName {
 
 const params = {
   enableLogUpload: true,
-  logFilter: {
-    error: true,
-    warn: true,
-    info: true,
-    track: true,
-    debug: true
-  }
+  logFilter: AgoraRTM.LOG_FILTER_WARNING
 }
 
 // 生产模式禁用所有日志输出
 if (process.env.NODE_ENV === "production") {
   params.enableLogUpload = false
-  params.logFilter = {
-    error: false,
-    warn: false,
-    info: false,
-    track: false,
-    debug: false
-  }
+  params.logFilter = AgoraRTM.LOG_FILTER_OFF
 }
 
 export class RTM {
