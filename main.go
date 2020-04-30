@@ -88,13 +88,15 @@ func main() {
 		})
 	})
 
-	engine.GET("/user/state", account.State) // 用户当前状态
-	engine.POST("/user", account.Create)     // 创建用户
+	group := engine.Group("action")
 
-	engine.GET("/authorize/:provider/callback", account.Callback) // oauth2 回调
-	engine.GET("/authorize/:provider", account.AuthCodeURL)       // 获取 redirect url
+	group.GET("/user/state", account.State) // 用户当前状态
+	group.POST("/user", account.Create)     // 创建用户
 
-	router := engine.Group("/", filter.Auth)
+	group.GET("/authorize/:provider/callback", account.Callback) // oauth2 回调
+	group.GET("/authorize/:provider", account.AuthCodeURL)       // 获取 redirect url
+
+	router := group.Group("/", filter.Auth)
 	{
 		router.DELETE("/user/logout", account.Logout) // 退出登录
 
