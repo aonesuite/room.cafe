@@ -7,7 +7,7 @@
     "@netless/cursor-adapter": "^0.0.5",
     "agora-rtc-sdk-ng": "^0.1.4",
     "agora-rtm-sdk": "^1.2.2",
-    "antd": "^4.0.4",
+    "antd": "^4.2.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "fscreen": "^1.0.2",
