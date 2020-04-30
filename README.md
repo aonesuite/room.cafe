@@ -47,6 +47,7 @@ https://mobx.js.org/
 
 ### RTC
 https://agoraio-community.github.io/AgoraWebSDK-NG/zh-CN/
+https://docs.agora.io/cn/Real-time-Messaging/API%20Reference/RTM_web/index.html
 https://console.agora.io/
 
 ### 白板

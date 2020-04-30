@@ -17,7 +17,7 @@ export class GlobalStore {
 export const globalStore = new GlobalStore()
 
 export const appContext = React.createContext({
-  globalStore: globalStore
+  globalStore
 })
 
 export const useGlobalStore = () => React.useContext(appContext)

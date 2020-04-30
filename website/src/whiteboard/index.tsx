@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 
 import { UserCursor } from "@netless/cursor-adapter"
-import { Room, RoomPhase, WhiteWebSdk, RoomWhiteboard, JoinRoomParams, Color, MemberState, RoomState } from "white-react-sdk"
+import { Room, RoomPhase, WhiteWebSdk, RoomWhiteboard, JoinRoomParams, Color, MemberState, RoomState, WhiteWebSdkConfiguration, LoggerOptions } from "white-react-sdk"
 
 import { Button, Tooltip, Menu, Popover, Slider, Upload, message, Spin } from "antd"
 import { RcFile, UploadChangeParam } from "antd/lib/upload"
@@ -27,6 +27,14 @@ interface Props {
 interface IWhiteBoardState {
   room?: Room
   phase?: RoomPhase
+}
+
+const loggerOptions: LoggerOptions = {}
+
+// 生产模式禁用所有日志输出
+if (process.env.NODE_ENV === "production") {
+  loggerOptions.disableReportLog = true
+  loggerOptions.printLevelMask = "error"
 }
 
 const initWhiteBoardState: IWhiteBoardState = {}
@@ -104,7 +112,12 @@ export default function WhiteBoard(props: Props) {
   // 初始化白板
   const initWhiteBoard = useCallback(
     () => {
-      const whiteWebSdk = new WhiteWebSdk()
+      const configuration: WhiteWebSdkConfiguration = {
+        loggerOptions
+      }
+
+      const whiteWebSdk = new WhiteWebSdk(configuration)
+
       const cursor = new UserCursor()
 
       const params: JoinRoomParams = {
@@ -114,7 +127,7 @@ export default function WhiteBoard(props: Props) {
         userPayload: {
           userId: props.whiteboard.user.uid,
           name: props.whiteboard.user.name,
-          avatar: props.whiteboard.user.avatar,
+          avatar: props.whiteboard.user.avatar
         }
       }
 

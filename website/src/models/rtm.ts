@@ -33,6 +33,29 @@ export enum EventName {
   MemberCountUpdated = "MemberCountUpdated"
 }
 
+const params = {
+  enableLogUpload: true,
+  logFilter: {
+    error: true,
+    warn: true,
+    info: true,
+    track: true,
+    debug: true
+  }
+}
+
+// 生产模式禁用所有日志输出
+if (process.env.NODE_ENV === "production") {
+  params.enableLogUpload = false
+  params.logFilter = {
+    error: false,
+    warn: false,
+    info: false,
+    track: false,
+    debug: false
+  }
+}
+
 export class RTM {
 
   @observable
@@ -50,7 +73,7 @@ export class RTM {
   @action
   async init(info: IRTN) {
 
-    this.client = AgoraRTM.createInstance(info.app_id)
+    this.client = AgoraRTM.createInstance(info.app_id, params)
 
     await this.client.login({
       uid: `${info.uid}`,
