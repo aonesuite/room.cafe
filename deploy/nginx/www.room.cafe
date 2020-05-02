@@ -30,6 +30,16 @@ server {
     ssl_ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
     ssl_dhparam /etc/nginx/dh/dhparams.pem;
 
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.1;
+    gzip_min_length 0;
+    gzip_types text/plain text/css application/x-javascript text/javascript application/javascript;
+
     error_log   /var/log/nginx/www.room.cafe.error.log;
     access_log  /var/log/nginx/www.room.cafe.access.log main;
 
