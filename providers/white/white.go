@@ -41,11 +41,10 @@ type WhiteReturnCode struct {
 
 // Info 白板信息
 type Info struct {
-	ID        int       `json:"id"`
 	UUID      string    `json:"uuid"`
 	Name      string    `json:"name"`
 	Limit     int       `json:"limit"`
-	TeamID    int       `json:"teamId"`
+	TeamID    string    `json:"teamId"`
 	AdminID   int       `json:"adminId"`
 	Mode      string    `json:"mode"`
 	Template  string    `json:"template"`
