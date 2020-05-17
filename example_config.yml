@@ -2,6 +2,7 @@ database:
   driver: mysql
   host: localhost
   user: root
+  password:
   name: roomcafe
   port: 3306
   default: true
@@ -19,14 +20,11 @@ app:
 qiniu:
   access_key: access_key
   secret_key: secret_key
-  rtn_appid:
-  rtn_addr: https://rtc.qiniuapi.com
   bucket:
   domain:
 agora:
   app_id: 3fc8dabb7c7d49ecab5ce8a3ff3a0076
   app_certificate: f5702c4dc0b14a0798047523bbefa2b2
-
 herewhite:
   mini_token:
   host: https://cloudcapiv4.herewhite.com
