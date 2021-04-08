@@ -23,8 +23,8 @@ qiniu:
   bucket:
   domain:
 agora:
-  app_id: 3fc8dabb7c7d49ecab5ce8a3ff3a0076
-  app_certificate: f5702c4dc0b14a0798047523bbefa2b2
+  app_id: 
+  app_certificate: 
 herewhite:
   mini_token:
   host: https://cloudcapiv4.herewhite.com
