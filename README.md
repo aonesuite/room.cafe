@@ -1,5 +1,9 @@
 # Room.Cafe
 
+![Homepage](screenshots/homepage.jpg)
+
+![Room](screenshots/room.jpg)
+
 ## Room.Cafe Feature Descriptions
 
 
@@ -22,34 +26,11 @@
 <br>
 
 
-### 实时视频
-
-* 高清、低延迟的实时语音和视频交流
-* 高效会议交流，良好体验宛如身临其境
-
-<br>
-
-### 互动白板
-
-* 团队分享想法和创意的绝佳工具
-* 图片、文字、画笔...丰富你的展示效果
-
-<br>
-
-### 收发消息
-* 群聊信息，及时沟通
-
-
-## 第三方组件及服务
-
-### 前端状态管理
-https://mobx.js.org/
-
 ### RTC
  https://agoraio-community.github.io/AgoraWebSDK-NG/zh-CN/ <br/>
 [https://docs.agora.io/cn/Real-time-Messaging/API Reference/RTM_web/index.html](https://docs.agora.io/cn/Real-time-Messaging/API%20Reference/RTM_web/index.html) <br/>
 https://console.agora.io/ <br/>
 
-### 白板
+### Whiteboard
 https://developer.netless.link/docs/javascript/guide/js-sdk/ <br/>
 https://netless.link/
