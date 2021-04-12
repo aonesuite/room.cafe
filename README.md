@@ -1,5 +1,7 @@
 # Room.Cafe
 
+<a href="https://www.producthunt.com/posts/room-cafe?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-room-cafe" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=291500&theme=light" alt="ROOM.CAFE - A simple video meeting, whiteboard, chat and screen sharing | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
 ![Homepage](screenshots/homepage.jpg)
 
 ![Room](screenshots/room.jpg)
