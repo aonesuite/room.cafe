@@ -22,7 +22,7 @@ const enUS: IMessage = {
   message: "Message",
   messaging: "Messaging",
   message_features: [
-    "Have a group chat to immediately diss your throughts."
+    "Have a group chat to immediately diss your thoughts."
   ],
 
   quick_start: "Quick start",
