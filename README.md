@@ -23,7 +23,7 @@
 
 ### Messaging
 
-* Have a group chat to immediately diss your throughts.
+* Have a group chat to immediately diss your thoughts.
 
 <br>
 
